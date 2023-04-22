@@ -1,0 +1,31 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/icon/document-new.png</file>
+        <file>res/icon/document-open.png</file>
+        <file>res/icon/ccSave.png</file>
+        <file>res/icon/Exit.png</file>
+        <file>res/icon/ccExit.png</file>
+        <file>res/icon/ccViewIso1.png</file>
+        <file>res/icon/ccViewIso2.png</file>
+        <file>res/icon/ccViewXneg.png</file>
+        <file>res/icon/ccViewXpos.png</file>
+        <file>res/icon/ccViewYneg.png</file>
+        <file>res/icon/ccViewYpos.png</file>
+        <file>res/icon/ccViewZneg.png</file>
+        <file>res/icon/ccViewZpos.png</file>
+        <file>res/icon/ccGrid.png</file>
+        <file>res/icon/ccOpen.png</file>
+        <file>res/icon/ccDelete.png</file>
+        <file>res/icon/ccFullScreen.png</file>
+        <file>res/icon/display_height.png</file>
+        <file>res/icon/display_category.png</file>
+        <file>res/icon/display_intensity.png</file>
+        <file>res/icon/ccSkin.png</file>
+        <file>res/icon/users.png</file>
+        <file>res/icon/ccQuestion.png</file>
+        <file>res/icon/ccConsole.png</file>
+        <file>res/icon/ccZoomIn.png</file>
+        <file>res/icon/ccZoomOut.png</file>
+        <file>res/icon/slicer.png</file>
+    </qresource>
+</RCC>
