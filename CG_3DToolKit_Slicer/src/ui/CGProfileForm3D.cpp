@@ -33,7 +33,6 @@ void CGProfileForm3D::InitUi()
     pMainLayout->addWidget(m_CGVTKWidget);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGProfileForm3D::InitConnections()

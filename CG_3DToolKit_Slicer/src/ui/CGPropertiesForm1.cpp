@@ -24,5 +24,4 @@ void CGPropertiesForm1::InitUi()
     pMainLayout->addLayout(pTreeLayout);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }

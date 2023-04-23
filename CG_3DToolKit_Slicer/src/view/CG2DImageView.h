@@ -18,6 +18,7 @@ public:
     void InitUi() override;
     void InitConnections() override;
     void LoadImages(const QString FileName);
+    void LoadImages(const QPixmap Pixmap);
     void ClearImages();
 
     QPixmap* GetPixmap() const;

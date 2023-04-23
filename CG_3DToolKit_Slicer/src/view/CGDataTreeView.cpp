@@ -88,7 +88,6 @@ void CGDataTreeView::InitUi()
     pMainLayout->addLayout(pTreeLayout);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGDataTreeView::InitConnections()

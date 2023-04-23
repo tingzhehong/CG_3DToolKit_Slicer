@@ -647,4 +647,14 @@ void VTKPointCloudIntensity(PointCloudT::Ptr cloud, vtkActor *actor)
     actor->GetProperty()->SetPointSize(1);
 }
 
+bool IsOrderPointCloud()
+{
+    if (g_PointCloud->height > 1 && g_PointCloud->width > 1) {
+        return true;
+    } else {
+        return false;
+    }
+    return false;
+}
+
 }

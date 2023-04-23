@@ -31,7 +31,6 @@ void CGNodeView::InitUi()
     pMainLayout->addWidget(m_NodeView);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGNodeView::InitConnections()

@@ -469,7 +469,7 @@
      <normaloff>:/res/icon/dock.png</normaloff>:/res/icon/dock.png</iconset>
    </property>
    <property name="text">
-    <string>项目列表</string>
+    <string>项目视图</string>
    </property>
   </action>
   <action name="action_dock_properties">
@@ -478,7 +478,7 @@
      <normaloff>:/res/icon/dock.png</normaloff>:/res/icon/dock.png</iconset>
    </property>
    <property name="text">
-    <string>属性列表</string>
+    <string>属性视图</string>
    </property>
   </action>
   <action name="action_dock_data">
@@ -487,7 +487,7 @@
      <normaloff>:/res/icon/dock.png</normaloff>:/res/icon/dock.png</iconset>
    </property>
    <property name="text">
-    <string>数据列表</string>
+    <string>数据视图</string>
    </property>
   </action>
   <action name="action_dock_console">
@@ -496,7 +496,7 @@
      <normaloff>:/res/icon/dock.png</normaloff>:/res/icon/dock.png</iconset>
    </property>
    <property name="text">
-    <string>控制列表</string>
+    <string>控制视图</string>
    </property>
   </action>
  </widget>

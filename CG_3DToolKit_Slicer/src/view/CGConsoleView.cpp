@@ -49,7 +49,7 @@ void CGConsoleView::InitUi()
     pMainLayout->addLayout(pConsoleLayout);
 
     setLayout(pMainLayout);
-    setVisible(true);
+
 
     m_action = new QAction(tr(u8"清除日志"));
     m_pListWidget->addAction(m_action);

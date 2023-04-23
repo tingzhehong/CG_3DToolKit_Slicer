@@ -26,7 +26,6 @@ void CGProfileForm2D::InitUi()
     pMainLayout->addWidget(m_pGraphicsView);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGProfileForm2D::InitConnections()

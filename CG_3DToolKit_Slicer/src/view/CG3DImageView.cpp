@@ -40,7 +40,6 @@ void CG3DImageView::InitUi()
     pMainLayout->addWidget(m_CGVTKWidget);
 
     setLayout(pMainLayout);
-    setVisible(true);
 
     GetCamera();
 }

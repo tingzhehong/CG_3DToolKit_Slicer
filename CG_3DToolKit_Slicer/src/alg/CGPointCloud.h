@@ -35,6 +35,8 @@ void VTKPointCloudElevation(PointCloudT::Ptr cloud, vtkActor *actor);
 void VTKPointCloudGray(PointCloudT::Ptr cloud, vtkActor *actor);
 void VTKPointCloudIntensity(PointCloudT::Ptr cloud, vtkActor *actor);
 
+bool IsOrderPointCloud();
+
 }
 
 #endif // CGPOINTCLOUD_H

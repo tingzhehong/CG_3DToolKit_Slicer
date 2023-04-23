@@ -25,6 +25,11 @@
 #include <CGAboutDialog.h>
 #include <CGUsersLoginDialog.h>
 #include <CGWaitingDialog.h>
+#include <CGDisOrderDialog.h>
+
+//IMAGE
+#include <CGImage.h>
+#include <CGImageFormatConvert.h>
 
 //PC
 #include <CGPointCloud.h>

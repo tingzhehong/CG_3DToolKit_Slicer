@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pCGUsersLoginDialog(new CGUsersLoginDialog)
     , m_pCGWaitingDialog(new CGWaitingDialog)
     , m_pCGAboutDialog(new CGAboutDialog)
+    , m_pCGDisOrderDialog(new CGDisOrderDialog)
 {
     ui->setupUi(this);
     ui->dock_console->setWidget(CGConsoleView::getInstance());
@@ -133,6 +134,61 @@ void MainWindow::QSS(const int Style)
     }
 }
 
+bool MainWindow::HandleOrderPointCloud()
+{
+    pcl::PointXYZRGB min_pt;
+    pcl::PointXYZRGB max_pt;
+    pcl::getMinMax3D(*g_PointCloud, min_pt, max_pt);
+
+    int   rowNum = g_PointCloud->height;
+    int   colNum = g_PointCloud->width;
+    float XPitch = (max_pt.x - min_pt.x) / colNum;
+    float YPitch = (max_pt.y - min_pt.y) / rowNum;
+
+    std::thread([&] {
+        CG::CreateImageALL(g_PointCloud, g_Image.DepthImage, g_Image.GrayImage, g_Image.IntensityImage, XPitch, YPitch, rowNum, colNum);
+        CG::GrayMat2ColorMat(g_Image.GrayImage, g_Image.ColorImage);
+        }).join();
+
+    std::thread([&] {cv::imwrite("./Image/DepthImage.tiff", g_Image.DepthImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/GrayImage.tiff", g_Image.GrayImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/IntensityImage.tiff", g_Image.IntensityImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/ColorImage.tiff", g_Image.ColorImage);}).detach();
+
+    return true;
+}
+
+bool MainWindow::HandleDisOrderPointCloud()
+{
+    if (!m_pCGDisOrderDialog->exec())
+        return false;
+
+    std::vector<int> indices;
+    pcl::removeNaNFromPointCloud(*g_PointCloud, *g_PointCloud, indices);
+    pcl::PointXYZRGB min_p;
+    pcl::PointXYZRGB max_p;
+    pcl::getMinMax3D(*g_PointCloud, min_p, max_p);
+
+    int   rowNum = m_pCGDisOrderDialog->m_Height;
+    int   colNum = m_pCGDisOrderDialog->m_Width;
+    float XPitch = (max_p.x - min_p.x) / colNum;
+    float YPitch = (max_p.y - min_p.y) / rowNum;
+
+    if (rowNum == 0 || colNum == 0) return false;
+
+    std::thread([&] {
+        CG::CreateImageALL(g_PointCloud, g_Image.DepthImage, g_Image.GrayImage, g_Image.IntensityImage, XPitch, YPitch, rowNum, colNum);
+        CG::GrayMat2ColorMat(g_Image.GrayImage, g_Image.ColorImage);
+        }).join();
+
+    std::thread([&] {cv::imwrite("./Image/DepthImage.tiff", g_Image.DepthImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/GrayImage.tiff", g_Image.GrayImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/IntensityImage.tiff", g_Image.IntensityImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/ColorImage.tiff", g_Image.ColorImage);}).detach();
+
+    return true;
+}
+
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 {
     QString str = item->text(column);
@@ -223,6 +279,26 @@ void MainWindow::on_action_open_PointCloud_triggered()
             m_pCG3DImageView->LoadTXT(filename);
 
         m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+
+        //有序点云？无序点云？
+        if (CG::IsOrderPointCloud())
+        {
+            if (HandleOrderPointCloud())
+            {
+                QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                m_pCG2DImageView->LoadImages(qPixmap);
+            }
+        }
+        else
+        {
+            if (HandleDisOrderPointCloud())
+            {
+                QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                m_pCG2DImageView->LoadImages(qPixmap);
+            }
+        }
     }
 }
 

@@ -73,7 +73,6 @@ void CGProfileView::InitUi()
     pMainLayout->addWidget(chartView);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGProfileView::InitConnections()

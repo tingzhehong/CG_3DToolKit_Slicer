@@ -16,6 +16,7 @@ SOURCES += \
     src/alg/CGCSV.cpp \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
+    src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/node/GroupItem.cpp \
     src/node/NodeItem.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     src/node/PortItem.cpp \
     src/node/RopeItem.cpp \
     src/ui/CGAboutDialog.cpp \
+    src/ui/CGDisOrderDialog.cpp \
     src/ui/CGProfileForm2D.cpp \
     src/ui/CGProfileForm3D.cpp \
     src/ui/CGPropertiesForm1.cpp \
@@ -31,6 +33,7 @@ SOURCES += \
     src/ui/CGWaitingDialog.cpp \
     src/util/CGBaseTreeWidget.cpp \
     src/util/CGBaseWidget.cpp \
+    src/util/CGImageFormatConvert.cpp \
     src/util/CGSubWindowWidget.cpp \
     src/util/CGViewRegulator.cpp \
     src/view/CG2DImageView.cpp \
@@ -65,6 +68,7 @@ HEADERS += \
     src/node/PortItem.h \
     src/node/RopeItem.h \
     src/ui/CGAboutDialog.h \
+    src/ui/CGDisOrderDialog.h \
     src/ui/CGProfileForm2D.h \
     src/ui/CGProfileForm3D.h \
     src/ui/CGPropertiesForm1.h \
@@ -73,6 +77,7 @@ HEADERS += \
     src/ui/CGWaitingDialog.h \
     src/util/CGBaseTreeWidget.h \
     src/util/CGBaseWidget.h \
+    src/util/CGImageFormatConvert.h \
     src/util/CGSubWindowWidget.h \
     src/util/CGViewRegulator.h \
     src/view/CG2DImageView.h \

@@ -25,6 +25,9 @@ private:
     void InitConnections();
     void QSS(const int Style);
 
+    bool HandleOrderPointCloud();
+    bool HandleDisOrderPointCloud();
+
 private:
     CGProjectTreeView *m_pCGProjectTreeView;
     CGPropertiesView *m_pCGPropertiesView;
@@ -41,6 +44,7 @@ private:
     CGUsersLoginDialog *m_pCGUsersLoginDialog;
     CGWaitingDialog *m_pCGWaitingDialog;
     CGAboutDialog *m_pCGAboutDialog;
+    CGDisOrderDialog *m_pCGDisOrderDialog;
 
     CGViewRegulator *m_pCGViewRegulator;
 

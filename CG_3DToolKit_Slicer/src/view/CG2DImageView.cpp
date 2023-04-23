@@ -29,7 +29,6 @@ void CG2DImageView::InitUi()
     pMainLayout->addWidget(m_pGraphicsView);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CG2DImageView::InitConnections()
@@ -56,6 +55,27 @@ void CG2DImageView::LoadImages(const QString FileName)
     }
 
     m_pPixmap->load(FileName);
+    m_pItem->setPixmap(*m_pPixmap);
+    m_pScene->addItem(m_pItem);
+    m_pGraphicsView->setScene(m_pScene);
+    m_pGraphicsView->ImageWidth = m_pPixmap->width();
+    m_pGraphicsView->ImageHeight = m_pPixmap->height();
+
+    if (!bGraphicsScene)
+    {
+        m_pGraphicsView->ResetGraphicsView();
+        bGraphicsScene = true;
+    }
+}
+
+void CG2DImageView::LoadImages(const QPixmap Pixmap)
+{
+    if (bGraphicsScene)
+    {
+        m_pGraphicsView->RemoveALLItems();
+    }
+
+    m_pPixmap = new QPixmap(Pixmap);
     m_pItem->setPixmap(*m_pPixmap);
     m_pScene->addItem(m_pItem);
     m_pGraphicsView->setScene(m_pScene);

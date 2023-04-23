@@ -50,7 +50,6 @@ void CGProjectTreeView::InitUi()
     pMainLayout->addLayout(pTreeLayout);
 
     setLayout(pMainLayout);
-    setVisible(true);
 }
 
 void CGProjectTreeView::InitConnections()
