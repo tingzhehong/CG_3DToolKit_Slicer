@@ -27,5 +27,6 @@
         <file>res/icon/ccZoomIn.png</file>
         <file>res/icon/ccZoomOut.png</file>
         <file>res/icon/slicer.png</file>
+        <file>res/icon/dock.png</file>
     </qresource>
 </RCC>

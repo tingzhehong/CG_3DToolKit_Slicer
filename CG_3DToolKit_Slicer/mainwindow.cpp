@@ -136,7 +136,7 @@ void MainWindow::QSS(const int Style)
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 {
     QString str = item->text(column);
-    int index = m_pCGProjectTreeView->TreeItemNames.indexOf(str);
+    int index = m_pCGProjectTreeView->m_TreeItemNames.indexOf(str);
     //qDebug() << "str " << str;
     //qDebug() << "index " << index;
 
@@ -456,4 +456,24 @@ void MainWindow::on_action_SetViewIso2_triggered()
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+}
+
+void MainWindow::on_action_dock_project_triggered()
+{
+    ui->dock_project->show();
+}
+
+void MainWindow::on_action_dock_properties_triggered()
+{
+    ui->dock_properties->show();
+}
+
+void MainWindow::on_action_dock_data_triggered()
+{
+    ui->dock_data->show();
+}
+
+void MainWindow::on_action_dock_console_triggered()
+{
+    ui->dock_console->show();
 }

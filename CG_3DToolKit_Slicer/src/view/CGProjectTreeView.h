@@ -24,7 +24,7 @@ public:
     QTreeWidgetItem *m_WindowNodeEdit;
     QTreeWidgetItem *m_WindowProfile;
 
-    QStringList TreeItemNames{u8"2D  图像", u8"3D  图像", u8"流程节点", u8"轮廓分析"};
+    QStringList m_TreeItemNames{u8"2D  图像", u8"3D  图像", u8"流程节点", u8"轮廓分析"};
 
 public:
     enum ProjectTreeItem

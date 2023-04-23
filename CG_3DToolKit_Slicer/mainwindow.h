@@ -83,6 +83,11 @@ private slots:
     void on_action_SetViewIso1_triggered();
     void on_action_SetViewIso2_triggered();
 
+    void on_action_dock_project_triggered();
+    void on_action_dock_properties_triggered();
+    void on_action_dock_data_triggered();
+    void on_action_dock_console_triggered();
+
 private:
     enum QSSStyle
     {
