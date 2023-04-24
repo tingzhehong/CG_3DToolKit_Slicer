@@ -30,6 +30,7 @@ public:
     QLineEdit *m_WidthLE;
     QLineEdit *m_HeightLE;
     QPushButton *m_OKBtn;
+    QPushButton *m_CancelBtn;
 
 };
 

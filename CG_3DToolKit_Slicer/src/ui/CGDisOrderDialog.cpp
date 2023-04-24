@@ -34,6 +34,7 @@ void CGDisOrderDialog::InitUi()
     m_HeightLE->setFixedHeight(20);
 
     m_OKBtn = new QPushButton(tr(u8"确定"), this);
+    m_CancelBtn = new QPushButton(tr(u8"取消"), this);
 
     QHBoxLayout *pFirstLayout = new QHBoxLayout();
     pFirstLayout->addSpacing(10);
@@ -54,7 +55,7 @@ void CGDisOrderDialog::InitUi()
     QHBoxLayout *pLastLayout = new QHBoxLayout();
     pLastLayout->addStretch();
     pLastLayout->addWidget(m_OKBtn);
-    pLastLayout->addStretch();
+    pLastLayout->addWidget(m_CancelBtn);
 
     QVBoxLayout *pMainLayout = new QVBoxLayout();
     pMainLayout->addSpacing(10);
@@ -75,5 +76,9 @@ void CGDisOrderDialog::InitConnections()
         m_Width = m_WidthLE->text().trimmed().toInt();
         m_Height = m_HeightLE->text().trimmed().toInt();
         accept();
+    });
+
+    connect(m_CancelBtn, &QPushButton::clicked, [this](){
+        reject();
     });
 }
