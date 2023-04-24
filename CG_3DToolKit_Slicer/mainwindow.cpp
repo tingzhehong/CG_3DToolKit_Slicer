@@ -70,6 +70,8 @@ void MainWindow::InitUi()
 void MainWindow::InitConnections()
 {
     connect(m_pCGProjectTreeView->m_ProjectTree, &QTreeWidget::itemClicked, this, &MainWindow::OnProjectTreeItemSelected);
+    connect(m_pCGDataTreeView->m_DataTree, &QTreeWidget::itemDoubleClicked, this, &MainWindow::OnDataTreeItemSelected);
+    connect(m_pCGDataTreeView, &CGDataTreeView::Signal2DToolClear, m_pCG2DImageView, &CG2DImageView::OnDelTool);
     connect(m_pCGProfileView, &CGProfileView::SignalRequest, m_pCGViewRegulator, &CGViewRegulator::OnProfileViewRequest);
 }
 
@@ -189,12 +191,60 @@ bool MainWindow::HandleDisOrderPointCloud()
     return true;
 }
 
+void MainWindow::Create2DTool(const QString toolname)
+{
+    int index = m_pCGDataTreeView->m_2DToolNames.indexOf(toolname);
+    switch (index)
+    {
+    case CG2DImageView::ToolType::TwoPointLineTool:
+        m_pCG2DImageView->m_CurrentToolType = CG2DImageView::ToolType::TwoPointLineTool;
+        break;
+    case CG2DImageView::ToolType::RectTool:
+        m_pCG2DImageView->m_CurrentToolType = CG2DImageView::ToolType::RectTool;
+        break;
+    case CG2DImageView::ToolType::CircleTool:
+        m_pCG2DImageView->m_CurrentToolType = CG2DImageView::ToolType::CircleTool;
+        break;
+    default:
+        break;
+    }
+    m_pCG2DImageView->OnUseTool();
+}
+
+void MainWindow::Create3DTool(const QString toolname)
+{
+
+}
+
+void MainWindow::CreateProfileTool(const QString toolname)
+{
+
+}
+
+void MainWindow::CreateMaths(const QString toolname)
+{
+
+}
+
+void MainWindow::CreateLogics(const QString toolname)
+{
+
+}
+
+void MainWindow::Create2DFuction(const QString toolname)
+{
+
+}
+
+void MainWindow::Create3DFuction(const QString toolname)
+{
+
+}
+
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 {
     QString str = item->text(column);
     int index = m_pCGProjectTreeView->m_TreeItemNames.indexOf(str);
-    //qDebug() << "str " << str;
-    //qDebug() << "index " << index;
 
     switch (index)
     {
@@ -219,6 +269,48 @@ void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
         break;
     }
     m_pCGSubWindowWidget->show();
+}
+
+void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
+{
+    QString strParent = item->parent()->text(0);
+    QString strColumn = item->text(column);
+    //qDebug() << "DataTreeItem: " << strParent << "  " << strColumn;
+    int index = m_pCGDataTreeView->m_DataTreeNames.indexOf(strParent);
+
+    switch (index)
+    {
+    case CGDataTreeView::DateTreeEnum::ToolBox2D:
+        Create2DTool(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+        break;
+    case CGDataTreeView::DateTreeEnum::ToolBox3D:
+        Create3DTool(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+        break;
+    case CGDataTreeView::DateTreeEnum::ToolBoxProfile:
+        CreateProfileTool(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCGProfileView);
+        break;
+    case CGDataTreeView::DateTreeEnum::Maths:
+        CreateMaths(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
+        break;
+    case CGDataTreeView::DateTreeEnum::Logics:
+        CreateLogics(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
+        break;
+    case CGDataTreeView::DateTreeEnum::Fuction2D:
+        Create2DFuction(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
+        break;
+    case CGDataTreeView::DateTreeEnum::Fuction3D:
+        Create3DFuction(strColumn);
+        m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWindow::OnUsersLogin(const QString user)
@@ -338,7 +430,7 @@ void MainWindow::on_action_ClearAll_triggered()
 
 void MainWindow::on_action_FullScreen_triggered()
 {
-
+    m_pCGSubWindowWidget->showFullScreen();
 }
 
 void MainWindow::on_action_Elevation_triggered()

@@ -23,6 +23,12 @@ SOURCES += \
     src/node/NodeView.cpp \
     src/node/PortItem.cpp \
     src/node/RopeItem.cpp \
+    src/tool/CGGraphicsCircleItem.cpp \
+    src/tool/CGGraphicsLineItem.cpp \
+    src/tool/CGGraphicsLineItemHorizontal.cpp \
+    src/tool/CGGraphicsLineItemVertical.cpp \
+    src/tool/CGGraphicsRectItem.cpp \
+    src/tool/CGImage2DGraphicsItemAdapter.cpp \
     src/ui/CGAboutDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
     src/ui/CGProfileForm2D.cpp \
@@ -33,7 +39,7 @@ SOURCES += \
     src/ui/CGWaitingDialog.cpp \
     src/util/CGBaseTreeWidget.cpp \
     src/util/CGBaseWidget.cpp \
-    src/util/CGImageFormatConvert.cpp \
+    src/alg/CGImageFormatConvert.cpp \
     src/util/CGSubWindowWidget.cpp \
     src/util/CGViewRegulator.cpp \
     src/view/CG2DImageView.cpp \
@@ -67,6 +73,12 @@ HEADERS += \
     src/node/NodeView.h \
     src/node/PortItem.h \
     src/node/RopeItem.h \
+    src/tool/CGGraphicsCircleItem.h \
+    src/tool/CGGraphicsLineItem.h \
+    src/tool/CGGraphicsLineItemHorizontal.h \
+    src/tool/CGGraphicsLineItemVertical.h \
+    src/tool/CGGraphicsRectItem.h \
+    src/tool/CGImage2DGraphicsItemAdapter.h \
     src/ui/CGAboutDialog.h \
     src/ui/CGDisOrderDialog.h \
     src/ui/CGProfileForm2D.h \
@@ -77,7 +89,7 @@ HEADERS += \
     src/ui/CGWaitingDialog.h \
     src/util/CGBaseTreeWidget.h \
     src/util/CGBaseWidget.h \
-    src/util/CGImageFormatConvert.h \
+    src/alg/CGImageFormatConvert.h \
     src/util/CGSubWindowWidget.h \
     src/util/CGViewRegulator.h \
     src/view/CG2DImageView.h \

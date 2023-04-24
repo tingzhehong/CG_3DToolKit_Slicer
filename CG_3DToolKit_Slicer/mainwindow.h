@@ -48,8 +48,18 @@ private:
 
     CGViewRegulator *m_pCGViewRegulator;
 
+private:
+    void Create2DTool(const QString toolname);
+    void Create3DTool(const QString toolname);
+    void CreateProfileTool(const QString toolname);
+    void CreateMaths(const QString toolname);
+    void CreateLogics(const QString toolname);
+    void Create2DFuction(const QString toolname);
+    void Create3DFuction(const QString toolname);
+
 private slots:
     void OnProjectTreeItemSelected(QTreeWidgetItem *item, int column);
+    void OnDataTreeItemSelected(QTreeWidgetItem *item, int column);
     void OnUsersLogin(const QString user);
 
     void on_action_new_triggered();

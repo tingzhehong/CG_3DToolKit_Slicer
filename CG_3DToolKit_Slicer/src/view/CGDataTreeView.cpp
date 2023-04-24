@@ -5,6 +5,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QMenu>
+#include <QAction>
 
 CGDataTreeView::CGDataTreeView(CGBaseTreeWidget *parent) : CGBaseTreeWidget(parent)
 {
@@ -23,6 +25,7 @@ void CGDataTreeView::InitUi()
     m_DataTree = new QTreeWidget(this);
     m_DataTree->setHeaderLabel(tr(u8"数据列表"));
 
+///////
     m_ToolBoxTopItem = new QTreeWidgetItem(QStringList{tr(u8"工具箱")});
 
     m_2DToolBox = new QTreeWidgetItem(QStringList{tr(u8"2D工具箱")});
@@ -47,7 +50,7 @@ void CGDataTreeView::InitUi()
     m_ToolBoxTopItem->addChild(m_3DToolBox);
     m_ToolBoxTopItem->addChild(m_ProfileToolBox);
 
-
+///////
     m_NodeFlowTopItem = new QTreeWidgetItem(QStringList{tr(u8"流程算子")});
 
     m_Maths = new QTreeWidgetItem(QStringList{tr(u8"数学计算")});
@@ -56,7 +59,7 @@ void CGDataTreeView::InitUi()
         m_Maths->addChild(pMathsItem);
     }
 
-    m_Logics = new QTreeWidgetItem(QStringList{tr(u8"逻辑条件")});
+    m_Logics = new QTreeWidgetItem(QStringList{tr(u8"逻辑运算")});
     for (int j = 0; j < m_LogicsNames.size(); ++j) {
         QTreeWidgetItem *pLogicsItem = new QTreeWidgetItem(QStringList() << m_LogicsNames.at(j));
         m_Logics->addChild(pLogicsItem);
@@ -65,10 +68,19 @@ void CGDataTreeView::InitUi()
     m_NodeFlowTopItem->addChild(m_Maths);
     m_NodeFlowTopItem->addChild(m_Logics);
 
-
+///////
     m_FuctionTopItem = new QTreeWidgetItem(QStringList{tr(u8"功能算子")});
     m_2DFuction = new QTreeWidgetItem(QStringList{tr(u8"2D功能算子")});
+    for (int k = 0; k < m_2DFuctionNames.size(); ++k) {
+        QTreeWidgetItem *p2DFuctionItem = new QTreeWidgetItem(QStringList() << m_2DFuctionNames.at(k));
+        m_2DFuction->addChild(p2DFuctionItem);
+    }
+
     m_3DFuction = new QTreeWidgetItem(QStringList{tr(u8"3D功能算子")});
+    for (int k = 0; k < m_3DFuctionNames.size(); ++k) {
+        QTreeWidgetItem *p3DFuctionItem = new QTreeWidgetItem(QStringList() << m_3DFuctionNames.at(k));
+        m_3DFuction->addChild(p3DFuctionItem);
+    }
 
     m_FuctionTopItem->addChild(m_2DFuction);
     m_FuctionTopItem->addChild(m_3DFuction);
@@ -88,9 +100,20 @@ void CGDataTreeView::InitUi()
     pMainLayout->addLayout(pTreeLayout);
 
     setLayout(pMainLayout);
+
+    m_action2DToolClear = new QAction(tr(u8"清除2D工具"));
+    m_action3DToolClear = new QAction(tr(u8"清除3D工具"));
+    m_actionProfileToolClear = new QAction(tr(u8"清除轮廓工具"));
+    m_DataTree->addAction(m_action2DToolClear);
+    m_DataTree->addAction(m_action3DToolClear);
+    m_DataTree->addAction(m_actionProfileToolClear);
+    m_DataTree->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 void CGDataTreeView::InitConnections()
 {
-
+    connect(m_action2DToolClear, &QAction::triggered, [this](){emit Signal2DToolClear();});
+    connect(m_action3DToolClear, &QAction::triggered, [this](){emit Signal3DToolClear();});
+    connect(m_actionProfileToolClear, &QAction::triggered, [this](){emit SignalProfileToolClear();});
 }
+
