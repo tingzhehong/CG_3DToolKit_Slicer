@@ -3,6 +3,13 @@
 
 #include <QWidget>
 #include <CGGraphicsView.h>
+#include <CGImage2DGraphicsItemAdapter.h>
+
+class CGGraphicsLineItem;
+class CGGraphicsRectItem;
+class CGGraphicsCircleItem;
+class CGGraphicsLineItemHorizontal;
+class CGGraphicsLineItemVertical;
 
 class CGProfileForm2D : public QWidget
 {
@@ -12,8 +19,15 @@ public:
     explicit CGProfileForm2D(QWidget *parent = nullptr);
     ~CGProfileForm2D() = default;
 
+public slots:
+    void OnUseTool();
+    void OnDelTool();
+
+public:
     void InitUi();
     void InitConnections();
+    void InitTools();
+    void RemoveTools();
 
 public:
     QPixmap *m_pPixmap;
@@ -22,6 +36,39 @@ public:
     CGGraphicsView *m_pGraphicsView;
 
     bool bGraphicsScene = false;
+
+    QLineF m_Line;
+    QRectF m_Rect;
+
+    enum ToolType
+    {
+        TwoPointLineTool,
+        RectTool,
+        CircleTool,
+        ArcTool,
+        HorizontalLineTool,
+        VerticalLineTool
+    };
+
+    ToolType  m_CurrentToolType;
+    ToolType  m_LastToolType;
+
+private:
+    void InitTwoPointLineTool();
+    void InitRectTool();
+    void InitCircleTool();
+    void InitHorizontalLineTool();
+    void InitVerticalLineTool();
+
+private:
+    CGGraphicsLineItem *m_pTwoPointLineTool;
+    CGGraphicsRectItem *m_pRectTool;
+    CGGraphicsCircleItem *m_pCircleTool;
+    CGGraphicsLineItemHorizontal *m_pHorizontalLineTool;
+    CGGraphicsLineItemVertical *m_pVerticalLineTool;
+
+    bool IsLoad = false;
+    bool IsTool = false;
 
 };
 

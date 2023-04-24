@@ -12,6 +12,8 @@
 #include <CGVTKUtils.h>
 #include <CGVTKHeader.h>
 
+using namespace std;
+
 CGProfileView::CGProfileView(QWidget *parent)
     : CGBaseWidget(parent)
     , m_Form2D(new CGProfileForm2D)
@@ -111,4 +113,62 @@ void CGProfileView::Apply()
     m_Form3D->m_CGVTKWidget->defaultRenderer()->AddActor(m_Form3D->m_Actor);
     m_Form3D->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_Form3D->m_CGVTKWidget->update();
+}
+
+void CGProfileView::TwoPointLineProfileHandle()
+{
+
+}
+
+void CGProfileView::RectProfileHandle()
+{
+
+}
+
+void CGProfileView::CircleProfileHandle()
+{
+
+}
+
+void CGProfileView::HorizontalLineProfileHandle()
+{
+    ProfileVec.clear();
+    ProfileSeries->clear();
+
+    for (int i = 0; i < g_Image.DepthImage.cols; i += 4)
+    {
+        float x = m_Form2D->m_Line.y1();
+        float y = g_Image.DepthImage.at<float>(x, i);
+
+        ProfileVec.push_back(y);
+        ProfileSeries->append(i * g_XPitch, y);
+    }
+
+    if (ProfileVec.empty()) return;
+    float maxValue = *max_element(ProfileVec.begin(), ProfileVec.end());
+    float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
+    chart->axisY()->setRange(minValue, maxValue);
+    chart->axisX()->setRange(m_Form2D->m_Line.x1() * g_XPitch, m_Form2D->m_Line.x2() * g_XPitch);
+
+}
+
+void CGProfileView::VerticalLineProfileHandle()
+{
+    ProfileVec.clear();
+    ProfileSeries->clear();
+
+    for (int i = 0; i < g_Image.DepthImage.rows; i += 4)
+    {
+        float x = m_Form2D->m_Line.x1();
+        float y = g_Image.DepthImage.at<float>(i, x);
+
+        ProfileVec.push_back(y);
+        ProfileSeries->append(i * g_YPitch, y);
+    }
+
+    if (ProfileVec.empty()) return;
+    float maxValue = *max_element(ProfileVec.begin(), ProfileVec.end());
+    float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
+    chart->axisY()->setRange(minValue, maxValue);
+    chart->axisX()->setRange(m_Form2D->m_Line.y1() * g_YPitch, m_Form2D->m_Line.y2() * g_YPitch);
 }

@@ -350,7 +350,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"保存点云文件"), ".", "*.pcd *.csv *.txt");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.csv *.txt");
 
     if (FileName.isEmpty())
     {
@@ -406,7 +406,7 @@ void MainWindow::on_action_save_PointCloud_triggered()
     {
         if (FileName.contains(".pcd") || FileName.contains(".PCD"))
         {
-            ; // Do Nothing
+            ; //Nothing to do
         }
         else
         {

@@ -155,8 +155,8 @@ void CG2DImageView::InitRectTool()
     pen.setColor(Qt::magenta);
     pen.setWidth(3);
     m_pRectTool->setPen(pen);
-    m_pRectTool->setRect(m_pPixmap->width()/3, m_pPixmap->height()/4, m_pPixmap->width()/3, m_pPixmap->height()/4);
-    m_Rect.setRect(m_pPixmap->width()/3, m_pPixmap->height()/4, m_pPixmap->width()/3, m_pPixmap->height()/4);
+    m_pRectTool->setRect(m_pPixmap->width()/3, m_pPixmap->height()/3, m_pPixmap->width()/5, m_pPixmap->height()/5);
+    m_Rect.setRect(m_pPixmap->width()/3, m_pPixmap->height()/3, m_pPixmap->width()/5, m_pPixmap->height()/5);
 }
 
 void CG2DImageView::InitCircleTool()
@@ -171,8 +171,8 @@ void CG2DImageView::InitCircleTool()
     pen.setColor(Qt::magenta);
     pen.setWidth(3);
     m_pCircleTool->setPen(pen);
-    m_pCircleTool->setRect(m_pPixmap->width()/3, m_pPixmap->width()/5, m_pPixmap->width()/5, m_pPixmap->width()/5);
-    m_Rect.setRect(m_pPixmap->width()/3, m_pPixmap->width()/5, m_pPixmap->width()/5, m_pPixmap->width()/5);
+    m_pCircleTool->setRect(m_pPixmap->width()/3, m_pPixmap->width()/3, m_pPixmap->width()/5, m_pPixmap->width()/5);
+    m_Rect.setRect(m_pPixmap->width()/3, m_pPixmap->width()/3, m_pPixmap->width()/5, m_pPixmap->width()/5);
 }
 
 void CG2DImageView::TwoPointLineProfileHandle()

@@ -2,6 +2,7 @@
 #define CGPROFILEVIEW_H
 
 #include <CGBaseWidget.h>
+#include <CGOCVHeader.h>
 #include <QtCharts>
 
 class CGProfileForm2D;
@@ -32,6 +33,13 @@ public:
     vtkActor *pActor = nullptr;
 
 private:
+    void TwoPointLineProfileHandle();
+    void RectProfileHandle();
+    void CircleProfileHandle();
+    void HorizontalLineProfileHandle();
+    void VerticalLineProfileHandle();
+
+private:
     CGProfileForm2D *m_Form2D;
     CGProfileForm3D *m_Form3D;
 
@@ -39,6 +47,7 @@ private:
     QChart      *chart;
     QLineSeries *ProfileSeries;
 
+    std::vector<float> ProfileVec;
 };
 
 #endif // CGPROFILEVIEW_H

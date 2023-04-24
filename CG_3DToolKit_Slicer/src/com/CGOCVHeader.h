@@ -15,5 +15,7 @@ struct CG_IMG
 };
 
 extern CG_IMG g_Image;
+extern float g_XPitch;
+extern float g_YPitch;
 
 #endif // CGOCVHEADER_H
