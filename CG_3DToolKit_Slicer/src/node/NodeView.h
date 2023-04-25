@@ -9,6 +9,7 @@
 class NodeView : public QGraphicsView
 {
     Q_OBJECT
+
 public:
     explicit NodeView(QWidget *parent = Q_NULLPTR);
     ~NodeView();

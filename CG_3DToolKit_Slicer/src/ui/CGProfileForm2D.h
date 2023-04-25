@@ -67,7 +67,6 @@ private:
     CGGraphicsLineItemHorizontal *m_pHorizontalLineTool;
     CGGraphicsLineItemVertical *m_pVerticalLineTool;
 
-    bool IsLoad = false;
     bool IsTool = false;
 
 };

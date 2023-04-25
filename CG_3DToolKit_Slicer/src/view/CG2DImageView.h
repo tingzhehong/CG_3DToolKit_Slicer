@@ -70,7 +70,6 @@ private:
     CGGraphicsRectItem *m_pRectTool;
     CGGraphicsCircleItem *m_pCircleTool;
 
-    bool IsLoad = false;
     bool IsTool = false;
 
 };

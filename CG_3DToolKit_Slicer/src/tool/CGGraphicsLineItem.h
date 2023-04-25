@@ -32,7 +32,7 @@ private:
     int  iPointHit = 0;
 
 public:
-    int m_HitRange = 60;
+    int m_HitRange = 100;
 };
 
 #endif // CGGRAPHICSLINEITEM_H

@@ -10,12 +10,18 @@
 #include <CGVTKHeader.h>
 #include <CGPCLHeader.h>
 #include <CGPointCloud.h>
+#include <vtkDistanceWidget.h>
+#include <vtkDistanceRepresentation3D.h>
+#include <vtkAngleWidget.h>
+#include <vtkAngleRepresentation3D.h>
+#include <vtkBoxWidget.h>
 
 
 CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
 {
     InitUi();
     InitConnections();
+    InitTools();
     setWindowTitle(tr(u8"3D  图像"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
 }
@@ -23,6 +29,38 @@ CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
 CG3DImageView::~CG3DImageView()
 {
 
+}
+
+void CG3DImageView::OnUseTool()
+{
+    RemoveTools();
+
+    switch (m_CurrentToolType)
+    {
+    case DistanceTool:
+        InitDistanceTool();
+        break;
+
+    case AngleTool:
+        InitAngleTool();
+        break;
+
+    case BoxTool:
+        InitBoxTool();
+        break;
+
+    default:
+        break;
+    }
+    m_LastToolType = m_CurrentToolType;
+    m_CGVTKWidget->update();
+
+    IsTool = true;
+}
+
+void CG3DImageView::OnDelTool()
+{
+    RemoveTools();
 }
 
 void CG3DImageView::InitUi()
@@ -41,6 +79,7 @@ void CG3DImageView::InitUi()
 
     setLayout(pMainLayout);
 
+    CGVTKUtils::vtkInitOnce(m_Actor);
     GetCamera();
 }
 
@@ -51,41 +90,38 @@ void CG3DImageView::InitConnections()
 
 void CG3DImageView::LoadPCD(const std::string filename)
 {
-    //qDebug() << "LoadPCD " << QString::fromStdString(filename);
+    //! qDebug() << "LoadPCD " << QString::fromStdString(filename);
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     CG::LoadPCDFile(filename, actor);
 
+    m_Actor = actor;
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
-
-    GetCamera();
 }
 
 void CG3DImageView::LoadCSV(const std::string filename)
 {
-    //qDebug() << "LoadCSV " << QString::fromStdString(filename);
+    //! qDebug() << "LoadCSV " << QString::fromStdString(filename);
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     CG::LoadCSVFile(filename, actor);
 
+    m_Actor = actor;
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
-
-    GetCamera();
 }
 
 void CG3DImageView::LoadTXT(const std::string filename)
 {
-    //qDebug() << "LoadTXT " << QString::fromStdString(filename);
+    //!qDebug() << "LoadTXT " << QString::fromStdString(filename);
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     CG::LoadTXTFile(filename, actor);
 
+    m_Actor = actor;
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
-
-    GetCamera();
 }
 
 void CG3DImageView::ClearPointCloud()
@@ -167,7 +203,65 @@ double CG3DImageView::GetCameraViewAngle()
     return fovy;
 }
 
+void CG3DImageView::InitDistanceTool()
+{
+    m_pDistanceWidgetTool->SetRepresentation(m_pDistanceRep);
+    m_pDistanceWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pDistanceWidgetTool->On();
+}
+
+void CG3DImageView::InitAngleTool()
+{
+    m_pAngleWidgetTool->SetRepresentation(m_pAngleRep);
+    m_pAngleWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pAngleWidgetTool->On();
+}
+
+void CG3DImageView::InitBoxTool()
+{
+    m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pBoxWidgetTool->SetPlaceFactor(1.0);
+    m_pBoxWidgetTool->SetProp3D(m_Actor);
+    m_pBoxWidgetTool->PlaceWidget();
+    m_pBoxWidgetTool->On();
+}
+
 vtkActor* CG3DImageView::GetActor() const
 {
     return m_CGVTKWidget->actors3d().back();
+}
+
+void CG3DImageView::InitTools()
+{
+    CGVTKUtils::vtkInitOnce(m_pDistanceWidgetTool);
+    CGVTKUtils::vtkInitOnce(m_pDistanceRep);
+    CGVTKUtils::vtkInitOnce(m_pAngleWidgetTool);
+    CGVTKUtils::vtkInitOnce(m_pAngleRep);
+    CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
+}
+
+void CG3DImageView::RemoveTools()
+{
+    if (IsTool)
+    {
+        switch (m_LastToolType)
+        {
+        case DistanceTool:
+            m_pDistanceWidgetTool->Off();
+            break;
+
+        case AngleTool:
+            m_pAngleWidgetTool->Off();
+            break;
+
+        case BoxTool:
+            m_pBoxWidgetTool->Off();
+            break;
+        default:
+            break;
+        }
+        m_CGVTKWidget->update();
+
+        IsTool = false;
+    }
 }

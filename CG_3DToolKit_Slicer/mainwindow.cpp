@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete m_pCGViewRegulator;
 }
 
 void MainWindow::InitUi()
@@ -73,6 +72,7 @@ void MainWindow::InitConnections()
 
     connect(m_pCGDataTreeView->m_DataTree, &QTreeWidget::itemDoubleClicked, this, &MainWindow::OnDataTreeItemSelected);
     connect(m_pCGDataTreeView, &CGDataTreeView::Signal2DToolClear, m_pCG2DImageView, &CG2DImageView::OnDelTool);
+    connect(m_pCGDataTreeView, &CGDataTreeView::Signal3DToolClear, m_pCG3DImageView, &CG3DImageView::OnDelTool);
     connect(m_pCGDataTreeView, &CGDataTreeView::SignalProfileToolClear, m_pCGProfileView, &CGProfileView::OnDelTool);
 
     connect(m_pCGProfileView, &CGProfileView::SignalRequest, m_pCGViewRegulator, &CGViewRegulator::OnProfileViewRequest);
@@ -222,7 +222,22 @@ void MainWindow::Create2DTool(const QString toolname)
 
 void MainWindow::Create3DTool(const QString toolname)
 {
-
+    int index = m_pCGDataTreeView->m_3DToolNames.indexOf(toolname);
+    switch (index)
+    {
+    case CG3DImageView::ToolType::DistanceTool:
+        m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::DistanceTool;
+        break;
+    case CG3DImageView::ToolType::AngleTool:
+        m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::AngleTool;
+        break;
+    case CG3DImageView::ToolType::BoxTool:
+        m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::BoxTool;
+        break;
+    default:
+        break;
+    }
+    m_pCG3DImageView->OnUseTool();
 }
 
 void MainWindow::CreateProfileTool(const QString toolname)

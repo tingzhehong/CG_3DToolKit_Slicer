@@ -10,6 +10,7 @@
 class NodeItem : public QGraphicsObject
 {
     Q_OBJECT
+
 public:
     explicit NodeItem(QWidget *widget, QGraphicsItem *parent = Q_NULLPTR);
 

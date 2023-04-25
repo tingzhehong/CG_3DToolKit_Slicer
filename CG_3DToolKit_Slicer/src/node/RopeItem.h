@@ -7,6 +7,7 @@
 class RopeItem : public QGraphicsObject
 {
     Q_OBJECT
+
 public:
     explicit RopeItem(PortItem *portOut, PortItem *portIn, QGraphicsItem *parent = Q_NULLPTR);
 

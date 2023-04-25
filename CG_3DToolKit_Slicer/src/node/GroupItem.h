@@ -11,6 +11,7 @@
 class GroupItem : public QGraphicsObject
 {
     Q_OBJECT
+
 public:
     GroupItem(QGraphicsItem *parent = Q_NULLPTR);
 

@@ -7,6 +7,7 @@
 class PortItem : public QGraphicsObject
 {
     Q_OBJECT
+
 public:
 
     enum PortTypes

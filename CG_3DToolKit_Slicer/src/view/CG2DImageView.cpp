@@ -42,19 +42,16 @@ void CG2DImageView::OnUseTool()
     {
     case TwoPointLineTool:
         InitTwoPointLineTool();
-        TwoPointLineProfileHandle();
         m_pScene->addItem(m_pTwoPointLineTool);
         break;
 
     case RectTool:
         InitRectTool();
-        RectProfileHandle();
         m_pScene->addItem(m_pRectTool);
         break;
 
     case CircleTool:
         InitCircleTool();
-        CircleProfileHandle();
         m_pScene->addItem(m_pCircleTool);
         break;
 

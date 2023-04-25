@@ -52,6 +52,10 @@ SOURCES += \
     src/view/CGProfileView.cpp \
     src/view/CGProjectTreeView.cpp \
     src/view/CGPropertiesView.cpp \
+    src/vtk/CGAbstractWidgetObserver.cpp \
+    src/vtk/CGAngleWidgetObserver.cpp \
+    src/vtk/CGBoxWidgetObserver.cpp \
+    src/vtk/CGDistanceWidgetObserver.cpp \
     src/vtk/CGVTKWidget.cpp \
     src/vtk/CGVTKutils.cpp \
     src/vtk/CGActorExporter.cpp \
@@ -102,6 +106,10 @@ HEADERS += \
     src/view/CGProfileView.h \
     src/view/CGProjectTreeView.h \
     src/view/CGPropertiesView.h \
+    src/vtk/CGAbstractWidgetObserver.h \
+    src/vtk/CGAngleWidgetObserver.h \
+    src/vtk/CGBoxWidgetObserver.h \
+    src/vtk/CGDistanceWidgetObserver.h \
     src/vtk/CGVTKUtils.h \
     src/vtk/CGVTKWidget.h \
     src/vtk/CGActorExporter.h \
