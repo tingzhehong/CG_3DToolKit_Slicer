@@ -30,6 +30,7 @@ SOURCES += \
     src/tool/CGGraphicsRectItem.cpp \
     src/tool/CGImage2DGraphicsItemAdapter.cpp \
     src/ui/CGAboutDialog.cpp \
+    src/ui/CGDepthImageDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
     src/ui/CGProfileForm2D.cpp \
     src/ui/CGProfileForm3D.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
     src/tool/CGGraphicsRectItem.h \
     src/tool/CGImage2DGraphicsItemAdapter.h \
     src/ui/CGAboutDialog.h \
+    src/ui/CGDepthImageDialog.h \
     src/ui/CGDisOrderDialog.h \
     src/ui/CGProfileForm2D.h \
     src/ui/CGProfileForm3D.h \

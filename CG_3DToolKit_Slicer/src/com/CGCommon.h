@@ -28,6 +28,7 @@
 #include <CGUsersLoginDialog.h>
 #include <CGWaitingDialog.h>
 #include <CGDisOrderDialog.h>
+#include <CGDepthImageDialog.h>
 
 //IMAGE
 #include <CGImage.h>

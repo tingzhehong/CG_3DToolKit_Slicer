@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pCGWaitingDialog(new CGWaitingDialog)
     , m_pCGAboutDialog(new CGAboutDialog)
     , m_pCGDisOrderDialog(new CGDisOrderDialog)
+    , m_pCGDepthImageDialog(new CGDepthImageDialog)
 {
     ui->setupUi(this);
     ui->dock_console->setWidget(CGConsoleView::getInstance());

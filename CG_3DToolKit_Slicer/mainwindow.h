@@ -45,6 +45,7 @@ private:
     CGWaitingDialog *m_pCGWaitingDialog;
     CGAboutDialog *m_pCGAboutDialog;
     CGDisOrderDialog *m_pCGDisOrderDialog;
+    CGDepthImageDialog *m_pCGDepthImageDialog;
 
     CGViewRegulator *m_pCGViewRegulator;
 

@@ -33,6 +33,8 @@ CG3DImageView::~CG3DImageView()
 
 void CG3DImageView::OnUseTool()
 {
+    if (g_PointCloud == nullptr) return;
+
     RemoveTools();
 
     switch (m_CurrentToolType)
