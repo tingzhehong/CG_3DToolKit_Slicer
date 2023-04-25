@@ -70,8 +70,11 @@ void MainWindow::InitUi()
 void MainWindow::InitConnections()
 {
     connect(m_pCGProjectTreeView->m_ProjectTree, &QTreeWidget::itemClicked, this, &MainWindow::OnProjectTreeItemSelected);
+
     connect(m_pCGDataTreeView->m_DataTree, &QTreeWidget::itemDoubleClicked, this, &MainWindow::OnDataTreeItemSelected);
     connect(m_pCGDataTreeView, &CGDataTreeView::Signal2DToolClear, m_pCG2DImageView, &CG2DImageView::OnDelTool);
+    connect(m_pCGDataTreeView, &CGDataTreeView::SignalProfileToolClear, m_pCGProfileView, &CGProfileView::OnDelTool);
+
     connect(m_pCGProfileView, &CGProfileView::SignalRequest, m_pCGViewRegulator, &CGViewRegulator::OnProfileViewRequest);
 }
 
@@ -147,6 +150,9 @@ bool MainWindow::HandleOrderPointCloud()
     float XPitch = (max_pt.x - min_pt.x) / colNum;
     float YPitch = (max_pt.y - min_pt.y) / rowNum;
 
+    g_XPitch = XPitch;
+    g_YPitch = YPitch;
+
     std::thread([&] {
         CG::CreateImageALL(g_PointCloud, g_Image.DepthImage, g_Image.GrayImage, g_Image.IntensityImage, XPitch, YPitch, rowNum, colNum);
         CG::GrayMat2ColorMat(g_Image.GrayImage, g_Image.ColorImage);
@@ -175,6 +181,9 @@ bool MainWindow::HandleDisOrderPointCloud()
     int   colNum = m_pCGDisOrderDialog->m_Width;
     float XPitch = (max_p.x - min_p.x) / colNum;
     float YPitch = (max_p.y - min_p.y) / rowNum;
+
+    g_XPitch = XPitch;
+    g_YPitch = YPitch;
 
     if (rowNum == 0 || colNum == 0) return false;
 
@@ -218,7 +227,28 @@ void MainWindow::Create3DTool(const QString toolname)
 
 void MainWindow::CreateProfileTool(const QString toolname)
 {
-
+    int index = m_pCGDataTreeView->m_ProfileToolNames.indexOf(toolname);
+    switch (index)
+    {
+    case CGProfileForm2D::ToolType::TwoPointLineTool:
+        m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::TwoPointLineTool;
+        break;
+    case CGProfileForm2D::ToolType::VerticalLineTool:
+        m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::VerticalLineTool;
+        break;
+    case CGProfileForm2D::ToolType::HorizontalLineTool:
+        m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::HorizontalLineTool;
+        break;
+    case CGProfileForm2D::ToolType::RectTool:
+        m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::RectTool;
+        break;
+    case CGProfileForm2D::ToolType::CircleTool:
+         m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::CircleTool;
+        break;
+    default:
+        break;
+    }
+    m_pCGProfileView->OnUseTool();
 }
 
 void MainWindow::CreateMaths(const QString toolname)

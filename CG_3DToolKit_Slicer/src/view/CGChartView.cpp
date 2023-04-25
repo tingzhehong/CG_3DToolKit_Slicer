@@ -81,7 +81,7 @@ void CGChartView::mousePressEvent(QMouseEvent *event)
         QPoint pt = event->pos();
         QPointF ptf = chart()->mapToValue(pt);
         ValueLable->setText(QString::asprintf(" X=%0.3f  Z=%0.3f", ptf.x(), ptf.y()));
-        ValueLable->setGeometry(pt.x(), pt.y() - 15, 130, 10);
+        ValueLable->setGeometry(pt.x(), pt.y() - 15, 135, 10);
         DeltaLable->clear();
 
         CurrentPoint = pt;

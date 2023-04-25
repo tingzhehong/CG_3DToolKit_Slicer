@@ -141,7 +141,7 @@ void CGProfileForm2D::InitTwoPointLineTool()
     m_pTwoPointLineTool->setAcceptHoverEvents(true);
     QPen pen;
     pen.setCosmetic(true);
-    pen.setColor(Qt::magenta);
+    pen.setColor(Qt::white);
     pen.setWidth(3);
     m_pTwoPointLineTool->setPen(pen);
     m_pTwoPointLineTool->setLine(m_pPixmap->width()/3*1, m_pPixmap->height()/2, m_pPixmap->width()/3*2, m_pPixmap->height()/2);
@@ -157,7 +157,7 @@ void CGProfileForm2D::InitRectTool()
     m_pRectTool->setAcceptHoverEvents(true);
     QPen pen;
     pen.setCosmetic(true);
-    pen.setColor(Qt::magenta);
+    pen.setColor(Qt::white);
     pen.setWidth(3);
     m_pRectTool->setPen(pen);
     m_pRectTool->setRect(m_pPixmap->width()/3, m_pPixmap->height()/3, m_pPixmap->width()/5, m_pPixmap->height()/5);
@@ -173,7 +173,7 @@ void CGProfileForm2D::InitCircleTool()
     m_pCircleTool->setAcceptHoverEvents(true);
     QPen pen;
     pen.setCosmetic(true);
-    pen.setColor(Qt::magenta);
+    pen.setColor(Qt::white);
     pen.setWidth(3);
     m_pCircleTool->setPen(pen);
     m_pCircleTool->setRect(m_pPixmap->width()/3, m_pPixmap->width()/3, m_pPixmap->width()/5, m_pPixmap->width()/5);

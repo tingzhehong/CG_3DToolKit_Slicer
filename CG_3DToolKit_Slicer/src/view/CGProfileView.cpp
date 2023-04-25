@@ -18,6 +18,7 @@ CGProfileView::CGProfileView(QWidget *parent)
     : CGBaseWidget(parent)
     , m_Form2D(new CGProfileForm2D)
     , m_Form3D(new CGProfileForm3D)
+    , m_pPlotTimer(new QTimer())
 {
     InitUi();
     InitConnections();
@@ -27,7 +28,40 @@ CGProfileView::CGProfileView(QWidget *parent)
 
 CGProfileView::~CGProfileView()
 {
+    delete m_pPlotTimer;
+}
 
+void CGProfileView::OnPlotProfile()
+{
+    if (CGImage2DGraphicsItemAdapter::getInstance()->m_Status == true)
+    {
+        if (g_Image.DepthImage.empty())   return;
+
+        int type = CGImage2DGraphicsItemAdapter::getInstance()->m_SendType;
+
+        if (type == 0)         // 0 = line
+            PlotLineProfileHandle();
+
+        if (type == 1)         // 1 = rect
+            PlotRectProfileHandle();
+
+        if (type == 2)         // 2 = arc
+            PlotArcProfileHandle();
+    }
+
+    return;
+}
+
+void CGProfileView::OnUseTool()
+{
+    m_Form2D->OnUseTool();
+    m_pPlotTimer->start();
+}
+
+void CGProfileView::OnDelTool()
+{
+    m_Form2D->OnDelTool();
+    m_pPlotTimer->stop();
 }
 
 void CGProfileView::InitUi()
@@ -63,8 +97,9 @@ void CGProfileView::InitUi()
 
     chart->setAxisX(axisX, ProfileSeries);
     chart->setAxisY(axisY, ProfileSeries);
-
     chartView->setChart(chart);
+
+    m_pPlotTimer->setInterval(200);
 
     QHBoxLayout *pImgLayout = new QHBoxLayout();
     pImgLayout->addWidget(m_Form2D);
@@ -79,7 +114,7 @@ void CGProfileView::InitUi()
 
 void CGProfileView::InitConnections()
 {
-
+    connect(m_pPlotTimer, &QTimer::timeout, this, &CGProfileView::OnPlotProfile);
 }
 
 void CGProfileView::Request()
@@ -107,27 +142,167 @@ void CGProfileView::Apply()
             m_Form2D->bGraphicsScene = true;
         }
     }
+    m_Form2D->m_pGraphicsView->InstallFilter();
 
     m_Form3D->m_CGVTKWidget->defaultRenderer()->RemoveActor(m_Form3D->m_Actor);
     m_Form3D->m_Actor = pActor;
     m_Form3D->m_CGVTKWidget->defaultRenderer()->AddActor(m_Form3D->m_Actor);
     m_Form3D->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_Form3D->m_CGVTKWidget->update();
+
+    m_pPlotTimer->stop();
 }
 
 void CGProfileView::TwoPointLineProfileHandle()
 {
+    ProfileVec.clear();
+    ProfileSeries->clear();
 
+    // 轮廓线方向
+    bool directLine;
+    if (fabs(m_Form2D->m_Line.x1() - m_Form2D->m_Line.x2()) > abs(m_Form2D->m_Line.y1() - m_Form2D->m_Line.y2()))
+        directLine = true;  // 横线
+    else
+        directLine = false; // 竖线
+
+    // 垂直竖线
+    if (m_Form2D->m_Line.x1() == m_Form2D->m_Line.x2())
+    {
+        if (m_Form2D->m_Line.y1() <= m_Form2D->m_Line.y2())
+        {
+            for (int i = (int)m_Form2D->m_Line.y1(); i <= (int)m_Form2D->m_Line.y2(); i += 4)
+            {
+                float x = m_Form2D->m_Line.x1();
+                float y = g_Image.DepthImage.at<float>(i, x);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_YPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.y1() * g_YPitch, m_Form2D->m_Line.y2() * g_YPitch);
+        }
+        else
+        {
+            for (int i = (int)m_Form2D->m_Line.y1(); i <= (int)m_Form2D->m_Line.y2(); i -= 4)
+            {
+                float x = m_Form2D->m_Line.x1();
+                float y = g_Image.DepthImage.at<float>(i, x);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_YPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.y2() * g_YPitch, m_Form2D->m_Line.y1() * g_YPitch);
+        }
+        if (ProfileVec.empty()) return;
+        float maxValue = *max_element(ProfileVec.begin(), ProfileVec.end());
+        float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
+        chart->axisY()->setRange(minValue, maxValue);
+
+        return;
+    }
+
+    // 直线方程
+    float k = (m_Form2D->m_Line.y1() - m_Form2D->m_Line.y2()) / (m_Form2D->m_Line.x1() - m_Form2D->m_Line.x2());
+    float b = ((m_Form2D->m_Line.x1() * m_Form2D->m_Line.y2()) - (m_Form2D->m_Line.x2() * m_Form2D->m_Line.y1())) / (m_Form2D->m_Line.x1() - m_Form2D->m_Line.x2());
+
+    // 轮廓线横线
+    if (directLine)
+    {
+        if (m_Form2D->m_Line.x1() <= m_Form2D->m_Line.x2())
+        {
+            for (int i = (int)m_Form2D->m_Line.x1(); i <= (int)m_Form2D->m_Line.x2(); i += 4)
+            {
+                float x = fabs(k * i + b);
+                float y = g_Image.DepthImage.at<float>(x, i);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_XPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.x1() * g_XPitch, m_Form2D->m_Line.x2() * g_XPitch);
+        }
+        else
+        {
+            for (int i = (int)m_Form2D->m_Line.x1(); i >= (int)m_Form2D->m_Line.x2(); i -= 4)
+            {
+                float x = fabs(k * i + b);
+                float y = g_Image.DepthImage.at<float>(x, i);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_XPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.x2() * g_XPitch, m_Form2D->m_Line.x1() * g_XPitch);
+        }
+    }
+    // 轮廓线竖线
+    else
+    {
+        if (m_Form2D->m_Line.y1() <= m_Form2D->m_Line.y2())
+        {
+            for (int i = (int)m_Form2D->m_Line.y1(); i <= (int)m_Form2D->m_Line.y2(); i += 4)
+            {
+                float x = fabs((i - b) / k);
+                float y = g_Image.DepthImage.at<float>(i, x);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_YPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.y1() * g_YPitch, m_Form2D->m_Line.y2() * g_YPitch);
+        }
+        else
+        {
+            for (int i = (int)m_Form2D->m_Line.y1(); i >= (int)m_Form2D->m_Line.y2(); i -= 4)
+            {
+                float x = fabs((i - b) / k);
+                float y = g_Image.DepthImage.at<float>(i, x);
+
+                ProfileVec.push_back(y);
+                ProfileSeries->append(i * g_YPitch, y);
+            }
+            chart->axisX()->setRange(m_Form2D->m_Line.y2() * g_YPitch, m_Form2D->m_Line.y1() * g_YPitch);
+        }
+    }
+
+    if (ProfileVec.empty()) return;
+    float maxValue = *max_element(ProfileVec.begin(), ProfileVec.end());
+    float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
+    chart->axisY()->setRange(minValue, maxValue);
 }
 
 void CGProfileView::RectProfileHandle()
 {
-
+     m_Form2D->m_Line.setLine(m_Form2D->m_Rect.x(), m_Form2D->m_Rect.y() + m_Form2D->m_Rect.height()/2,
+                              m_Form2D->m_Rect.x() + m_Form2D->m_Rect.width(), m_Form2D->m_Rect.y() + m_Form2D->m_Rect.height()/2);
+     TwoPointLineProfileHandle();
 }
 
 void CGProfileView::CircleProfileHandle()
 {
+    ProfileVec.clear();
+    ProfileSeries->clear();
 
+    float r = 0;
+    float x = m_Form2D->m_Rect.x();
+    float y = m_Form2D->m_Rect.y();
+    m_Form2D->m_Rect.width() == m_Form2D->m_Rect.height() ? r = m_Form2D->m_Rect.width() / 2 : r = m_Form2D->m_Rect.height() / 2;
+    float a = x + r;
+    float b = y + r;
+    float c = r / 90;
+
+    for (int i = 0; i < 360;  ++i)
+    {
+        float X = a + r * cos(i * M_PI / 180);
+        float Y = b + r * sin(i * M_PI / 180);
+
+        float V = g_Image.DepthImage.at<float>(Y, X);
+
+        ProfileVec.push_back(V);
+        ProfileSeries->append((x + i * c) * g_XPitch, V);
+    }
+
+    if (ProfileVec.empty()) return;
+    float maxValue = *max_element(ProfileVec.begin(), ProfileVec.end());
+    float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
+    chart->axisY()->setRange(minValue, maxValue);
+    chart->axisX()->setRange((x + 0 * c) * g_XPitch, (x + 360 * c) * g_XPitch);
 }
 
 void CGProfileView::HorizontalLineProfileHandle()
@@ -171,4 +346,63 @@ void CGProfileView::VerticalLineProfileHandle()
     float minValue = *min_element(ProfileVec.begin(), ProfileVec.end());
     chart->axisY()->setRange(minValue, maxValue);
     chart->axisX()->setRange(m_Form2D->m_Line.y1() * g_YPitch, m_Form2D->m_Line.y2() * g_YPitch);
+}
+
+void CGProfileView::PlotLineProfileHandle()
+{
+    m_Form2D->m_Line.setLine(CGImage2DGraphicsItemAdapter::getInstance()->GetLine().x1(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetLine().y1(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetLine().x2(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetLine().y2());
+
+    if (m_Form2D->m_Line.x1() < 0 || m_Form2D->m_Line.x2() < 0 || m_Form2D->m_Line.x1() > g_Image.DepthImage.cols || m_Form2D->m_Line.x2() > g_Image.DepthImage.cols) return;
+    if (m_Form2D->m_Line.y1() < 0 || m_Form2D->m_Line.y2() < 0 || m_Form2D->m_Line.y1() > g_Image.DepthImage.rows || m_Form2D->m_Line.y2() > g_Image.DepthImage.rows) return;
+
+    switch (m_Form2D->m_CurrentToolType)
+    {
+    case CGProfileForm2D::ToolType::TwoPointLineTool:
+        TwoPointLineProfileHandle();
+        break;
+
+    case CGProfileForm2D::ToolType::HorizontalLineTool:
+        HorizontalLineProfileHandle();
+        break;
+
+    case CGProfileForm2D::ToolType::VerticalLineTool:
+        VerticalLineProfileHandle();
+        break;
+
+    default:
+        break;
+    }
+}
+
+void CGProfileView::PlotRectProfileHandle()
+{
+    m_Form2D->m_Rect.setRect(CGImage2DGraphicsItemAdapter::getInstance()->GetRect().x(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetRect().y(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetRect().width(),
+                             CGImage2DGraphicsItemAdapter::getInstance()->GetRect().height());
+
+    if (m_Form2D->m_Rect.x() < 0 || m_Form2D->m_Rect.x() + m_Form2D->m_Rect.width() > g_Image.DepthImage.cols) return;
+    if (m_Form2D->m_Rect.y() < 0 || m_Form2D->m_Rect.y() + m_Form2D->m_Rect.height() > g_Image.DepthImage.rows) return;
+
+    switch (m_Form2D->m_CurrentToolType)
+    {
+    case CGProfileForm2D::ToolType::RectTool:
+        RectProfileHandle();
+        break;
+
+    case CGProfileForm2D::ToolType::CircleTool:
+        CircleProfileHandle();
+        break;
+
+    default:
+        break;
+    }
+}
+
+void CGProfileView::PlotArcProfileHandle()
+{
+
 }

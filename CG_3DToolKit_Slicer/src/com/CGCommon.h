@@ -18,6 +18,8 @@
 #include <CG2DImageView.h>
 #include <CG3DImageView.h>
 #include <CGNodeView.h>
+#include <CGProfileForm2D.h>
+#include <CGProfileForm3D.h>
 #include <CGProfileView.h>
 #include <CGViewRegulator.h>
 

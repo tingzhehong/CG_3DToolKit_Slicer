@@ -43,11 +43,11 @@ public:
     enum ToolType
     {
         TwoPointLineTool,
+        VerticalLineTool,
+        HorizontalLineTool,
         RectTool,
         CircleTool,
-        ArcTool,
-        HorizontalLineTool,
-        VerticalLineTool
+        ArcTool
     };
 
     ToolType  m_CurrentToolType;

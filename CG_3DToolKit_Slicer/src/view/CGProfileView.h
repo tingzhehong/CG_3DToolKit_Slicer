@@ -4,6 +4,7 @@
 #include <CGBaseWidget.h>
 #include <CGOCVHeader.h>
 #include <QtCharts>
+#include <CGImage2DGraphicsItemAdapter.h>
 
 class CGProfileForm2D;
 class CGProfileForm3D;
@@ -20,6 +21,11 @@ public:
 
 signals:
     void SignalRequest();
+
+public slots:
+    void OnPlotProfile();
+    void OnUseTool();
+    void OnDelTool();
 
 public:
     void InitUi() override;
@@ -39,10 +45,17 @@ private:
     void HorizontalLineProfileHandle();
     void VerticalLineProfileHandle();
 
-private:
+    void PlotLineProfileHandle();
+    void PlotRectProfileHandle();
+    void PlotArcProfileHandle();
+
+public:
     CGProfileForm2D *m_Form2D;
     CGProfileForm3D *m_Form3D;
 
+    QTimer *m_pPlotTimer;
+
+private:
     CGChartView *chartView;
     QChart      *chart;
     QLineSeries *ProfileSeries;
