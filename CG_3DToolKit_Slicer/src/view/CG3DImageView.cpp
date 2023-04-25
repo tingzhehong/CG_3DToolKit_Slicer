@@ -222,7 +222,6 @@ void CG3DImageView::InitAngleTool()
 void CG3DImageView::InitBoxTool()
 {
     m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
-    m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetProp3D(m_Actor);
     m_pBoxWidgetTool->PlaceWidget();
     m_pBoxWidgetTool->On();
@@ -240,6 +239,9 @@ void CG3DImageView::InitTools()
     CGVTKUtils::vtkInitOnce(m_pAngleWidgetTool);
     CGVTKUtils::vtkInitOnce(m_pAngleRep);
     CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
+
+    m_pBoxWidgetTool->SetPlaceFactor(1.0);
+    m_pBoxWidgetTool->SetRotationEnabled(0);
 }
 
 void CG3DImageView::RemoveTools()
