@@ -79,7 +79,7 @@ private:
     double *pCameraFocalPoint = nullptr;
     double *pCameraViewUp = nullptr;
     double *pCameraClippingRange = nullptr;
-    double fovy = 0;
+    double  fovy = 0;
 
     vtkSmartPointer<vtkDistanceWidget> m_pDistanceWidgetTool;
     vtkSmartPointer<vtkAngleWidget> m_pAngleWidgetTool;

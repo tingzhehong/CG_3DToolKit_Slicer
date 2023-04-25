@@ -33,7 +33,7 @@
 #include <CGImage.h>
 #include <CGImageFormatConvert.h>
 
-//PC
+//POINTCLOUD
 #include <CGPointCloud.h>
 
 
