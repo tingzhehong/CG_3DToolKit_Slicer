@@ -140,6 +140,56 @@ void MainWindow::QSS(const int Style)
     }
 }
 
+bool MainWindow::HandleDepthImage(const string filename)
+{
+    if (!m_pCGDepthImageDialog->exec())
+        return false;
+
+    g_Image.DepthImage = cv::imread(filename, 2);
+
+    int   rowNum = g_Image.DepthImage.rows;
+    int   colNum = g_Image.DepthImage.cols;
+    float XPitch = m_pCGDepthImageDialog->xPitch;
+    float YPitch = m_pCGDepthImageDialog->yPitch;
+    float DownLimitThres = m_pCGDepthImageDialog->downLimit;
+    float UpLimitThres = m_pCGDepthImageDialog->upLimit;
+
+    if (XPitch == 0 || YPitch == 0) return false;
+
+    //>3200 X 3200 超大图像 点云数大于10000000
+    if (rowNum > 3200 || colNum > 3200)
+    {
+        int length = rowNum > colNum ? rowNum : colNum;
+        float ratio = length / 3200;
+        rowNum = int(rowNum / ratio);
+        colNum = int(colNum / ratio);
+        XPitch = XPitch * ratio;
+        YPitch = YPitch * ratio;
+
+        cv::resize(g_Image.DepthImage, g_Image.DepthImage, cv::Size(colNum, rowNum));
+    }
+
+    g_XPitch = XPitch;
+    g_YPitch = YPitch;
+    g_PointCloud.reset(new PointCloudT);
+
+    CG::FromDepthImage2PointCloud(g_Image.DepthImage, XPitch, YPitch, DownLimitThres, UpLimitThres, g_PointCloud);
+    std::vector<int> indices;
+    pcl::removeNaNFromPointCloud(*g_PointCloud, *g_PointCloud, indices);
+
+    std::thread([&] {
+        CG::CreateImageALL(g_PointCloud, g_Image.DepthImage, g_Image.GrayImage, g_Image.IntensityImage, XPitch, YPitch, rowNum, colNum);
+        CG::GrayMat2ColorMat(g_Image.GrayImage, g_Image.ColorImage);
+        }).join();
+
+    std::thread([&] {cv::imwrite("./Image/DepthImage.tiff", g_Image.DepthImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/GrayImage.tiff", g_Image.GrayImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/IntensityImage.tiff", g_Image.IntensityImage);}).detach();
+    std::thread([&] {cv::imwrite("./Image/ColorImage.tiff", g_Image.ColorImage);}).detach();
+
+    return true;
+}
+
 bool MainWindow::HandleOrderPointCloud()
 {
     pcl::PointXYZRGB min_pt;
@@ -389,8 +439,36 @@ void MainWindow::on_action_open_Image_triggered()
     }
     else
     {
-        m_pCG2DImageView->LoadImages(FileName);
-        m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+        QFileInfo Info(FileName);
+        //中文路径
+        QTextCodec *code = QTextCodec::codecForName("GB2312");
+        std::string filename = code->fromUnicode(FileName).data();
+
+        //深度图？
+        if (Info.suffix().toLower() == "tif" || Info.suffix().toLower() == "tiff")
+        {
+            if (QImage(FileName).format() == QImage::Format_Invalid)
+            {
+                if (HandleDepthImage(filename))
+                {
+                    QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                    QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                    m_pCG2DImageView->LoadImages(qPixmap);
+                    m_pCG3DImageView->ShowPCD();
+                    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+                }
+            }
+            else
+            {
+                m_pCG2DImageView->LoadImages(FileName);
+                m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+            }
+        }
+        else
+        {
+            m_pCG2DImageView->LoadImages(FileName);
+            m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+        }
     }
 }
 

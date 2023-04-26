@@ -25,6 +25,7 @@ private:
     void InitConnections();
     void QSS(const int Style);
 
+    bool HandleDepthImage(const std::string filename);
     bool HandleOrderPointCloud();
     bool HandleDisOrderPointCloud();
 

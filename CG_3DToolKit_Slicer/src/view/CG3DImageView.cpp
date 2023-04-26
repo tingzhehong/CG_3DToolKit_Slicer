@@ -90,6 +90,18 @@ void CG3DImageView::InitConnections()
 
 }
 
+void CG3DImageView::ShowPCD()
+{
+    //! qDebug() << "ShowPCD "
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    CG::VTKPointCloudIntensity(g_PointCloud, actor);
+
+    m_Actor = actor;
+    m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
 void CG3DImageView::LoadPCD(const std::string filename)
 {
     //! qDebug() << "LoadPCD " << QString::fromStdString(filename);

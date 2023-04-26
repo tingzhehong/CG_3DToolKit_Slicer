@@ -31,6 +31,7 @@ public slots:
 public:
     void InitUi() override;
     void InitConnections() override;
+    void ShowPCD();
     void LoadPCD(const std::string filename);
     void LoadCSV(const std::string filename);
     void LoadTXT(const std::string filename);
