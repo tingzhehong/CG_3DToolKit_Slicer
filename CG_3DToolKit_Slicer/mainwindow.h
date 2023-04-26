@@ -104,6 +104,9 @@ private slots:
     void on_action_dock_data_triggered();
     void on_action_dock_console_triggered();
 
+    void on_action_PickPointCoordinate_triggered(bool checked);
+    void on_action_PickPointDistance_triggered(bool checked);
+
 private:
     enum QSSStyle
     {

@@ -170,6 +170,9 @@
    <addaction name="action_SetViewIso1"/>
    <addaction name="action_SetViewIso2"/>
    <addaction name="separator"/>
+   <addaction name="action_PickPointCoordinate"/>
+   <addaction name="action_PickPointDistance"/>
+   <addaction name="separator"/>
    <addaction name="action_ZoomIn"/>
    <addaction name="action_ZoomOut"/>
    <addaction name="separator"/>
@@ -497,6 +500,36 @@
    </property>
    <property name="text">
     <string>控制视图</string>
+   </property>
+  </action>
+  <action name="action_PickPointCoordinate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/smallPointProperties.png</normaloff>:/res/icon/smallPointProperties.png</iconset>
+   </property>
+   <property name="text">
+    <string>点坐标测量</string>
+   </property>
+   <property name="toolTip">
+    <string>点坐标测量</string>
+   </property>
+  </action>
+  <action name="action_PickPointDistance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/smallPointDistance.png</normaloff>:/res/icon/smallPointDistance.png</iconset>
+   </property>
+   <property name="text">
+    <string>点距离测量</string>
+   </property>
+   <property name="toolTip">
+    <string>点距离测量</string>
    </property>
   </action>
  </widget>

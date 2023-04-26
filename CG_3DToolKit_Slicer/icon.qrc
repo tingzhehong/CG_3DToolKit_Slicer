@@ -28,5 +28,7 @@
         <file>res/icon/ccZoomOut.png</file>
         <file>res/icon/slicer.png</file>
         <file>res/icon/dock.png</file>
+        <file>res/icon/smallPointProperties.png</file>
+        <file>res/icon/smallPointDistance.png</file>
     </qresource>
 </RCC>

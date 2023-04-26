@@ -57,6 +57,7 @@ SOURCES += \
     src/vtk/CGAngleWidgetObserver.cpp \
     src/vtk/CGBoxWidgetObserver.cpp \
     src/vtk/CGDistanceWidgetObserver.cpp \
+    src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGVTKWidget.cpp \
     src/vtk/CGVTKutils.cpp \
     src/vtk/CGActorExporter.cpp \
@@ -112,6 +113,7 @@ HEADERS += \
     src/vtk/CGAngleWidgetObserver.h \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
+    src/vtk/CGPointPickObserver.h \
     src/vtk/CGVTKUtils.h \
     src/vtk/CGVTKWidget.h \
     src/vtk/CGActorExporter.h \

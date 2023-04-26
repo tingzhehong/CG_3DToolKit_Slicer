@@ -769,3 +769,15 @@ void MainWindow::on_action_dock_console_triggered()
 {
     ui->dock_console->show();
 }
+
+void MainWindow::on_action_PickPointCoordinate_triggered(bool checked)
+{
+    if (checked)
+        ui->action_PickPointDistance->setChecked(false);
+}
+
+void MainWindow::on_action_PickPointDistance_triggered(bool checked)
+{
+    if (checked)
+        ui->action_PickPointCoordinate->setChecked(false);
+}
