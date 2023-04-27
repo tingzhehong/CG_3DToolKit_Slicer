@@ -15,6 +15,7 @@ class vtkBoxWidget;
 class vtkDistanceRepresentation3D;
 class vtkAngleRepresentation3D;
 class vtkTextActor;
+class vtkLineSource;
 
 class CG3DImageView : public CGBaseWidget
 {
@@ -69,6 +70,14 @@ public:
     ToolType  m_CurrentToolType;
     ToolType  m_LastToolType;
 
+    enum PickType
+    {
+        SinglePoint,
+        DoublePoint
+    };
+
+    PickType m_PickType;
+
     double* GetCameraFocalPoint();
     double* GetCameraPosition();
     double* GetCameraViewUp();
@@ -80,6 +89,9 @@ private:
     void InitAngleTool();
     void InitBoxTool();
 
+    void HandlePickPointCoordinate(float x, float y, float z);
+    void HandlePickPointDistance(float x, float y, float z);
+
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
@@ -90,6 +102,9 @@ public:
     vtkSmartPointer<vtkTextActor> m_TextActor_Z;
     vtkSmartPointer<vtkActor> m_PickSphere_1;
     vtkSmartPointer<vtkActor> m_PickSphere_2;
+    vtkSmartPointer<vtkLineSource> m_PickLineSouce;
+    vtkSmartPointer<vtkPolyDataMapper> m_PickLineMapper;
+    vtkSmartPointer<vtkActor> m_PickLine;
 
 private:
     double *pCameraPosition = nullptr;

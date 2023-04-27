@@ -26,6 +26,13 @@
 typedef pcl::PointXYZRGB PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
+struct CG_Point
+{
+    float x;
+    float y;
+    float z;
+};
+
 struct CG_Color
 {
     float R;

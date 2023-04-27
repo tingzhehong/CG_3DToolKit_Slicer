@@ -19,7 +19,9 @@
 #include <vtkTextProperty.h>
 #include <vtkPointPicker.h>
 #include <vtkSphereSource.h>
+#include <vtkLineSource.h>
 
+static QStack<CG_Point> s_PickPointsStack;
 
 CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
 {
@@ -88,8 +90,17 @@ void CG3DImageView::OnUpdatePoint(float x, float y, float z)
     m_TextActor_Y->SetInput(strY.c_str());
     m_TextActor_Z->SetInput(strZ.c_str());
 
-    m_PickSphere_1->SetPosition(x, y, z);
-    m_PickSphere_2->SetPosition(x, y, z);
+    switch (m_PickType)
+    {
+    case SinglePoint:
+        HandlePickPointCoordinate(x, y, z);
+        break;
+    case DoublePoint:
+        HandlePickPointDistance(x, y, z);
+        break;
+    default:
+        break;
+    }
 
     m_CGVTKWidget->update();
 }
@@ -168,6 +179,11 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_TextActor_Z->SetVisibility(1);
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_1);
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_2);
+
+        if (m_PickType == PickType::SinglePoint)
+            m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickLine);
+        if (m_PickType == PickType::DoublePoint)
+            m_CGVTKWidget->defaultRenderer()->AddActor(m_PickLine);
     }
     else
     {
@@ -177,6 +193,7 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_TextActor_Z->SetVisibility(0);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_1);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_2);
+        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickLine);
     }
     m_CGVTKWidget->update();
 }
@@ -318,6 +335,44 @@ void CG3DImageView::InitBoxTool()
     m_pBoxWidgetTool->On();
 }
 
+void CG3DImageView::HandlePickPointCoordinate(float x, float y, float z)
+{
+    m_PickSphere_1->SetPosition(x, y, z);
+    m_PickSphere_2->SetPosition(x, y, z);
+}
+
+void CG3DImageView::HandlePickPointDistance(float x, float y, float z)
+{
+    CG_Point TempPoint;
+    TempPoint.x = x;
+    TempPoint.y = y;
+    TempPoint.z = z;
+    s_PickPointsStack.push_back(TempPoint);
+
+    if (s_PickPointsStack.size() == 2)
+    {
+        m_PickSphere_1->SetPosition(s_PickPointsStack.at(0).x, s_PickPointsStack.at(0).y, s_PickPointsStack.at(0).z);
+        m_PickSphere_2->SetPosition(s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
+        m_PickSphere_2->SetVisibility(true);
+
+        s_PickPointsStack.clear();
+
+        m_PickLineSouce->SetPoint1(s_PickPointsStack.at(0).x, s_PickPointsStack.at(0).y, s_PickPointsStack.at(0).z);
+        m_PickLineSouce->SetPoint2(s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
+        m_PickLineMapper->SetInputConnection(m_PickLineSouce->GetOutputPort());
+        m_PickLine->SetMapper(m_PickLineMapper);
+        m_PickLine->SetVisibility(true);
+
+        m_CGVTKWidget->defaultRenderer()->AddActor(m_PickLine);
+    }
+    else
+    {
+        m_PickSphere_1->SetPosition(x, y, z);
+        m_PickSphere_2->SetVisibility(false);
+        m_PickLine->SetVisibility(false);
+    }
+}
+
 vtkActor* CG3DImageView::GetActor() const
 {
     return m_CGVTKWidget->actors3d().back();
@@ -331,6 +386,9 @@ void CG3DImageView::InitActors()
     CGVTKUtils::vtkInitOnce(m_TextActor_Z);
     CGVTKUtils::vtkInitOnce(m_PickSphere_1);
     CGVTKUtils::vtkInitOnce(m_PickSphere_2);
+    CGVTKUtils::vtkInitOnce(m_PickLineSouce);
+    CGVTKUtils::vtkInitOnce(m_PickLineMapper);
+    CGVTKUtils::vtkInitOnce(m_PickLine);
 }
 
 void CG3DImageView::InitTools()
@@ -375,6 +433,9 @@ void CG3DImageView::InitPointPick()
     mapper_2->SetInputConnection(Sphere_2->GetOutputPort());
     m_PickSphere_2->SetMapper(mapper_2);
     m_PickSphere_2->GetProperty()->SetColor(1, 0 ,0);
+
+    m_PickLine->GetProperty()->SetColor(1, 0, 0);
+    m_PickLine->GetProperty()->SetLineWidth(3);
 }
 
 void CG3DImageView::RemoveTools()

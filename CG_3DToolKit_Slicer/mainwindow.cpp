@@ -775,6 +775,7 @@ void MainWindow::on_action_PickPointCoordinate_triggered(bool checked)
     if (checked)
     {
         ui->action_PickPointDistance->setChecked(false);
+        m_pCG3DImageView->m_PickType = CG3DImageView::PickType::SinglePoint;
         m_pCG3DImageView->ShowPointPickInfo(true);
     }
     else
@@ -789,6 +790,7 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
     if (checked)
     {
         ui->action_PickPointCoordinate->setChecked(false);
+        m_pCG3DImageView->m_PickType = CG3DImageView::PickType::DoublePoint;
         m_pCG3DImageView->ShowPointPickInfo(true);
     }
     else
