@@ -88,6 +88,8 @@ public:
     vtkSmartPointer<vtkTextActor> m_TextActor_X;
     vtkSmartPointer<vtkTextActor> m_TextActor_Y;
     vtkSmartPointer<vtkTextActor> m_TextActor_Z;
+    vtkSmartPointer<vtkActor> m_PickSphere_1;
+    vtkSmartPointer<vtkActor> m_PickSphere_2;
 
 private:
     double *pCameraPosition = nullptr;

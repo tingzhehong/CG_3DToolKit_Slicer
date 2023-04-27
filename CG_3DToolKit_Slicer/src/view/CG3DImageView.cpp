@@ -18,6 +18,7 @@
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkPointPicker.h>
+#include <vtkSphereSource.h>
 
 
 CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
@@ -86,6 +87,9 @@ void CG3DImageView::OnUpdatePoint(float x, float y, float z)
     m_TextActor_X->SetInput(strX.c_str());
     m_TextActor_Y->SetInput(strY.c_str());
     m_TextActor_Z->SetInput(strZ.c_str());
+
+    m_PickSphere_1->SetPosition(x, y, z);
+    m_PickSphere_2->SetPosition(x, y, z);
 
     m_CGVTKWidget->update();
 }
@@ -162,6 +166,8 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_TextActor_X->SetVisibility(1);
         m_TextActor_Y->SetVisibility(1);
         m_TextActor_Z->SetVisibility(1);
+        m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_1);
+        m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_2);
     }
     else
     {
@@ -169,6 +175,8 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_TextActor_X->SetVisibility(0);
         m_TextActor_Y->SetVisibility(0);
         m_TextActor_Z->SetVisibility(0);
+        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_1);
+        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_2);
     }
     m_CGVTKWidget->update();
 }
@@ -321,6 +329,8 @@ void CG3DImageView::InitActors()
     CGVTKUtils::vtkInitOnce(m_TextActor_X);
     CGVTKUtils::vtkInitOnce(m_TextActor_Y);
     CGVTKUtils::vtkInitOnce(m_TextActor_Z);
+    CGVTKUtils::vtkInitOnce(m_PickSphere_1);
+    CGVTKUtils::vtkInitOnce(m_PickSphere_2);
 }
 
 void CG3DImageView::InitTools()
@@ -343,6 +353,28 @@ void CG3DImageView::InitPointPick()
     m_CGPointPicker = new CGVTKUtils::CGPointPickObserver();
     m_CGPointPicker->SetPickEnable(false);
     m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonPressEvent, m_CGPointPicker);
+
+    vtkSmartPointer<vtkSphereSource> Sphere_1 = vtkSmartPointer<vtkSphereSource>::New();
+    Sphere_1->SetCenter(0, 0, 0);
+    Sphere_1->SetRadius(0.1);
+    Sphere_1->SetThetaResolution(36);
+    Sphere_1->SetPhiResolution(36);
+
+    vtkSmartPointer<vtkPolyDataMapper> mapper_1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper_1->SetInputConnection(Sphere_1->GetOutputPort());
+    m_PickSphere_1->SetMapper(mapper_1);
+    m_PickSphere_1->GetProperty()->SetColor(1, 0 ,0);
+
+    vtkSmartPointer<vtkSphereSource> Sphere_2 = vtkSmartPointer<vtkSphereSource>::New();
+    Sphere_2->SetCenter(0, 0, 0);
+    Sphere_2->SetRadius(0.1);
+    Sphere_2->SetThetaResolution(36);
+    Sphere_2->SetPhiResolution(36);
+
+    vtkSmartPointer<vtkPolyDataMapper> mapper_2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper_2->SetInputConnection(Sphere_2->GetOutputPort());
+    m_PickSphere_2->SetMapper(mapper_2);
+    m_PickSphere_2->GetProperty()->SetColor(1, 0 ,0);
 }
 
 void CG3DImageView::RemoveTools()
