@@ -15,13 +15,21 @@
 #include <vtkAngleWidget.h>
 #include <vtkAngleRepresentation3D.h>
 #include <vtkBoxWidget.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+#include <vtkPointPicker.h>
 
 
 CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
 {
     InitUi();
-    InitConnections();
+    InitActors();
     InitTools();
+    InitPointPick();
+    InitConnections();
+    GetCamera();
+    ShowText2D();
+    ShowText3D();
     setWindowTitle(tr(u8"3D  图像"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
 }
@@ -65,6 +73,23 @@ void CG3DImageView::OnDelTool()
     RemoveTools();
 }
 
+void CG3DImageView::OnUpdatePoint(float x, float y, float z)
+{
+    char chrX[16], chrY[16], chrZ[16];
+    sprintf(chrX, "%.4f", x);
+    sprintf(chrY, "%.4f", y);
+    sprintf(chrZ, "%.4f", z);
+    std::string strX, strY, strZ;
+    strX = "X: "; strX.append(chrX);
+    strY = "Y: "; strY.append(chrY);
+    strZ = "Z: "; strZ.append(chrZ);
+    m_TextActor_X->SetInput(strX.c_str());
+    m_TextActor_Y->SetInput(strY.c_str());
+    m_TextActor_Z->SetInput(strZ.c_str());
+
+    m_CGVTKWidget->update();
+}
+
 void CG3DImageView::InitUi()
 {
     m_CGVTKWidget = new CGVTKWidget(this);
@@ -80,14 +105,41 @@ void CG3DImageView::InitUi()
     pMainLayout->addWidget(m_CGVTKWidget);
 
     setLayout(pMainLayout);
-
-    CGVTKUtils::vtkInitOnce(m_Actor);
-    GetCamera();
 }
 
 void CG3DImageView::InitConnections()
 {
+    connect(m_CGPointPicker, &CGVTKUtils::CGPointPickObserver::SignalPoint, this, &CG3DImageView::OnUpdatePoint);
+}
 
+void CG3DImageView::ShowText2D()
+{
+    m_TextActor_X->SetVisibility(0);
+    m_TextActor_Y->SetVisibility(0);
+    m_TextActor_Z->SetVisibility(0);
+
+    m_TextActor_X->SetPosition(50, 700);
+    m_TextActor_X->GetTextProperty()->SetFontSize(18);
+    m_TextActor_X->GetTextProperty()->SetColor(1, 1, 0);
+
+    m_TextActor_Y->SetPosition(50, 680);
+    m_TextActor_Y->GetTextProperty()->SetFontSize(18);
+    m_TextActor_Y->GetTextProperty()->SetColor(1, 1, 0);
+
+    m_TextActor_Z->SetPosition(50, 660);
+    m_TextActor_Z->GetTextProperty()->SetFontSize(18);
+    m_TextActor_Z->GetTextProperty()->SetColor(1, 1, 0);
+
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_X);
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_Y);
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_Z);
+
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::ShowText3D()
+{
+    m_CGVTKWidget->update();
 }
 
 void CG3DImageView::ShowPCD()
@@ -99,6 +151,25 @@ void CG3DImageView::ShowPCD()
     m_Actor = actor;
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::ShowPointPickInfo(const bool enable)
+{
+    if (enable)
+    {
+        m_CGPointPicker->SetPickEnable(true);
+        m_TextActor_X->SetVisibility(1);
+        m_TextActor_Y->SetVisibility(1);
+        m_TextActor_Z->SetVisibility(1);
+    }
+    else
+    {
+        m_CGPointPicker->SetPickEnable(false);
+        m_TextActor_X->SetVisibility(0);
+        m_TextActor_Y->SetVisibility(0);
+        m_TextActor_Z->SetVisibility(0);
+    }
     m_CGVTKWidget->update();
 }
 
@@ -244,6 +315,14 @@ vtkActor* CG3DImageView::GetActor() const
     return m_CGVTKWidget->actors3d().back();
 }
 
+void CG3DImageView::InitActors()
+{
+    CGVTKUtils::vtkInitOnce(m_Actor);
+    CGVTKUtils::vtkInitOnce(m_TextActor_X);
+    CGVTKUtils::vtkInitOnce(m_TextActor_Y);
+    CGVTKUtils::vtkInitOnce(m_TextActor_Z);
+}
+
 void CG3DImageView::InitTools()
 {
     CGVTKUtils::vtkInitOnce(m_pDistanceWidgetTool);
@@ -254,6 +333,16 @@ void CG3DImageView::InitTools()
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
+}
+
+void CG3DImageView::InitPointPick()
+{
+    vtkSmartPointer<vtkPointPicker> PointPicker = vtkSmartPointer<vtkPointPicker>::New();
+    m_CGVTKWidget->GetInteractor()->SetPicker(PointPicker);
+
+    m_CGPointPicker = new CGVTKUtils::CGPointPickObserver();
+    m_CGPointPicker->SetPickEnable(false);
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonPressEvent, m_CGPointPicker);
 }
 
 void CG3DImageView::RemoveTools()

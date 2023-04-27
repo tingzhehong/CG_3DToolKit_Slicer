@@ -4,6 +4,7 @@
 #include <CGBaseWidget.h>
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
+#include <CGPointPickObserver.h>
 
 class vtkActor;
 class vtkCamera;
@@ -13,6 +14,7 @@ class vtkAngleWidget;
 class vtkBoxWidget;
 class vtkDistanceRepresentation3D;
 class vtkAngleRepresentation3D;
+class vtkTextActor;
 
 class CG3DImageView : public CGBaseWidget
 {
@@ -27,11 +29,12 @@ signals:
 public slots:
     void OnUseTool();
     void OnDelTool();
+    void OnUpdatePoint(float x, float y, float z);
 
 public:
     void InitUi() override;
     void InitConnections() override;
-    void ShowPCD();
+
     void LoadPCD(const std::string filename);
     void LoadCSV(const std::string filename);
     void LoadTXT(const std::string filename);
@@ -45,8 +48,15 @@ public:
 
     vtkActor* GetActor() const;
 
+    void InitActors();
     void InitTools();
+    void InitPointPick();
     void RemoveTools();
+
+    void ShowText2D();
+    void ShowText3D();
+    void ShowPCD();
+    void ShowPointPickInfo(const bool enable);
 
 public:
     enum ToolType
@@ -72,8 +82,12 @@ private:
 
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
+    CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
     vtkCamera *m_CGVTKCamera = nullptr;
     vtkSmartPointer<vtkActor> m_Actor;
+    vtkSmartPointer<vtkTextActor> m_TextActor_X;
+    vtkSmartPointer<vtkTextActor> m_TextActor_Y;
+    vtkSmartPointer<vtkTextActor> m_TextActor_Z;
 
 private:
     double *pCameraPosition = nullptr;

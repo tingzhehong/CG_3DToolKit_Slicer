@@ -114,6 +114,7 @@ HEADERS += \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
     src/vtk/CGPointPickObserver.h \
+    src/vtk/CGPointPickerInteractorStyle.h \
     src/vtk/CGVTKUtils.h \
     src/vtk/CGVTKWidget.h \
     src/vtk/CGActorExporter.h \

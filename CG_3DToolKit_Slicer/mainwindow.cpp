@@ -773,11 +773,27 @@ void MainWindow::on_action_dock_console_triggered()
 void MainWindow::on_action_PickPointCoordinate_triggered(bool checked)
 {
     if (checked)
+    {
         ui->action_PickPointDistance->setChecked(false);
+        m_pCG3DImageView->ShowPointPickInfo(true);
+    }
+    else
+    {
+        ui->action_PickPointCoordinate->setChecked(false);
+        m_pCG3DImageView->ShowPointPickInfo(false);
+    }
 }
 
 void MainWindow::on_action_PickPointDistance_triggered(bool checked)
 {
     if (checked)
+    {
         ui->action_PickPointCoordinate->setChecked(false);
+        m_pCG3DImageView->ShowPointPickInfo(true);
+    }
+    else
+    {
+        ui->action_PickPointDistance->setChecked(false);
+        m_pCG3DImageView->ShowPointPickInfo(false);
+    }
 }

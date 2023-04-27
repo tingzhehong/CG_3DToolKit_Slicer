@@ -13,7 +13,7 @@
 namespace CGVTKUtils
 {
 
-CGPointPickObserver::CGPointPickObserver(QObject *parent) : QObject(parent), X(0), Y(0), Z(0)
+CGPointPickObserver::CGPointPickObserver(QObject *parent) : QObject(parent), _X(0), _Y(0), _Z(0), _Enable(false)
 {
 
 }
@@ -27,10 +27,20 @@ void CGPointPickObserver::Execute(vtkObject *caller, unsigned long eventid, void
 {
     vtkRenderWindowInteractor *iren = reinterpret_cast<vtkRenderWindowInteractor*>(caller);
 
-    if (eventid == vtkCommand::LeftButtonPressEvent)
+    if (eventid == vtkCommand::LeftButtonPressEvent && _Enable == true)
     {
-        SinglePick(iren, X, Y, Z);
+        SinglePick(iren, _X, _Y, _Z);
     }
+}
+
+void CGPointPickObserver::SetPickEnable(bool enable)
+{
+    _Enable = enable;
+}
+
+bool CGPointPickObserver::GetPickEnable() const
+{
+    return _Enable;
 }
 
 void CGPointPickObserver::SinglePick(vtkRenderWindowInteractor *iren, float &x, float &y, float &z)
@@ -39,7 +49,7 @@ void CGPointPickObserver::SinglePick(vtkRenderWindowInteractor *iren, float &x, 
 
     if (!point_picker)
     {
-        printf("Point picker not available, not selecting any points!\n");
+        //qDebug() << "Point picker not available, not selecting any points!\n";
         return;
     }
 
@@ -59,6 +69,7 @@ void CGPointPickObserver::SinglePick(vtkRenderWindowInteractor *iren, float &x, 
         x = float(p[0]); y = float(p[1]); z = float(p[2]);
 
         emit SignalPoint(x, y, z);
+        //qDebug() << x << " " << y << " " << z;
     }
 }
 
