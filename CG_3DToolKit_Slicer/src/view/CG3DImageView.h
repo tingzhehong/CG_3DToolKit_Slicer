@@ -92,6 +92,9 @@ private:
     void HandlePickPointCoordinate(float x, float y, float z);
     void HandlePickPointDistance(float x, float y, float z);
 
+    float LineDistance(float x1, float y1, float z1,
+                       float x2, float y2, float z2);
+
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
@@ -100,6 +103,7 @@ public:
     vtkSmartPointer<vtkTextActor> m_TextActor_X;
     vtkSmartPointer<vtkTextActor> m_TextActor_Y;
     vtkSmartPointer<vtkTextActor> m_TextActor_Z;
+    vtkSmartPointer<vtkTextActor> m_TextActor_Distance;
     vtkSmartPointer<vtkActor> m_PickSphere_1;
     vtkSmartPointer<vtkActor> m_PickSphere_2;
     vtkSmartPointer<vtkLineSource> m_PickLineSouce;

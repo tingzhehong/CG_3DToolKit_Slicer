@@ -132,6 +132,7 @@ void CG3DImageView::ShowText2D()
     m_TextActor_X->SetVisibility(0);
     m_TextActor_Y->SetVisibility(0);
     m_TextActor_Z->SetVisibility(0);
+    m_TextActor_Distance->SetVisibility(0);
 
     m_TextActor_X->SetPosition(50, 700);
     m_TextActor_X->GetTextProperty()->SetFontSize(18);
@@ -145,9 +146,14 @@ void CG3DImageView::ShowText2D()
     m_TextActor_Z->GetTextProperty()->SetFontSize(18);
     m_TextActor_Z->GetTextProperty()->SetColor(1, 1, 0);
 
+    m_TextActor_Distance->SetPosition(50, 640);
+    m_TextActor_Distance->GetTextProperty()->SetFontSize(18);
+    m_TextActor_Distance->GetTextProperty()->SetColor(1, 1, 1);
+
     m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_X);
     m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_Y);
     m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_Z);
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_TextActor_Distance);
 
     m_CGVTKWidget->update();
 }
@@ -180,10 +186,14 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_1);
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickSphere_2);
 
-        if (m_PickType == PickType::SinglePoint)
+        if (m_PickType == PickType::SinglePoint) {
             m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickLine);
-        if (m_PickType == PickType::DoublePoint)
+            m_TextActor_Distance->SetVisibility(0);
+        }
+        if (m_PickType == PickType::DoublePoint) {
             m_CGVTKWidget->defaultRenderer()->AddActor(m_PickLine);
+            m_TextActor_Distance->SetVisibility(1);
+        }
     }
     else
     {
@@ -191,6 +201,7 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_TextActor_X->SetVisibility(0);
         m_TextActor_Y->SetVisibility(0);
         m_TextActor_Z->SetVisibility(0);
+        m_TextActor_Distance->SetVisibility(0);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_1);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_2);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickLine);
@@ -355,8 +366,6 @@ void CG3DImageView::HandlePickPointDistance(float x, float y, float z)
         m_PickSphere_2->SetPosition(s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
         m_PickSphere_2->SetVisibility(true);
 
-        s_PickPointsStack.clear();
-
         m_PickLineSouce->SetPoint1(s_PickPointsStack.at(0).x, s_PickPointsStack.at(0).y, s_PickPointsStack.at(0).z);
         m_PickLineSouce->SetPoint2(s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
         m_PickLineMapper->SetInputConnection(m_PickLineSouce->GetOutputPort());
@@ -364,6 +373,16 @@ void CG3DImageView::HandlePickPointDistance(float x, float y, float z)
         m_PickLine->SetVisibility(true);
 
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickLine);
+
+        float Dist = LineDistance(s_PickPointsStack.at(0).x, s_PickPointsStack.at(0).y, s_PickPointsStack.at(0).z,
+                                  s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
+        char chrDist[16];
+        sprintf(chrDist, "%.4f", Dist);
+        std::string strDist;
+        strDist = "D: "; strDist.append(chrDist);
+        m_TextActor_Distance->SetInput(strDist.c_str());
+
+        s_PickPointsStack.clear();
     }
     else
     {
@@ -371,6 +390,16 @@ void CG3DImageView::HandlePickPointDistance(float x, float y, float z)
         m_PickSphere_2->SetVisibility(false);
         m_PickLine->SetVisibility(false);
     }
+}
+
+float CG3DImageView::LineDistance(float x1, float y1, float z1, float x2, float y2, float z2)
+{
+    float dx = powf((x1 - x2), 2);
+    float dy = powf((y1 - y2), 2);
+    float dz = powf((z1 - z2), 2);
+    float dist = sqrtf(dx + dy + dz);
+
+    return dist;
 }
 
 vtkActor* CG3DImageView::GetActor() const
@@ -384,6 +413,8 @@ void CG3DImageView::InitActors()
     CGVTKUtils::vtkInitOnce(m_TextActor_X);
     CGVTKUtils::vtkInitOnce(m_TextActor_Y);
     CGVTKUtils::vtkInitOnce(m_TextActor_Z);
+    CGVTKUtils::vtkInitOnce(m_TextActor_Distance);
+
     CGVTKUtils::vtkInitOnce(m_PickSphere_1);
     CGVTKUtils::vtkInitOnce(m_PickSphere_2);
     CGVTKUtils::vtkInitOnce(m_PickLineSouce);

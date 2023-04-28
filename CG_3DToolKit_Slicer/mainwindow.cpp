@@ -65,6 +65,8 @@ void MainWindow::InitUi()
     m_pCGViewRegulator->m_CG3DImageView = m_pCG3DImageView;
     m_pCGViewRegulator->m_CGNodeView = m_pCGNodeView;
     m_pCGViewRegulator->m_CGProfileView = m_pCGProfileView;
+
+    CGConsoleView::getInstance()->ConsoleOut(tr(u8"The app start succeed."));
 }
 
 void MainWindow::InitConnections()
@@ -341,6 +343,7 @@ void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 {
     QString str = item->text(column);
     int index = m_pCGProjectTreeView->m_TreeItemNames.indexOf(str);
+    CGConsoleView::getInstance()->ConsoleOut(tr(u8"Project select: ") + str);
 
     switch (index)
     {
@@ -373,6 +376,7 @@ void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
     QString strColumn = item->text(column);
     //qDebug() << "DataTreeItem: " << strParent << "  " << strColumn;
     int index = m_pCGDataTreeView->m_DataTreeNames.indexOf(strParent);
+    CGConsoleView::getInstance()->ConsoleOut(tr(u8"Data select: ") + strParent + "  " + strColumn);
 
     switch (index)
     {
@@ -443,6 +447,7 @@ void MainWindow::on_action_open_Image_triggered()
         //中文路径
         QTextCodec *code = QTextCodec::codecForName("GB2312");
         std::string filename = code->fromUnicode(FileName).data();
+        CGConsoleView::getInstance()->ConsoleOut(tr(u8"Open image: ") + Info.fileName());
 
         //深度图？
         if (Info.suffix().toLower() == "tif" || Info.suffix().toLower() == "tiff")
@@ -469,6 +474,7 @@ void MainWindow::on_action_open_Image_triggered()
             m_pCG2DImageView->LoadImages(FileName);
             m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
         }
+        m_pCGPropertiesView->m_Form1->CreateImageProperties();
     }
 }
 
@@ -486,6 +492,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
         //中文路径
         QTextCodec *code = QTextCodec::codecForName("GB2312");
         std::string filename = code->fromUnicode(FileName).data();
+        CGConsoleView::getInstance()->ConsoleOut(tr(u8"Open point cloud: ") + Info.fileName());
 
         if (Info.suffix().toLower() == "pcd")
             m_pCG3DImageView->LoadPCD(filename);
@@ -515,6 +522,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
                 m_pCG2DImageView->LoadImages(qPixmap);
             }
         }
+        m_pCGPropertiesView->m_Form1->CreatePointCloudProperties();
     }
 }
 
@@ -542,6 +550,7 @@ void MainWindow::on_action_save_PointCloud_triggered()
         QTextCodec *code = QTextCodec::codecForName("GB2312");
         std::string filePCD = code->fromUnicode(FileName).data();
         pcl::io::savePCDFileBinaryCompressed(filePCD, *g_PointCloud);
+        CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save point cloud succeed."));
     }
 }
 
@@ -783,6 +792,7 @@ void MainWindow::on_action_PickPointCoordinate_triggered(bool checked)
         ui->action_PickPointCoordinate->setChecked(false);
         m_pCG3DImageView->ShowPointPickInfo(false);
     }
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_PickPointDistance_triggered(bool checked)
@@ -798,4 +808,5 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
         ui->action_PickPointDistance->setChecked(false);
         m_pCG3DImageView->ShowPointPickInfo(false);
     }
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }

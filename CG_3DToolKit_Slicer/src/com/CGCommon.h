@@ -20,6 +20,8 @@
 #include <CGNodeView.h>
 #include <CGProfileForm2D.h>
 #include <CGProfileForm3D.h>
+#include <CGPropertiesForm1.h>
+#include <CGPropertiesForm2.h>
 #include <CGProfileView.h>
 #include <CGViewRegulator.h>
 

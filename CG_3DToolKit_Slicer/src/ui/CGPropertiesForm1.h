@@ -2,6 +2,8 @@
 #define CGPROPERTIESFORM1_H
 
 #include <QWidget>
+#include <CGOCVHeader.h>
+#include <CGPointCloud.h>
 
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -15,9 +17,11 @@ public:
     ~CGPropertiesForm1() = default;
 
     void InitUi();
+    void CreateImageProperties();
+    void CreatePointCloudProperties();
 
 public:
-    QTreeWidget *m_NullTree;
+    QTreeWidget *m_PropertiesTree;
 
 };
 
