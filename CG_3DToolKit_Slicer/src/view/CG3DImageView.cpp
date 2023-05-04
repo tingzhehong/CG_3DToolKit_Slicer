@@ -409,6 +409,7 @@ vtkActor* CG3DImageView::GetActor() const
 
 void CG3DImageView::InitActors()
 {
+    CGVTKUtils::vtkInitOnce(m_CGVTKCamera);
     CGVTKUtils::vtkInitOnce(m_Actor);
     CGVTKUtils::vtkInitOnce(m_TextActor_X);
     CGVTKUtils::vtkInitOnce(m_TextActor_Y);

@@ -42,12 +42,12 @@ public:
     void ClearPointCloud();
 
     vtkCamera* GetCamera();
+    vtkActor* GetActor() const;
+
     void ResetCameraParameter();
     void GetCameraParameter();
     void SetCameraParameter(double pos_x, double pos_y, double pos_z,
                             double up_x, double up_y, double up_z);
-
-    vtkActor* GetActor() const;
 
     void InitActors();
     void InitTools();
@@ -98,7 +98,8 @@ private:
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
-    vtkCamera *m_CGVTKCamera = nullptr;
+
+    vtkSmartPointer<vtkCamera> m_CGVTKCamera;
     vtkSmartPointer<vtkActor> m_Actor;
     vtkSmartPointer<vtkTextActor> m_TextActor_X;
     vtkSmartPointer<vtkTextActor> m_TextActor_Y;

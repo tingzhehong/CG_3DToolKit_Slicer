@@ -6,6 +6,7 @@
 class QHBoxLayout;
 class QVBoxLayout;
 class QGridLayout;
+
 class CGSubWindowWidget : public QMdiSubWindow
 {
     Q_OBJECT

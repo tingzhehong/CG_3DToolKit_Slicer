@@ -6,6 +6,7 @@
 
 class QTreeWidget;
 class QTreeWidgetItem;
+
 class CGBaseTreeWidget : public QWidget
 {
     Q_OBJECT

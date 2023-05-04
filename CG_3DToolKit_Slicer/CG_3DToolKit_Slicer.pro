@@ -138,6 +138,10 @@ INCLUDEPATH += \
     ./src/vtk \
     ./src/vtk/utils
 
+RESOURCES += \
+    icon.qrc \
+    qss.qrc
+
 # OpenCV
 include($$PWD\src\ocv\opencv.pri)
 
@@ -151,7 +155,3 @@ RC_ICONS = $$PWD\slicer.ico
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    icon.qrc \
-    qss.qrc
