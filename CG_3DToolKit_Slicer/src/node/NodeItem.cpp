@@ -21,7 +21,9 @@ NodeItem::NodeItem(QWidget *widget, QGraphicsItem *parent) : QGraphicsObject(par
     m_backgroundColor(QColor::fromRgb(190,190,190,210)),
     m_backgroundBrush(QBrush(m_backgroundColor)),
     m_isUserBrush(false),
-    m_isSelected(false)
+    m_isSelected(false),
+    m_Prev(nullptr),
+    m_Next(nullptr)
 {
     widget->setAttribute(Qt::WA_NoSystemBackground);
     QGraphicsProxyWidget *proxyWidget = new QGraphicsProxyWidget(this);

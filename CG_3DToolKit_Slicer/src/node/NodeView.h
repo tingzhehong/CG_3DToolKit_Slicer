@@ -105,6 +105,9 @@ private:
 
     int RandPos();
 
+private:
+    unsigned int m_IDCounter;
+
 };
 
 #endif // NODEVIEW_H

@@ -90,6 +90,8 @@ public:
     QString NodeName(){return m_NodeName;}
     void setNodeName(const QString name){m_NodeName = name;}
 
+    NodeItem *m_Prev, *m_Next;
+
 private:
     unsigned int m_NodeID;
     QString m_NodeName;

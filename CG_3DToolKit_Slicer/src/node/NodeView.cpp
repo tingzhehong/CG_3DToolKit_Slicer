@@ -1,4 +1,4 @@
-#include "NodeView.h"
+ï»¿#include "NodeView.h"
 #include <QWheelEvent>
 #include <QGraphicsScene>
 #include <QPainter>
@@ -19,7 +19,8 @@ NodeView::NodeView(QWidget *parent) : QGraphicsView(parent),
     m_isCheckingColor(true),
     m_isOnlyOneInputConnection(true),
     m_ropeFlexion(100.0),
-    m_isConnectionDragable(true)
+    m_isConnectionDragable(true),
+    m_IDCounter(1)
 {
     setRenderHint(QPainter::Antialiasing);
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -613,6 +614,8 @@ NodeItem *NodeView::NodeItemFactory(QString nodename, int in, int out)
     if (in == 1 && out == 2)
         node = CreatNodeItem12(nodename);
 
+    m_IDCounter++;
+
     return node;
 }
 
@@ -621,7 +624,7 @@ NodeItem *NodeView::CreatNodeItem01(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"ÊýÖµ:"), widget);
+    QLabel *label = new QLabel(tr(u8"æ•°å€¼:"), widget);
     label->resize(60, 20);
     label->move(2, 15);
 
@@ -632,6 +635,7 @@ NodeItem *NodeView::CreatNodeItem01(const QString nodename)
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(0);
 
     int x = RandPos();
     int y = RandPos();
@@ -648,7 +652,7 @@ NodeItem *NodeView::CreatNodeItem10(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"ÊýÖµ:"), widget);
+    QLabel *label = new QLabel(tr(u8"æ•°å€¼:"), widget);
     label->resize(60, 20);
     label->move(2, 15);
 
@@ -660,12 +664,14 @@ NodeItem *NodeView::CreatNodeItem10(const QString nodename)
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(0);
 
     int x = RandPos();
     int y = RandPos();
     node->setPos(x, y);
 
     PortItem *portIn = node->createPortIn(8, QColor(Qt::cyan));
+    Q_UNUSED(portIn);
 
     return node;
 }
@@ -675,13 +681,18 @@ NodeItem *NodeView::CreatNodeItem11(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"Ëã×Ó: ") + nodename, widget);
+    QLabel *label = new QLabel(tr(u8"ç®—å­: ") + nodename, widget);
     label->resize(60, 20);
-    label->move(2, 15);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
 
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
 
     int x = RandPos();
     int y = RandPos();
@@ -698,13 +709,18 @@ NodeItem *NodeView::CreatNodeItem21(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"Ëã×Ó: ") + nodename, widget);
+    QLabel *label = new QLabel(tr(u8"ç®—å­: ") + nodename, widget);
     label->resize(60, 20);
-    label->move(2, 15);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
 
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
 
     int x = RandPos();
     int y = RandPos();
@@ -722,13 +738,18 @@ NodeItem *NodeView::CreatNodeItem31(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"Ëã×Ó: ") + nodename, widget);
+    QLabel *label = new QLabel(tr(u8"ç®—å­: ") + nodename, widget);
     label->resize(60, 20);
-    label->move(2, 15);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
 
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
 
     int x = RandPos();
     int y = RandPos();
@@ -747,13 +768,18 @@ NodeItem *NodeView::CreatNodeItem12(const QString nodename)
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
 
-    QLabel *label = new QLabel(tr(u8"Ëã×Ó: ") + nodename, widget);
+    QLabel *label = new QLabel(tr(u8"ç®—å­: ") + nodename, widget);
     label->resize(60, 20);
-    label->move(2, 15);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
 
     NodeItem *node = this->createNode(widget);
     node->setTitle(nodename);
     node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
 
     int x = RandPos();
     int y = RandPos();
