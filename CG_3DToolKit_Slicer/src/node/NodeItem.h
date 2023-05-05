@@ -81,6 +81,20 @@ public slots:
     void setTitleColor(const QColor &color);
     void setBackgroundColor(const QColor &color);
     void setBackgroundBrush(const QBrush &brush);
+
+///////
+public:
+    unsigned int NodeID(){return m_NodeID;}
+    void  setNodeID(const unsigned int id){m_NodeID = id;}
+
+    QString NodeName(){return m_NodeName;}
+    void setNodeName(const QString name){m_NodeName = name;}
+
+private:
+    unsigned int m_NodeID;
+    QString m_NodeName;
+    QList<QVariant> m_Parameters;
+
 };
 
 #endif // NODEITEM_H

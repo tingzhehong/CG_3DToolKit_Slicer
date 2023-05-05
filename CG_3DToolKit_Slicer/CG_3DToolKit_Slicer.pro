@@ -16,6 +16,7 @@ SOURCES += \
     src/alg/CGCSV.cpp \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
+    src/block/NodeBlock.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/node/GroupItem.cpp \
@@ -70,6 +71,7 @@ HEADERS += \
     src/alg/CGCSV.h \
     src/alg/CGImage.h \
     src/alg/CGPointCloud.h \
+    src/block/NodeBlock.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
     src/com/CGVTKHeader.h \
@@ -128,6 +130,7 @@ FORMS += \
 
 INCLUDEPATH += \
     ./src/alg \
+    ./src/block \
     ./src/com \
     ./src/dev \
     ./src/node \

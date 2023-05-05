@@ -25,6 +25,9 @@
 #include <CGProfileView.h>
 #include <CGViewRegulator.h>
 
+//BLOCK
+#include <NodeBlock.h>
+
 //DIALOG
 #include <CGAboutDialog.h>
 #include <CGUsersLoginDialog.h>

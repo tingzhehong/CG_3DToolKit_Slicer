@@ -16,9 +16,12 @@ public:
 public:
     void InitUi() override;
     void InitConnections() override;
+    void CreateMathsNodeItem(const QString toolname);
+    void CreateLogicsNodeItem(const QString toolname);
 
 private:
     void Test();
+    void Verify();
 
 public:
     NodeView *m_NodeView;

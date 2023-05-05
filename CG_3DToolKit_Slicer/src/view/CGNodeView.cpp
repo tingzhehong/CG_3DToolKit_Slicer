@@ -25,7 +25,8 @@ void CGNodeView::InitUi()
 {
     m_NodeView = new NodeView(this);
     m_NodeView->setRopeFlexion(50);
-    Test();
+//  Test();
+//  Verify();
 
     QGridLayout *pMainLayout = new QGridLayout();
     pMainLayout->addWidget(m_NodeView);
@@ -36,6 +37,21 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
 
+}
+
+void CGNodeView::CreateMathsNodeItem(const QString toolname)
+{
+         if (toolname == u8"数值/输入")
+        m_NodeView->NodeItemFactory(toolname, 0, 1);
+    else if (toolname == u8"数值/输出")
+        m_NodeView->NodeItemFactory(toolname, 1, 0);
+    else
+        m_NodeView->NodeItemFactory(toolname, 2, 1);
+}
+
+void CGNodeView::CreateLogicsNodeItem(const QString toolname)
+{
+    m_NodeView->NodeItemFactory(toolname, 1, 1);
 }
 
 void CGNodeView::Test()
@@ -82,4 +98,11 @@ void CGNodeView::Test()
     GroupItem *group = m_NodeView->createGroup(m_NodeView->nodeList());
     group->setTitle("Group item");
     group->removeNode(node);
+}
+
+void CGNodeView::Verify()
+{
+    m_NodeView->NodeItemFactory("1#", 1, 1);
+    m_NodeView->NodeItemFactory("2#", 2, 1);
+    m_NodeView->NodeItemFactory("3#", 3, 1);
 }

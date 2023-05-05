@@ -321,12 +321,12 @@ void MainWindow::CreateProfileTool(const QString toolname)
 
 void MainWindow::CreateMaths(const QString toolname)
 {
-
+    m_pCGNodeView->CreateMathsNodeItem(toolname);
 }
 
 void MainWindow::CreateLogics(const QString toolname)
 {
-
+    m_pCGNodeView->CreateLogicsNodeItem(toolname);
 }
 
 void MainWindow::Create2DFuction(const QString toolname)

@@ -6,6 +6,8 @@
 #include <QScrollBar>
 #include <QtMath>
 #include <QGraphicsProxyWidget>
+#include <QLabel>
+#include <QLineEdit>
 
 NodeView::NodeView(QWidget *parent) : QGraphicsView(parent),
     m_scene(new QGraphicsScene),
@@ -180,6 +182,34 @@ void NodeView::mouseReleaseEvent(QMouseEvent *e)
     QGraphicsView::mouseReleaseEvent(e);
 }
 
+void NodeView::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    m_scenePos = mapToScene(e->pos());
+    NodeItem *hitNode = checkNodeHit(m_scenePos);
+
+    if (hitNode)
+    {
+        qDebug() << hitNode->NodeName();
+    }
+
+    update();
+    QGraphicsView::mouseDoubleClickEvent(e);
+}
+
+void NodeView::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_Delete)
+    {
+        if (m_activeNode && m_selectedNodes.size() > 0)
+        {
+            removeNode(m_activeNode);
+        }
+    }
+
+    update();
+    QGraphicsView::keyPressEvent(e);
+}
+
 void NodeView::checkRopeCreation(const QPointF &point)
 {
     NodeItem *hitNode = checkNodeHit(point);
@@ -238,6 +268,7 @@ NodeItem *NodeView::checkNodeHit(const QPointF &point)
         if (node->isHovered(point))
         {
             hitNode = node;
+            m_activeNode = hitNode;
             break;
         }
 
@@ -563,4 +594,179 @@ void NodeView::setRopeFlexion(qreal value)
 void NodeView::setConnectionDragable(bool state)
 {
     m_isConnectionDragable = state;
+}
+
+NodeItem *NodeView::NodeItemFactory(QString nodename, int in, int out)
+{
+    NodeItem *node;
+
+    if (in == 0 && out == 1)
+        node = CreatNodeItem01(nodename);
+    if (in == 1 && out == 0)
+        node = CreatNodeItem10(nodename);
+    if (in == 1 && out == 1)
+        node = CreatNodeItem11(nodename);
+    if (in == 2 && out == 1)
+        node = CreatNodeItem21(nodename);
+    if (in == 3 && out == 1)
+        node = CreatNodeItem31(nodename);
+    if (in == 1 && out == 2)
+        node = CreatNodeItem12(nodename);
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem01(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"数值:"), widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    QLineEdit *lineEdit = new QLineEdit("", widget);
+    lineEdit->resize(105, 20);
+    lineEdit->move(40, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    PortItem *portOut = node->createPortOut(8, QColor(Qt::cyan));
+    connect(lineEdit, &QLineEdit::textChanged, this, [=](QString str){ portOut->setValue(QVariant::fromValue(str.trimmed().toFloat())); });
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem10(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"数值:"), widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    QLineEdit *lineEdit = new QLineEdit("", widget);
+    lineEdit->resize(105, 20);
+    lineEdit->move(40, 15);
+    lineEdit->setReadOnly(true);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    PortItem *portIn = node->createPortIn(8, QColor(Qt::cyan));
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem11(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortIn(8, QColor(Qt::cyan));
+    node->createPortOut(8, QColor(Qt::cyan));
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem21(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortIn(8, QColor(Qt::cyan));
+    node->createPortIn(24, QColor(Qt::cyan));
+    node->createPortOut(8, QColor(Qt::cyan));
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem31(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortIn(8, QColor(Qt::cyan));
+    node->createPortIn(24, QColor(Qt::cyan));
+    node->createPortIn(40, QColor(Qt::cyan));
+    node->createPortOut(8, QColor(Qt::cyan));
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem12(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortIn(8, QColor(Qt::cyan));
+    node->createPortOut(8, QColor(Qt::cyan));
+    node->createPortOut(24, QColor(Qt::cyan));
+
+    return node;
+}
+
+int NodeView::RandPos()
+{
+    return rand() % 100;
 }
