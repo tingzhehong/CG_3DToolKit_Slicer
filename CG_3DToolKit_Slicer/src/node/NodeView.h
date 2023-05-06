@@ -94,6 +94,8 @@ public slots:
 ///////
 public:
     NodeItem *NodeItemFactory(QString nodename, int in, int out);
+    NodeItem *NodeItemNumberInput(QString nodename);
+    NodeItem *NodeItemNumberOutput(QString nodename);
 
 private:
     NodeItem *CreatNodeItem01(const QString nodename);

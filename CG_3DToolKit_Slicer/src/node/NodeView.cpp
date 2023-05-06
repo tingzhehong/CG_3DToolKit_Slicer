@@ -601,25 +601,40 @@ NodeItem *NodeView::NodeItemFactory(QString nodename, int in, int out)
 {
     NodeItem *node;
 
-    if (in == 0 && out == 1)
-        node = CreatNodeItem01(nodename);
-    if (in == 1 && out == 0)
-        node = CreatNodeItem10(nodename);
-    if (in == 1 && out == 1)
-        node = CreatNodeItem11(nodename);
-    if (in == 2 && out == 1)
-        node = CreatNodeItem21(nodename);
-    if (in == 3 && out == 1)
-        node = CreatNodeItem31(nodename);
-    if (in == 1 && out == 2)
-        node = CreatNodeItem12(nodename);
+    int index = in * 10 + out;
 
-    m_IDCounter++;
+    switch (index)
+    {
+    case 01:
+        node = CreatNodeItem01(nodename);
+        break;
+    case 10:
+        node = CreatNodeItem10(nodename);
+        break;
+    case 11:
+        node = CreatNodeItem11(nodename);
+        ++m_IDCounter;
+        break;
+    case 21:
+        node = CreatNodeItem21(nodename);
+        ++m_IDCounter;
+        break;
+    case 31:
+        node = CreatNodeItem31(nodename);
+        ++m_IDCounter;
+        break;
+    case 12:
+        node = CreatNodeItem12(nodename);
+        ++m_IDCounter;
+        break;
+    default:
+        break;
+    }
 
     return node;
 }
 
-NodeItem *NodeView::CreatNodeItem01(const QString nodename)
+NodeItem *NodeView::NodeItemNumberInput(QString nodename)
 {
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
@@ -647,7 +662,7 @@ NodeItem *NodeView::CreatNodeItem01(const QString nodename)
     return node;
 }
 
-NodeItem *NodeView::CreatNodeItem10(const QString nodename)
+NodeItem *NodeView::NodeItemNumberOutput(QString nodename)
 {
     QWidget *widget = new QWidget;
     widget->resize(150, 50);
@@ -671,7 +686,61 @@ NodeItem *NodeView::CreatNodeItem10(const QString nodename)
     node->setPos(x, y);
 
     PortItem *portIn = node->createPortIn(8, QColor(Qt::cyan));
-    Q_UNUSED(portIn);
+    connect(portIn, &PortItem::valueChanged, this, [=](QVariant value){ lineEdit->setText(value.toString()); });
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem01(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortOut(8, QColor(Qt::cyan));
+
+    return node;
+}
+
+NodeItem *NodeView::CreatNodeItem10(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(60, 20);
+    label->move(56, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
+
+    NodeItem *node = this->createNode(widget);
+    node->setTitle(nodename);
+    node->setNodeName(nodename);
+    node->setNodeID(m_IDCounter);
+
+    int x = RandPos();
+    int y = RandPos();
+    node->setPos(x, y);
+
+    node->createPortIn(8, QColor(Qt::cyan));
 
     return node;
 }

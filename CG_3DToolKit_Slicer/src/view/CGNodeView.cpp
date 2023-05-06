@@ -41,10 +41,10 @@ void CGNodeView::InitConnections()
 
 void CGNodeView::CreateMathsNodeItem(const QString toolname)
 {
-    if      (toolname == u8"数值/输入")
-        m_NodeView->NodeItemFactory(toolname, 0, 1);
+         if (toolname == u8"数值/输入")
+        m_NodeView->NodeItemNumberInput(toolname);
     else if (toolname == u8"数值/输出")
-        m_NodeView->NodeItemFactory(toolname, 1, 0);
+        m_NodeView->NodeItemNumberOutput(toolname);
     else
         m_NodeView->NodeItemFactory(toolname, 2, 1);
 }
