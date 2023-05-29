@@ -78,14 +78,13 @@ void CG3DImageView::OnDelTool()
 
 void CG3DImageView::OnUpdatePoint(float x, float y, float z)
 {
-    char chrX[16], chrY[16], chrZ[16];
-    sprintf(chrX, "%.4f", x);
-    sprintf(chrY, "%.4f", y);
-    sprintf(chrZ, "%.4f", z);
+    QString chrX = QString::asprintf("%.4f", x);
+    QString chrY = QString::asprintf("%.4f", y);
+    QString chrZ = QString::asprintf("%.4f", z);
     std::string strX, strY, strZ;
-    strX = "X: "; strX.append(chrX);
-    strY = "Y: "; strY.append(chrY);
-    strZ = "Z: "; strZ.append(chrZ);
+    strX = "X: "; strX.append(chrX.toStdString());
+    strY = "Y: "; strY.append(chrY.toStdString());
+    strZ = "Z: "; strZ.append(chrZ.toStdString());
     m_TextActor_X->SetInput(strX.c_str());
     m_TextActor_Y->SetInput(strY.c_str());
     m_TextActor_Z->SetInput(strZ.c_str());
