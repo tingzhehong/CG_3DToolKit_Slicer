@@ -12,6 +12,7 @@ class vtkMatrix4x4;
 class vtkDistanceWidget;
 class vtkAngleWidget;
 class vtkBoxWidget;
+class vtkPlaneWidget;
 class vtkDistanceRepresentation3D;
 class vtkAngleRepresentation3D;
 class vtkTextActor;
@@ -64,7 +65,8 @@ public:
     {
         DistanceTool,
         AngleTool,
-        BoxTool
+        BoxTool,
+        PlaneTool
     };
 
     ToolType  m_CurrentToolType;
@@ -88,6 +90,7 @@ private:
     void InitDistanceTool();
     void InitAngleTool();
     void InitBoxTool();
+    void InitPlaneTool();
 
     void HandlePickPointCoordinate(float x, float y, float z);
     void HandlePickPointDistance(float x, float y, float z);
@@ -121,6 +124,7 @@ private:
     vtkSmartPointer<vtkDistanceWidget> m_pDistanceWidgetTool;
     vtkSmartPointer<vtkAngleWidget> m_pAngleWidgetTool;
     vtkSmartPointer<vtkBoxWidget> m_pBoxWidgetTool;
+    vtkSmartPointer<vtkPlaneWidget> m_pPlaneWidgetTool;
 
     vtkSmartPointer<vtkDistanceRepresentation3D> m_pDistanceRep;
     vtkSmartPointer<vtkAngleRepresentation3D> m_pAngleRep;

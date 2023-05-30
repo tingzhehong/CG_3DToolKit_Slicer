@@ -15,6 +15,7 @@
 #include <vtkAngleWidget.h>
 #include <vtkAngleRepresentation3D.h>
 #include <vtkBoxWidget.h>
+#include <vtkPlaneWidget.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkPointPicker.h>
@@ -60,6 +61,10 @@ void CG3DImageView::OnUseTool()
 
     case BoxTool:
         InitBoxTool();
+        break;
+
+    case PlaneTool:
+        InitPlaneTool();
         break;
 
     default:
@@ -345,6 +350,17 @@ void CG3DImageView::InitBoxTool()
     m_pBoxWidgetTool->On();
 }
 
+void CG3DImageView::InitPlaneTool()
+{
+    m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
+    m_pPlaneWidgetTool->SetProp3D(m_Actor);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(1, 0, 1);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetLineWidth(3);
+    m_pPlaneWidgetTool->SetRepresentationToSurface();
+    m_pPlaneWidgetTool->PlaceWidget();
+    m_pPlaneWidgetTool->On();
+}
+
 void CG3DImageView::HandlePickPointCoordinate(float x, float y, float z)
 {
     m_PickSphere_1->SetPosition(x, y, z);
@@ -429,6 +445,7 @@ void CG3DImageView::InitTools()
     CGVTKUtils::vtkInitOnce(m_pAngleWidgetTool);
     CGVTKUtils::vtkInitOnce(m_pAngleRep);
     CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
+    CGVTKUtils::vtkInitOnce(m_pPlaneWidgetTool);
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
@@ -486,6 +503,11 @@ void CG3DImageView::RemoveTools()
         case BoxTool:
             m_pBoxWidgetTool->Off();
             break;
+
+        case PlaneTool:
+            m_pPlaneWidgetTool->Off();
+            break;
+
         default:
             break;
         }
