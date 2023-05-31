@@ -38,6 +38,7 @@ private:
     CG3DImageView *m_pCG3DImageView;
     CGProfileView *m_pCGProfileView;
     CGNodeView *m_pCGNodeView;
+    CGFullScreenView *m_pCGFullScreenView;
 
     QMdiArea *m_pMdiArea;
     QStackedWidget *m_pStackedWidget;
@@ -58,6 +59,9 @@ private:
     void CreateLogics(const QString toolname);
     void Create2DFuction(const QString toolname);
     void Create3DFuction(const QString toolname);
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 private slots:
     void OnProjectTreeItemSelected(QTreeWidgetItem *item, int column);

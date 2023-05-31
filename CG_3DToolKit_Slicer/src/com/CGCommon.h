@@ -18,6 +18,7 @@
 #include <CG2DImageView.h>
 #include <CG3DImageView.h>
 #include <CGNodeView.h>
+#include <CGFullScreenView.h>
 #include <CGProfileForm2D.h>
 #include <CGProfileForm3D.h>
 #include <CGPropertiesForm1.h>

@@ -49,6 +49,7 @@ SOURCES += \
     src/view/CGChartView.cpp \
     src/view/CGConsoleView.cpp \
     src/view/CGDataTreeView.cpp \
+    src/view/CGFullScreenView.cpp \
     src/view/CGGraphicsView.cpp \
     src/view/CGNodeView.cpp \
     src/view/CGProfileView.cpp \
@@ -58,6 +59,7 @@ SOURCES += \
     src/vtk/CGAngleWidgetObserver.cpp \
     src/vtk/CGBoxWidgetObserver.cpp \
     src/vtk/CGDistanceWidgetObserver.cpp \
+    src/vtk/CGPlaneWidgetObserver.cpp \
     src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGVTKWidget.cpp \
     src/vtk/CGVTKutils.cpp \
@@ -106,6 +108,7 @@ HEADERS += \
     src/view/CGChartView.h \
     src/view/CGConsoleView.h \
     src/view/CGDataTreeView.h \
+    src/view/CGFullScreenView.h \
     src/view/CGGraphicsView.h \
     src/view/CGNodeView.h \
     src/view/CGProfileView.h \
@@ -115,6 +118,7 @@ HEADERS += \
     src/vtk/CGAngleWidgetObserver.h \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
+    src/vtk/CGPlaneWidgetObserver.h \
     src/vtk/CGPointPickObserver.h \
     src/vtk/CGPointPickerInteractorStyle.h \
     src/vtk/CGVTKUtils.h \

@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QTextCodec>
+#include <QKeyEvent>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pCG3DImageView(new CG3DImageView)
     , m_pCGProfileView(new CGProfileView)
     , m_pCGNodeView(new CGNodeView)
+    , m_pCGFullScreenView(new CGFullScreenView)
     , m_pCGUsersLoginDialog(new CGUsersLoginDialog)
     , m_pCGWaitingDialog(new CGWaitingDialog)
     , m_pCGAboutDialog(new CGAboutDialog)
@@ -342,6 +344,12 @@ void MainWindow::Create3DFuction(const QString toolname)
 
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_F11)
+        on_action_FullScreen_triggered();
+}
+
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 {
     QString str = item->text(column);
@@ -566,7 +574,9 @@ void MainWindow::on_action_ClearAll_triggered()
 
 void MainWindow::on_action_FullScreen_triggered()
 {
-    m_pCGSubWindowWidget->showFullScreen();
+    m_pCGFullScreenView = new CGFullScreenView();
+    m_pCGFullScreenView->SetSceneView(m_pCG3DImageView);
+    m_pCGFullScreenView->showMaximized();
 }
 
 void MainWindow::on_action_Elevation_triggered()
