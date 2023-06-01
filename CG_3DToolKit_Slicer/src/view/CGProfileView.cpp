@@ -18,6 +18,7 @@ CGProfileView::CGProfileView(QWidget *parent)
     : CGBaseWidget(parent)
     , m_Form2D(new CGProfileForm2D)
     , m_Form3D(new CGProfileForm3D)
+    , m_SectionItem(new CGImage3DSectionItem)
     , m_pPlotTimer(new QTimer())
 {
     InitUi();
@@ -115,6 +116,14 @@ void CGProfileView::InitUi()
 void CGProfileView::InitConnections()
 {
     connect(m_pPlotTimer, &QTimer::timeout, this, &CGProfileView::OnPlotProfile);
+}
+
+void CGProfileView::InitSectionTool()
+{
+    m_SectionItem->SetVTKWidget(m_Form3D->m_CGVTKWidget);
+    m_SectionItem->SetActor(m_Form3D->m_Actor);
+	m_SectionItem->SetInteractorStyle();
+    m_SectionItem->InitSectionItem();
 }
 
 void CGProfileView::Request()

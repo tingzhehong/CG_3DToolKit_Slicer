@@ -318,6 +318,9 @@ void MainWindow::CreateProfileTool(const QString toolname)
     case CGProfileForm2D::ToolType::CircleTool:
          m_pCGProfileView->m_Form2D->m_CurrentToolType = CGProfileForm2D::ToolType::CircleTool;
         break;
+    case CGProfileForm3D::ToolType::SectionTool:
+        m_pCGProfileView->InitSectionTool();
+        break;
     default:
         break;
     }

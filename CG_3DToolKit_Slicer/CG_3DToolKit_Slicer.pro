@@ -30,6 +30,7 @@ SOURCES += \
     src/tool/CGGraphicsLineItemVertical.cpp \
     src/tool/CGGraphicsRectItem.cpp \
     src/tool/CGImage2DGraphicsItemAdapter.cpp \
+    src/tool/CGImage3DSectionItem.cpp \
     src/ui/CGAboutDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
@@ -59,8 +60,10 @@ SOURCES += \
     src/vtk/CGAngleWidgetObserver.cpp \
     src/vtk/CGBoxWidgetObserver.cpp \
     src/vtk/CGDistanceWidgetObserver.cpp \
+    src/vtk/CGMouseEventInteractorStyle.cpp \
     src/vtk/CGPlaneWidgetObserver.cpp \
     src/vtk/CGPointPickObserver.cpp \
+    src/vtk/CGPointPickerInteractorStyle.cpp \
     src/vtk/CGVTKWidget.cpp \
     src/vtk/CGVTKutils.cpp \
     src/vtk/CGActorExporter.cpp \
@@ -89,6 +92,7 @@ HEADERS += \
     src/tool/CGGraphicsLineItemVertical.h \
     src/tool/CGGraphicsRectItem.h \
     src/tool/CGImage2DGraphicsItemAdapter.h \
+    src/tool/CGImage3DSectionItem.h \
     src/ui/CGAboutDialog.h \
     src/ui/CGDepthImageDialog.h \
     src/ui/CGDisOrderDialog.h \
@@ -118,6 +122,7 @@ HEADERS += \
     src/vtk/CGAngleWidgetObserver.h \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
+    src/vtk/CGMouseEventInteractorStyle.h \
     src/vtk/CGPlaneWidgetObserver.h \
     src/vtk/CGPointPickObserver.h \
     src/vtk/CGPointPickerInteractorStyle.h \

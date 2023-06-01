@@ -57,6 +57,5 @@ private:
     float x, y, z;
     vtkSmartPointer<vtkRenderWindowInteractor> iren;
 };
-vtkStandardNewMacro(PointPickerInteractorStyle)
 
 #endif // CGPOINTPICKERINTERACTORSTYLE_H

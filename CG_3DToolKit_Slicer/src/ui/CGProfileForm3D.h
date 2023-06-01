@@ -19,7 +19,13 @@ public:
 
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
-    vtkSmartPointer<vtkActor> m_Actor;
+    vtkSmartPointer<vtkActor> m_Actor = nullptr;
+
+public:
+    enum ToolType
+    {
+        SectionTool = 6
+    };
 };
 
 #endif // CGPROFILEFORM3D_H
