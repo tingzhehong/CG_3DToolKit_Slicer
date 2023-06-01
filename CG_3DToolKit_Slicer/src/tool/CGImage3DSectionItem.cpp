@@ -86,35 +86,40 @@ void CGImage3DSectionItem::SetInteractorStyle()
 
 void CGImage3DSectionItem::OnPositionChange(double* pos)
 {
-    if (pos[0] != m_Sphere1Pos[0] || pos[1] != m_Sphere1Pos[1])
+    if (m_Style->m_pickedActor == m_Sphere1)
     {
-        vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
-        plane->SetOrigin(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[4]);
-        plane->SetPoint1(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[5]);
-        plane->SetPoint2(m_Sphere2Pos[0], m_Sphere2Pos[1], m_Bounds[5]);
+        if (pos[0] != m_Sphere1Pos[0] || pos[1] != m_Sphere1Pos[1])
+        {
+            m_Sphere1Pos[0] = pos[0];
+            m_Sphere1Pos[1] = pos[1];
+            
+            vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
+            plane->SetOrigin(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[4]);
+            plane->SetPoint1(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[5]);
+            plane->SetPoint2(m_Sphere2Pos[0], m_Sphere2Pos[1], m_Bounds[4]);
 
-        vtkSmartPointer<vtkPolyDataMapper> mapper_3 = vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper_3->SetInputConnection(plane->GetOutputPort());
-        m_Plane->SetMapper(mapper_3);
-
-        m_Sphere1Pos[0] = pos[0];
-        m_Sphere1Pos[1] = pos[1];
-        m_Sphere1->SetPosition(pos[0], pos[1], m_Sphere1Pos[2]);
+            vtkSmartPointer<vtkPolyDataMapper> mapper_3 = vtkSmartPointer<vtkPolyDataMapper>::New();
+            mapper_3->SetInputConnection(plane->GetOutputPort());
+            m_Plane->SetMapper(mapper_3);
+        }
     }
-    else if (pos[0] != m_Sphere2Pos[0] || pos[1] != m_Sphere2Pos[1])
+    
+    if (m_Style->m_pickedActor == m_Sphere2)
     {
-        vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
-        plane->SetOrigin(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[4]);
-        plane->SetPoint1(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[5]);
-        plane->SetPoint2(m_Sphere2Pos[0], m_Sphere2Pos[1], m_Bounds[5]);
+        if (pos[0] != m_Sphere2Pos[0] || pos[1] != m_Sphere2Pos[1])
+        {
+            m_Sphere2Pos[0] = pos[0];
+            m_Sphere2Pos[1] = pos[1];
 
-        vtkSmartPointer<vtkPolyDataMapper> mapper_3 = vtkSmartPointer<vtkPolyDataMapper>::New();
-        mapper_3->SetInputConnection(plane->GetOutputPort());
-        m_Plane->SetMapper(mapper_3);
+            vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
+            plane->SetOrigin(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[4]);
+            plane->SetPoint1(m_Sphere1Pos[0], m_Sphere1Pos[1], m_Bounds[5]);
+            plane->SetPoint2(m_Sphere2Pos[0], m_Sphere2Pos[1], m_Bounds[4]);
 
-        m_Sphere2Pos[0] = pos[0];
-        m_Sphere2Pos[1] = pos[1];
-        m_Sphere2->SetPosition(pos[0], pos[1], m_Sphere2Pos[2]);
+            vtkSmartPointer<vtkPolyDataMapper> mapper_3 = vtkSmartPointer<vtkPolyDataMapper>::New();
+            mapper_3->SetInputConnection(plane->GetOutputPort());
+            m_Plane->SetMapper(mapper_3);   
+        }
     }
 
     m_CGVTKWidget->update();

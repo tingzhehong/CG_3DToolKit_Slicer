@@ -30,7 +30,7 @@ signals:
     void mouseMoved(double* pos);
     void mouseReleased(double* pos);
 
-protected:
+public:
     void updateCurrentPos();
     void getPressedActor();
 
