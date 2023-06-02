@@ -12,24 +12,24 @@
 vtkStandardNewMacro(MouseEventInteractorStyle)
 
 
-void MouseEventInteractorStyle::OnRightButtonDown()
+void MouseEventInteractorStyle::OnLeftButtonDown()
 {
     this->StartRotate();
 }
 
-void MouseEventInteractorStyle::OnRightButtonUp()
+void MouseEventInteractorStyle::OnLeftButtonUp()
 {
     this->EndRotate();
 }
 
-void MouseEventInteractorStyle::OnLeftButtonDown()
+void MouseEventInteractorStyle::OnRightButtonDown()
 {
     updateCurrentPos();
     getPressedActor();
     emit mousePressed(m_pos);
 }
 
-void MouseEventInteractorStyle::OnLeftButtonUp()
+void MouseEventInteractorStyle::OnRightButtonUp()
 {
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
     updateCurrentPos();
@@ -44,10 +44,10 @@ void MouseEventInteractorStyle::OnMouseMove()
 
     updateCurrentPos();
 
-    if (m_moveActor && m_pickedActor) {
+    if (m_moveActor && m_pickedActor)
+    {
         m_pickedActor->SetPosition(m_pos);
         GetDefaultRenderer()->GetRenderWindow()->Render();
-    } else {
         emit mouseMoved(m_pos);
     }
 }

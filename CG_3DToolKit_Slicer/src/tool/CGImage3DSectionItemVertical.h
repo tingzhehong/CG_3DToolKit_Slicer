@@ -1,5 +1,5 @@
-﻿#ifndef CGIMAGE3DSECTIONITEM_H
-#define CGIMAGE3DSECTIONITEM_H
+﻿#ifndef CGIMAGE3DSECTIONITEMVERTICAL_H
+#define CGIMAGE3DSECTIONITEMVERTICAL_H
 
 #include <QObject>
 #include <vtkSmartPointer.h>
@@ -7,41 +7,43 @@
 
 class vtkActor;
 class CGVTKWidget;
-class CGImage3DSectionItem : public QObject
+class CGImage3DSectionItemVertical : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CGImage3DSectionItem(QObject *parent = nullptr);
-    ~CGImage3DSectionItem() = default;
+    explicit CGImage3DSectionItemVertical(QObject *parent = nullptr);
+    ~CGImage3DSectionItemVertical() = default;
 
     void InitActor();
     void InitConnections();
     void InitSectionItem();
-    void SetInteractorStyle();
+    void SetInteractorStyleMouseEvent();
+    void SetInteractorStyleDefault();
+    void RemoveSectionItem();
+
+signals:
+    void SignalPositionChange(double pos);
 
 private slots:
     void OnPositionChange(double* pos);
+    void OnUpdate();
 
 public:
     void SetVTKWidget(CGVTKWidget* widget);
     void SetActor(vtkSmartPointer<vtkActor> actor);
     void GetBounds(vtkSmartPointer<vtkActor> actor);
 
-private:
+public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
 
     vtkSmartPointer<MouseEventInteractorStyle> m_Style;
     vtkSmartPointer<vtkActor> m_Actor;
-    vtkSmartPointer<vtkActor> m_Sphere1;
-    vtkSmartPointer<vtkActor> m_Sphere2;
     vtkSmartPointer<vtkActor> m_Plane;
 
 private:
     double m_Bounds[6];
-    double m_Sphere1Pos[3];
-    double m_Sphere2Pos[3];
-
+    double m_PlanePos[3];
 };
 
-#endif // CGIMAGE3DSECTIONITEM_H
+#endif // CGIMAGE3DSECTIONITEMVERTICAL_H

@@ -24,7 +24,8 @@ public:
 public:
     enum ToolType
     {
-        SectionTool = 6
+        SectionVerticalTool = 6,
+        SectionHorizontalTool = 7
     };
 };
 

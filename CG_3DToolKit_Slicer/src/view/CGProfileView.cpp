@@ -18,7 +18,8 @@ CGProfileView::CGProfileView(QWidget *parent)
     : CGBaseWidget(parent)
     , m_Form2D(new CGProfileForm2D)
     , m_Form3D(new CGProfileForm3D)
-    , m_SectionItem(new CGImage3DSectionItem)
+    , m_SectionItemVertical(new CGImage3DSectionItemVertical)
+    , m_SectionItemHorizontal(new CGImage3DSectionItemHorizontal)
     , m_pPlotTimer(new QTimer())
 {
     InitUi();
@@ -63,6 +64,11 @@ void CGProfileView::OnDelTool()
 {
     m_Form2D->OnDelTool();
     m_pPlotTimer->stop();
+
+    if (bSectionItemVertical)
+        m_SectionItemVertical->RemoveSectionItem();
+    if (bSectionItemHorizontal)
+        m_SectionItemHorizontal->RemoveSectionItem();
 }
 
 void CGProfileView::InitUi()
@@ -118,12 +124,28 @@ void CGProfileView::InitConnections()
     connect(m_pPlotTimer, &QTimer::timeout, this, &CGProfileView::OnPlotProfile);
 }
 
-void CGProfileView::InitSectionTool()
+void CGProfileView::UseSectionVerticalTool()
 {
-    m_SectionItem->SetVTKWidget(m_Form3D->m_CGVTKWidget);
-    m_SectionItem->SetActor(m_Form3D->m_Actor);
-	m_SectionItem->SetInteractorStyle();
-    m_SectionItem->InitSectionItem();
+    OnDelTool();
+
+    m_SectionItemVertical->SetVTKWidget(m_Form3D->m_CGVTKWidget);
+    m_SectionItemVertical->SetActor(m_Form3D->m_Actor);
+    m_SectionItemVertical->InitSectionItem();
+    m_SectionItemVertical->SetInteractorStyleMouseEvent();
+
+    bSectionItemVertical = true;
+}
+
+void CGProfileView::UseSectionHorizontalTool()
+{
+    OnDelTool();
+
+    m_SectionItemHorizontal->SetVTKWidget((m_Form3D->m_CGVTKWidget));
+    m_SectionItemHorizontal->SetActor(m_Form3D->m_Actor);
+    m_SectionItemHorizontal->InitSectionItem();
+    m_SectionItemHorizontal->SetInteractorStyleMouseEvent();
+
+    bSectionItemHorizontal = true;
 }
 
 void CGProfileView::Request()

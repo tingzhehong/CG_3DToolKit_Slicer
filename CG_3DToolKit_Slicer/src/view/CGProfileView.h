@@ -5,7 +5,8 @@
 #include <CGOCVHeader.h>
 #include <QtCharts>
 #include <CGImage2DGraphicsItemAdapter.h>
-#include <CGImage3DSectionItem.h>
+#include <CGImage3DSectionItemVertical.h>
+#include <CGImage3DSectionItemHorizontal.h>
 
 class CGProfileForm2D;
 class CGProfileForm3D;
@@ -31,7 +32,8 @@ public slots:
 public:
     void InitUi() override;
     void InitConnections() override;
-    void InitSectionTool();
+    void UseSectionVerticalTool();
+    void UseSectionHorizontalTool();
 
     void Request();
     void Apply();
@@ -54,15 +56,18 @@ private:
 public:
     CGProfileForm2D *m_Form2D;
     CGProfileForm3D *m_Form3D;
-    CGImage3DSectionItem *m_SectionItem;
+    CGImage3DSectionItemVertical *m_SectionItemVertical;
+    CGImage3DSectionItemHorizontal *m_SectionItemHorizontal;
     QTimer *m_pPlotTimer;
 
 private:
     CGChartView *chartView;
     QChart      *chart;
     QLineSeries *ProfileSeries;
-
     std::vector<float> ProfileVec;
+
+    bool bSectionItemVertical = false;
+    bool bSectionItemHorizontal = false;
 };
 
 #endif // CGPROFILEVIEW_H

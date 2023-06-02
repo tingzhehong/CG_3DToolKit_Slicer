@@ -19,7 +19,7 @@ public:
     ~CGChartView() = default;
 
 signals:
-    void MouseMovePoint(QPoint point);
+    void SignalMouseMovePoint(QPoint point);
 
 private:
     QPoint BeginPoint;
