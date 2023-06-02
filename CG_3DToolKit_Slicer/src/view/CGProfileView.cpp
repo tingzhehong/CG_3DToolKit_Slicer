@@ -71,6 +71,20 @@ void CGProfileView::OnDelTool()
         m_SectionItemHorizontal->RemoveSectionItem();
 }
 
+void CGProfileView::OnSetHorizontalLine(double pos)
+{
+    if (pos < 0 || pos > 1)
+        return;
+    m_Form2D->SetHorizontalLine(1 - pos);
+}
+
+void CGProfileView::OnSetVerticalLine(double pos)
+{
+    if (pos < 0 || pos > 1)
+        return;
+    m_Form2D->SetVerticalLine(pos);
+}
+
 void CGProfileView::InitUi()
 {
     chartView = new CGChartView(this);
@@ -122,10 +136,14 @@ void CGProfileView::InitUi()
 void CGProfileView::InitConnections()
 {
     connect(m_pPlotTimer, &QTimer::timeout, this, &CGProfileView::OnPlotProfile);
+    connect(m_SectionItemVertical, &CGImage3DSectionItemVertical::SignalPositionChange, this, &CGProfileView::OnSetVerticalLine);
+    connect(m_SectionItemHorizontal, &CGImage3DSectionItemHorizontal::SignalPositionChange, this, &CGProfileView::OnSetHorizontalLine);
 }
 
 void CGProfileView::UseSectionVerticalTool()
 {
+    if (!m_Form2D->bGraphicsScene)
+        return;
     OnDelTool();
 
     m_SectionItemVertical->SetVTKWidget(m_Form3D->m_CGVTKWidget);
@@ -138,6 +156,8 @@ void CGProfileView::UseSectionVerticalTool()
 
 void CGProfileView::UseSectionHorizontalTool()
 {
+    if (!m_Form2D->bGraphicsScene)
+        return;
     OnDelTool();
 
     m_SectionItemHorizontal->SetVTKWidget((m_Form3D->m_CGVTKWidget));

@@ -132,6 +132,26 @@ void CGProfileForm2D::RemoveTools()
     }
 }
 
+void CGProfileForm2D::SetVerticalLine(double pos)
+{
+    int x = static_cast<int>(m_pPixmap->width() * pos);
+    m_pVerticalLineTool->setLine(x, 0, x, m_pPixmap->height());
+    m_Line.setLine(x, 0, x, m_pPixmap->height());
+    CGImage2DGraphicsItemAdapter::getInstance()->SendLine(m_Line);
+    CGImage2DGraphicsItemAdapter::getInstance()->m_Status = true;
+    CGImage2DGraphicsItemAdapter::getInstance()->m_SendType = 0;
+}
+
+void CGProfileForm2D::SetHorizontalLine(double pos)
+{
+    int y = static_cast<int>(m_pPixmap->height() * pos);
+    m_pHorizontalLineTool->setLine(0, y, m_pPixmap->width(), y);
+    m_Line.setLine(0, y, m_pPixmap->width(), y);
+    CGImage2DGraphicsItemAdapter::getInstance()->SendLine(m_Line);
+    CGImage2DGraphicsItemAdapter::getInstance()->m_Status = true;
+    CGImage2DGraphicsItemAdapter::getInstance()->m_SendType = 0;
+}
+
 void CGProfileForm2D::InitTwoPointLineTool()
 {
     //!m_pTwoPointLineTool

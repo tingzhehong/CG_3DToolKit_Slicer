@@ -37,6 +37,18 @@ public:
     vtkActor* m_pickedActor = nullptr;
     double m_pos[3];
     bool m_moveActor = false;
+
+    enum SectionType
+    {
+        SectionItemDefault,
+        SectionItemHorizontal,
+        SectionItemVertical
+    };
+    SectionType m_SectionType = SectionItemDefault;
+
+private:
+    double _pos[3];
+
 };
 
 #endif // MOUSEEVENTINTERACTORSTYLE_H

@@ -28,6 +28,8 @@ public slots:
     void OnPlotProfile();
     void OnUseTool();
     void OnDelTool();
+    void OnSetVerticalLine(double pos);
+    void OnSetHorizontalLine(double pos);
 
 public:
     void InitUi() override;

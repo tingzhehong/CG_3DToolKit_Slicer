@@ -29,6 +29,9 @@ public:
     void InitTools();
     void RemoveTools();
 
+    void SetVerticalLine(double pos);
+    void SetHorizontalLine(double pos);
+
 public:
     QPixmap *m_pPixmap;
     QGraphicsPixmapItem *m_pItem;

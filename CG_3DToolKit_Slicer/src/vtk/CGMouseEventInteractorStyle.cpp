@@ -46,7 +46,18 @@ void MouseEventInteractorStyle::OnMouseMove()
 
     if (m_moveActor && m_pickedActor)
     {
-        m_pickedActor->SetPosition(m_pos);
+        switch (m_SectionType)
+        {
+        case SectionItemVertical:
+            m_pickedActor->SetPosition(m_pos[0], _pos[1], _pos[2]);
+            break;
+        case SectionItemHorizontal:
+            m_pickedActor->SetPosition(_pos[0], m_pos[1], _pos[2]);
+            break;
+        default:
+            m_pickedActor->SetPosition(m_pos);
+            break;
+        }
         GetDefaultRenderer()->GetRenderWindow()->Render();
         emit mouseMoved(m_pos);
     }
@@ -94,4 +105,6 @@ void MouseEventInteractorStyle::getPressedActor()
     picker->SetTolerance(0.001);
     picker->Pick(x, y, 0, GetDefaultRenderer());
     m_pickedActor = picker->GetActor();
+    if (m_pickedActor)
+        m_pickedActor->GetPosition(_pos);
 }

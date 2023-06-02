@@ -38,6 +38,7 @@ void CGImage3DSectionItemVertical::InitSectionItem()
     mapper_plane ->SetInputConnection(plane->GetOutputPort());
     m_Plane->SetMapper(mapper_plane);
     m_Plane->GetProperty()->SetColor(1, 0, 1);
+    m_Plane->GetProperty()->SetOpacity(0.7);
     m_Plane->GetPosition(m_PlanePos);
 
     m_CGVTKWidget->defaultRenderer()->AddActor(m_Plane);
@@ -54,6 +55,7 @@ void CGImage3DSectionItemVertical::SetInteractorStyleDefault()
 
 void CGImage3DSectionItemVertical::SetInteractorStyleMouseEvent()
 {
+    m_Style->m_SectionType = MouseEventInteractorStyle::SectionType::SectionItemVertical;
     m_Style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
     m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(m_Style);
     m_CGVTKWidget->update();
@@ -68,8 +70,10 @@ void CGImage3DSectionItemVertical::RemoveSectionItem()
 
 void CGImage3DSectionItemVertical::OnPositionChange(double* pos)
 {
+    double posact = pos[0] + m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2;
+
     m_Plane->SetPosition(pos[0], m_PlanePos[1], m_PlanePos[2]);
-    emit SignalPositionChange(pos[0]);
+    emit SignalPositionChange((posact - m_Bounds[0]) / (m_Bounds[1] - m_Bounds[0]));
 }
 
 void CGImage3DSectionItemVertical::OnUpdate()
