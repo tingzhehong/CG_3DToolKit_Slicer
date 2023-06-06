@@ -49,9 +49,11 @@ void MouseEventInteractorStyle::OnMouseMove()
         switch (m_SectionType)
         {
         case SectionItemVertical:
+            m_pos[0] = m_pos[0] - (_bounds[0] + (_bounds[1] - _bounds[0]) / 2);
             m_pickedActor->SetPosition(m_pos[0], _pos[1], _pos[2]);
             break;
         case SectionItemHorizontal:
+            m_pos[1] = m_pos[1] - (_bounds[2] + (_bounds[3] - _bounds[2]) / 2);
             m_pickedActor->SetPosition(_pos[0], m_pos[1], _pos[2]);
             break;
         default:
@@ -106,5 +108,8 @@ void MouseEventInteractorStyle::getPressedActor()
     picker->Pick(x, y, 0, GetDefaultRenderer());
     m_pickedActor = picker->GetActor();
     if (m_pickedActor)
+    {
         m_pickedActor->GetPosition(_pos);
+        m_pickedActor->GetBounds(_bounds);
+    }
 }

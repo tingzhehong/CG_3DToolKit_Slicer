@@ -48,6 +48,7 @@ public:
 
 private:
     double _pos[3];
+    double _bounds[6];
 
 };
 

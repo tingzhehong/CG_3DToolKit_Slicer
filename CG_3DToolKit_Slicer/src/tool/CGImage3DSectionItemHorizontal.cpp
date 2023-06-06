@@ -72,7 +72,7 @@ void CGImage3DSectionItemHorizontal::OnPositionChange(double* pos)
 {
     double posact = pos[1] + m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2;
 
-    m_Plane->SetPosition(m_PlanePos[0], pos[1], m_PlanePos[2]);
+    //m_Plane->SetPosition(m_PlanePos[0], pos[1], m_PlanePos[2]);
     emit SignalPositionChange((posact - m_Bounds[2]) / (m_Bounds[3] - m_Bounds[2]));
 }
 
