@@ -7,6 +7,7 @@
 #include <CGPointPickObserver.h>
 
 class vtkActor;
+class vtkCubeAxesActor;
 class vtkCamera;
 class vtkMatrix4x4;
 class vtkDistanceWidget;
@@ -98,12 +99,18 @@ private:
     float LineDistance(float x1, float y1, float z1,
                        float x2, float y2, float z2);
 
+    void CreatCubeAxes();
+    void CreatXYGrids(double* bounds);
+
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
 
     vtkSmartPointer<vtkCamera> m_CGVTKCamera;
     vtkSmartPointer<vtkActor> m_Actor;
+    vtkSmartPointer<vtkActor> m_GridsActor;
+    vtkSmartPointer<vtkCubeAxesActor> m_CubeAxesActor;
+
     vtkSmartPointer<vtkTextActor> m_TextActor_X;
     vtkSmartPointer<vtkTextActor> m_TextActor_Y;
     vtkSmartPointer<vtkTextActor> m_TextActor_Z;

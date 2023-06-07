@@ -362,6 +362,18 @@ void CGVTKWidget::setBounds(double* bounds)
     aa(bounds, d_ptr->bounds);
 }
 
+double* CGVTKWidget::getBounds(vtkProp *actor)
+{
+    double bounds[6];
+    double *p = bounds;
+    p = actor->GetBounds();
+
+    VTKUtils::ArrayAssigner<double, 6> aa;
+    aa(d_ptr->bounds, bounds);
+
+    return p;
+}
+
 double CGVTKWidget::xMin() const
 {
     return d_ptr->bounds[0];

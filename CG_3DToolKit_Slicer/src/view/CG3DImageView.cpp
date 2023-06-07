@@ -21,6 +21,8 @@
 #include <vtkPointPicker.h>
 #include <vtkSphereSource.h>
 #include <vtkLineSource.h>
+#include <vtkCubeAxesActor.h>
+#include <vtkAppendPolyData.h>
 
 static QStack<CG_Point> s_PickPointsStack;
 
@@ -220,6 +222,8 @@ void CG3DImageView::LoadPCD(const std::string filename)
     CG::LoadPCDFile(filename, actor);
 
     m_Actor = actor;
+    CreatCubeAxes();
+    CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
@@ -232,6 +236,8 @@ void CG3DImageView::LoadCSV(const std::string filename)
     CG::LoadCSVFile(filename, actor);
 
     m_Actor = actor;
+    CreatCubeAxes();
+    CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
@@ -244,9 +250,27 @@ void CG3DImageView::LoadTXT(const std::string filename)
     CG::LoadTXTFile(filename, actor);
 
     m_Actor = actor;
+    CreatCubeAxes();
+    CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
     m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_CGVTKWidget->update();
+}
+
+void CG3DImageView::CreatCubeAxes()
+{
+    CGVTKUtils::vtkInitOnce(m_CubeAxesActor);
+    m_CubeAxesActor->SetCamera(m_CGVTKWidget->defaultRenderer()->GetActiveCamera());
+    m_CubeAxesActor->SetBounds(m_Actor->GetBounds());
+    m_CubeAxesActor->SetFlyModeToStaticTriad();
+    m_CubeAxesActor->SetInertia(1);
+    m_CubeAxesActor->SetXAxisTickVisibility(0);
+    m_CubeAxesActor->SetYAxisTickVisibility(0);
+    m_CubeAxesActor->XAxisMinorTickVisibilityOff();
+    m_CubeAxesActor->YAxisMinorTickVisibilityOff();
+    m_CubeAxesActor->ZAxisMinorTickVisibilityOff();
+
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_CubeAxesActor);
 }
 
 void CG3DImageView::ClearPointCloud()
@@ -256,6 +280,8 @@ void CG3DImageView::ClearPointCloud()
     {
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CGVTKWidget->actors3d()[i]);
     }
+    m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CubeAxesActor);
+    m_CGVTKWidget->defaultRenderer()->RemoveActor(m_GridsActor);
     m_CGVTKWidget->update();
 }
 
@@ -417,6 +443,53 @@ float CG3DImageView::LineDistance(float x1, float y1, float z1, float x2, float 
     float dist = sqrtf(dx + dy + dz);
 
     return dist;
+}
+
+void CG3DImageView::CreatXYGrids(double *bounds)
+{
+    CGVTKUtils::vtkInitOnce(m_GridsActor);
+
+    int markerCount = 10;
+    double xMin = bounds[0];
+    double xMax = bounds[1];
+    double yMin = bounds[2];
+    double yMax = bounds[3];
+    double zMin = bounds[4];
+    double zMax = bounds[5];
+
+    vtkSmartPointer<vtkAppendPolyData> gridLinesPolyData = vtkSmartPointer<vtkAppendPolyData>::New();
+
+    double deltaX = (double)(xMax - xMin) / (markerCount);
+    double initX = xMin;
+    while (initX <= xMax)
+    {
+        vtkSmartPointer<vtkLineSource> ls = vtkSmartPointer<vtkLineSource>::New();
+        ls->SetPoint1(initX, yMin, zMin);
+        ls->SetPoint2(initX, yMax, zMin);
+        ls->Update();
+        gridLinesPolyData->AddInputData(ls->GetOutput());
+        initX += deltaX;
+    }
+
+    double deltaY = (double)(yMax - yMin) / (markerCount);
+    double initY = yMin;
+    while (initY <= yMax)
+    {
+        vtkSmartPointer<vtkLineSource> ls = vtkSmartPointer<vtkLineSource>::New();
+        ls->SetPoint1(xMin, initY, zMin);
+        ls->SetPoint2(xMax, initY, zMin);
+        ls->Update();
+        gridLinesPolyData->AddInputData(ls->GetOutput());
+        initY += deltaY;
+    }
+
+    gridLinesPolyData->Update();
+
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(gridLinesPolyData->GetOutputPort());
+
+    m_GridsActor->SetMapper(mapper);
+    m_CGVTKWidget->defaultRenderer()->AddActor(m_GridsActor);
 }
 
 vtkActor* CG3DImageView::GetActor() const

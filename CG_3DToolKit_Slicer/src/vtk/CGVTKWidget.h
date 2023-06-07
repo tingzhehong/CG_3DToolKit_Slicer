@@ -42,6 +42,7 @@ public:
 
 protected:
     void setBounds(double* bounds);
+    double* getBounds(vtkProp* actor);
 
     double xMin() const;
     double xMax() const;
