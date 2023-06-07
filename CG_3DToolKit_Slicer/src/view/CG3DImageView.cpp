@@ -23,6 +23,7 @@
 #include <vtkLineSource.h>
 #include <vtkCubeAxesActor.h>
 #include <vtkAppendPolyData.h>
+#include <vtkFollower.h>
 
 static QStack<CG_Point> s_PickPointsStack;
 
@@ -521,6 +522,14 @@ void CG3DImageView::InitTools()
     CGVTKUtils::vtkInitOnce(m_pAngleRep);
     CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
     CGVTKUtils::vtkInitOnce(m_pPlaneWidgetTool);
+
+    m_pDistanceRep->GetLineProperty()->SetColor(1, 0, 0);
+    m_pDistanceRep->GetLineProperty()->SetLineWidth(3);
+
+    m_pAngleRep->GetRay1()->GetProperty()->SetLineWidth(3);
+    m_pAngleRep->GetRay2()->GetProperty()->SetLineWidth(3);
+    m_pAngleRep->GetArc()->GetProperty()->SetLineWidth(3);
+    m_pAngleRep->GetTextActor()->GetProperty()->SetColor(1, 1, 1);
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
