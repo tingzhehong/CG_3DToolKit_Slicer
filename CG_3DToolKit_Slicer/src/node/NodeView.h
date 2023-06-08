@@ -107,7 +107,7 @@ private:
 
     int RandPos();
 
-private:
+public:
     unsigned int m_IDCounter;
 
 };
