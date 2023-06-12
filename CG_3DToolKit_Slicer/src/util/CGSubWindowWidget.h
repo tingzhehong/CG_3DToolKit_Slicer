@@ -15,8 +15,8 @@ public:
     explicit CGSubWindowWidget();
     ~CGSubWindowWidget() = default;
 
-signals:
-
+protected:
+    void closeEvent(QCloseEvent *closeEvent);
 
 };
 

@@ -300,6 +300,9 @@ void MainWindow::Create3DTool(const QString toolname)
 
 void MainWindow::CreateProfileTool(const QString toolname)
 {
+    if (m_pStackedWidget->currentIndex() != 3)
+        m_pCGProfileView->Request();
+
     int index = m_pCGDataTreeView->m_ProfileToolNames.indexOf(toolname);
     switch (index)
     {
