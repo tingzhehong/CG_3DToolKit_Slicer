@@ -258,6 +258,20 @@ void CG3DImageView::LoadTXT(const std::string filename)
     m_CGVTKWidget->update();
 }
 
+void CG3DImageView::LoadPLY(const std::string filename)
+{
+    //!qDebug() << "LoadPLY " << QString::fromStdString(filename);
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    CG::LoadPLYFile(filename, actor);
+
+    m_Actor = actor;
+    CreatCubeAxes();
+    CreatXYGrids(actor->GetBounds());
+    m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
 void CG3DImageView::CreatCubeAxes()
 {
     CGVTKUtils::vtkInitOnce(m_CubeAxesActor);

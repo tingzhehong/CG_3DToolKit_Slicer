@@ -657,4 +657,62 @@ bool IsOrderPointCloud()
     return false;
 }
 
+void LoadPLYFile(const string filename, vtkActor *actor)
+{
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::io::loadPLYFile<pcl::PointXYZRGB>(filename, *cloud); if (cloud->empty()) return;
+
+    g_PointCloud = cloud;
+    long long number = (long long)cloud->size();
+
+    vtkSmartPointer<vtkLookupTable> lut =vtkSmartPointer< vtkLookupTable >::New();
+    lut->SetNumberOfTableValues(number);
+    lut->Build();
+
+    vtkSmartPointer<vtkPolyVertex> polyVertex = vtkSmartPointer<vtkPolyVertex>::New();
+    polyVertex->GetPointIds()->SetNumberOfIds(number);
+
+    vtkSmartPointer<vtkDoubleArray> pointsScalars = vtkSmartPointer<vtkDoubleArray>::New();
+    pointsScalars->SetNumberOfTuples(number);
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    long long n = 0;
+    double x, y, z;
+    double r, g, b;
+    for (size_t i = 0; i < cloud->size(); ++i)
+    {
+        n = (long long)i;
+        x = (double)cloud->points[i].x;
+        y = (double)cloud->points[i].y;
+        z = (double)cloud->points[i].z;
+        r = (double)cloud->points[i].r;
+        g = (double)cloud->points[i].g;
+        b = (double)cloud->points[i].b;
+
+        points->InsertPoint(n, x, y, z);
+        lut->SetTableValue(n, r / 255, g / 255, b / 255, 1);
+        polyVertex->GetPointIds()->SetId(n, n); //第1个参数是几何point的Id号，第2个参数是拓扑中的Id号
+        pointsScalars->InsertValue(n, n);       //第1个参数是points点的Id，第2个参数是该点的属性值
+    }
+
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData->SetPoints(points);
+
+    vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    unstrGrid->Allocate(1, 1);
+    unstrGrid->SetPoints(points);
+    unstrGrid->GetPointData()->SetScalars(pointsScalars);
+    unstrGrid->InsertNextCell(polyVertex->GetCellType(), polyVertex->GetPointIds()); //设置映射器
+
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInputData(unstrGrid);
+    mapper->ScalarVisibilityOn();
+    mapper->SetScalarRange(0, number - 1);
+    mapper->SetLookupTable(lut);
+
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetRepresentationToPoints();
+    actor->GetProperty()->SetPointSize(1);
+}
+
 }

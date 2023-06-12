@@ -30,6 +30,7 @@ void PassThroughFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, co
 void LoadPCDFile(const string filename, vtkActor *actor);
 void LoadCSVFile(const string filename, vtkActor *actor);
 void LoadTXTFile(const string filename, vtkActor *actor);
+void LoadPLYFile(const string filename, vtkActor *actor);
 
 void VTKPointCloudElevation(PointCloudT::Ptr cloud, vtkActor *actor);
 void VTKPointCloudGray(PointCloudT::Ptr cloud, vtkActor *actor);

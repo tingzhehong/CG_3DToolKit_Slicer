@@ -499,7 +499,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.csv *.txt");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.ply *.csv *.txt");
 
     if (FileName.isEmpty())
     {
@@ -519,6 +519,8 @@ void MainWindow::on_action_open_PointCloud_triggered()
             m_pCG3DImageView->LoadCSV(filename);
         if (Info.suffix().toLower() == "txt")
             m_pCG3DImageView->LoadTXT(filename);
+        if (Info.suffix().toLower() == "ply")
+            m_pCG3DImageView->LoadPLY(filename);
 
         m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 

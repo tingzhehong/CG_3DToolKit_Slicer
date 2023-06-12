@@ -41,6 +41,7 @@ public:
     void LoadPCD(const std::string filename);
     void LoadCSV(const std::string filename);
     void LoadTXT(const std::string filename);
+    void LoadPLY(const std::string filename);
     void ClearPointCloud();
 
     vtkCamera* GetCamera();
