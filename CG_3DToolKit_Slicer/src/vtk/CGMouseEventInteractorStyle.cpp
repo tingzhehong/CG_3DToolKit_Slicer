@@ -12,25 +12,30 @@
 vtkStandardNewMacro(MouseEventInteractorStyle)
 
 
-void MouseEventInteractorStyle::OnLeftButtonDown()
+void MouseEventInteractorStyle::OnRightButtonDown()
 {
     this->StartRotate();
 }
 
-void MouseEventInteractorStyle::OnLeftButtonUp()
+void MouseEventInteractorStyle::OnRightButtonUp()
 {
     this->EndRotate();
 }
 
-void MouseEventInteractorStyle::OnRightButtonDown()
+void MouseEventInteractorStyle::OnLeftButtonDown()
 {
+    this->StartRotate();
+
+    vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
     updateCurrentPos();
     getPressedActor();
     emit mousePressed(m_pos);
 }
 
-void MouseEventInteractorStyle::OnRightButtonUp()
+void MouseEventInteractorStyle::OnLeftButtonUp()
 {
+    this->EndRotate();
+
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
     updateCurrentPos();
     m_pickedActor = nullptr;
@@ -46,6 +51,8 @@ void MouseEventInteractorStyle::OnMouseMove()
 
     if (m_moveActor && m_pickedActor)
     {
+        this->EndRotate();
+
         switch (m_SectionType)
         {
         case SectionItemVertical:
@@ -85,6 +92,11 @@ void MouseEventInteractorStyle::setMoveActor(bool move)
 bool MouseEventInteractorStyle::moveActor() const
 {
     return m_moveActor;
+}
+
+MouseEventInteractorStyle::MouseEventInteractorStyle(QObject *parent) : QObject(parent)
+{
+
 }
 
 void MouseEventInteractorStyle::updateCurrentPos()

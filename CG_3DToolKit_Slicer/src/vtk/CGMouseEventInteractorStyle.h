@@ -30,6 +30,9 @@ signals:
     void mouseMoved(double* pos);
     void mouseReleased(double* pos);
 
+protected:
+    explicit MouseEventInteractorStyle(QObject *parent = 0);
+
 public:
     void updateCurrentPos();
     void getPressedActor();
