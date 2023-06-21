@@ -9,6 +9,7 @@
 #include <CGVTKUtils.h>
 #include <CGVTKHeader.h>
 #include <CGPCLHeader.h>
+#include <CGOCVHeader.h>
 #include <CGPointCloud.h>
 #include <vtkDistanceWidget.h>
 #include <vtkDistanceRepresentation3D.h>
@@ -186,6 +187,7 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
 {
     if (enable)
     {
+        SetPointPickSize();
         m_CGPointPicker->SetPickEnable(true);
         m_TextActor_X->SetVisibility(1);
         m_TextActor_Y->SetVisibility(1);
@@ -322,6 +324,36 @@ void CG3DImageView::SetCameraParameter(double pos_x, double pos_y, double pos_z,
 {
     m_CGVTKCamera->SetPosition(pos_x, pos_y, pos_z);
     m_CGVTKCamera->SetViewUp(up_x, up_y, up_z);
+}
+
+void CG3DImageView::SetPointPickSize()
+{
+    double radius = g_XPitch > g_YPitch ? g_XPitch * 5 : g_YPitch * 5;
+
+    if (radius > 0)
+    {
+        vtkSmartPointer<vtkSphereSource> Sphere_1 = vtkSmartPointer<vtkSphereSource>::New();
+        Sphere_1->SetCenter(0, 0, 0);
+        Sphere_1->SetRadius(radius);
+        Sphere_1->SetThetaResolution(36);
+        Sphere_1->SetPhiResolution(36);
+
+        vtkSmartPointer<vtkPolyDataMapper> mapper_1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+        mapper_1->SetInputConnection(Sphere_1->GetOutputPort());
+        m_PickSphere_1->SetMapper(mapper_1);
+        m_PickSphere_1->GetProperty()->SetColor(1, 0 ,0);
+
+        vtkSmartPointer<vtkSphereSource> Sphere_2 = vtkSmartPointer<vtkSphereSource>::New();
+        Sphere_2->SetCenter(0, 0, 0);
+        Sphere_2->SetRadius(radius);
+        Sphere_2->SetThetaResolution(36);
+        Sphere_2->SetPhiResolution(36);
+
+        vtkSmartPointer<vtkPolyDataMapper> mapper_2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+        mapper_2->SetInputConnection(Sphere_2->GetOutputPort());
+        m_PickSphere_2->SetMapper(mapper_2);
+        m_PickSphere_2->GetProperty()->SetColor(1, 0 ,0);
+    }
 }
 
 vtkCamera* CG3DImageView::GetCamera()

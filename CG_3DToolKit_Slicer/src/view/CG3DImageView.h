@@ -51,6 +51,7 @@ public:
     void GetCameraParameter();
     void SetCameraParameter(double pos_x, double pos_y, double pos_z,
                             double up_x, double up_y, double up_z);
+    void SetPointPickSize();
 
     void InitActors();
     void InitTools();
