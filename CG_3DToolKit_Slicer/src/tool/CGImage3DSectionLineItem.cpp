@@ -4,6 +4,7 @@
 #include <CGVTKWidget.h>
 #include <vtkSphereSource.h>
 #include <vtkPlaneSource.h>
+#include <CGOCVHeader.h>
 
 CGImage3DSectionLineItem::CGImage3DSectionLineItem(QObject *parent) : QObject(parent)
 {
@@ -13,12 +14,12 @@ CGImage3DSectionLineItem::CGImage3DSectionLineItem(QObject *parent) : QObject(pa
 
 void CGImage3DSectionLineItem::InitActor()
 {
-    CGVTKUtils::vtkInitOnce(m_Style);
-    CGVTKUtils::vtkInitOnce(m_Actor);
-    CGVTKUtils::vtkInitOnce(m_SphereActor_1);
-    CGVTKUtils::vtkInitOnce(m_SphereActor_2);
-    CGVTKUtils::vtkInitOnce(m_SphereActor_3);
-    CGVTKUtils::vtkInitOnce(m_Plane);
+    m_Style = vtkSmartPointer<MoveActorInteractorStyle>::New();
+    m_Actor = vtkSmartPointer<vtkActor>::New();
+    m_SphereActor_1 = vtkSmartPointer<vtkActor>::New();
+    m_SphereActor_2 = vtkSmartPointer<vtkActor>::New();
+    m_SphereActor_3 = vtkSmartPointer<vtkActor>::New();
+    m_Plane = vtkSmartPointer<vtkActor>::New();
 }
 
 void CGImage3DSectionLineItem::InitConnections()
@@ -31,20 +32,22 @@ void CGImage3DSectionLineItem::InitSectionItem()
     RemoveSectionItem();
     GetBounds(m_Actor);
 
+    double radius = g_XPitch > g_YPitch ? g_XPitch * 20 : g_YPitch * 20;
+
     vtkSmartPointer<vtkSphereSource> sphere_1 = vtkSmartPointer<vtkSphereSource>::New();
-    sphere_1->SetRadius(0.005);
+    sphere_1->SetRadius(radius);
     sphere_1->SetThetaResolution(12);
     sphere_1->SetPhiResolution(12);
     sphere_1->Update();
 
     vtkSmartPointer<vtkSphereSource> sphere_2 = vtkSmartPointer<vtkSphereSource>::New();
-    sphere_2->SetRadius(0.005);
+    sphere_2->SetRadius(radius);
     sphere_2->SetThetaResolution(12);
     sphere_2->SetPhiResolution(12);
     sphere_2->Update();
 
     vtkSmartPointer<vtkSphereSource> sphere_3 = vtkSmartPointer<vtkSphereSource>::New();
-    sphere_3->SetRadius(0.005);
+    sphere_3->SetRadius(radius);
     sphere_3->SetThetaResolution(12);
     sphere_3->SetPhiResolution(12);
     sphere_3->Update();
@@ -89,10 +92,12 @@ void CGImage3DSectionLineItem::InitSectionItem()
     m_CGVTKWidget->defaultRenderer()->AddActor(m_Plane);
     m_CGVTKWidget->update();
 
+    m_Style->bounds = m_Bounds;
     m_Style->m_sphereActor_1 = m_SphereActor_1;
     m_Style->m_sphereActor_2 = m_SphereActor_2;
     m_Style->m_sphereActor_3 = m_SphereActor_3;
     m_Style->m_plane = m_Plane;
+
     m_CGVTKWidget->update();
 }
 
@@ -123,7 +128,17 @@ void CGImage3DSectionLineItem::RemoveSectionItem()
 
 void CGImage3DSectionLineItem::OnPositionChange(double *pos_1, double *pos_2)
 {
+    m_CGVTKWidget->update();
 
+    double posact_1[2];
+    posact_1[0] = (pos_1[0] - m_Bounds[0]) / (m_Bounds[1] - m_Bounds[0]);
+    posact_1[1] = (pos_1[1] - m_Bounds[2]) / (m_Bounds[3] - m_Bounds[2]);
+
+    double posact_2[2];
+    posact_2[0] = (pos_2[0] - m_Bounds[0]) / (m_Bounds[1] - m_Bounds[0]);
+    posact_2[1] = (pos_2[1] - m_Bounds[2]) / (m_Bounds[3] - m_Bounds[2]);
+
+    emit SignalPositionChange(posact_1, posact_2);
 }
 
 void CGImage3DSectionLineItem::OnUpdate()
@@ -138,11 +153,11 @@ void CGImage3DSectionLineItem::SetVTKWidget(CGVTKWidget *widget)
 
 void CGImage3DSectionLineItem::SetActor(vtkSmartPointer<vtkActor> actor)
 {
-    actor->GetBounds(m_Bounds);
+    m_Actor = actor;
+    m_Actor->SetPickable(0);
 }
 
 void CGImage3DSectionLineItem::GetBounds(vtkSmartPointer<vtkActor> actor)
 {
-    m_Actor = actor;
-    m_Actor->SetPickable(0);
+    actor->GetBounds(m_Bounds);
 }

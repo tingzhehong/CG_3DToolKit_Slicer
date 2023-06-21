@@ -31,6 +31,7 @@ public:
 
     void SetVerticalLine(double pos);
     void SetHorizontalLine(double pos);
+    void SetTwoPointLine(double* pos_1, double* pos_2);
 
 public:
     QPixmap *m_pPixmap;

@@ -20,6 +20,7 @@ CGProfileView::CGProfileView(QWidget *parent)
     , m_Form3D(new CGProfileForm3D)
     , m_SectionItemVertical(new CGImage3DSectionItemVertical)
     , m_SectionItemHorizontal(new CGImage3DSectionItemHorizontal)
+    , m_SectionLineItem(new CGImage3DSectionLineItem)
     , m_pPlotTimer(new QTimer())
 {
     InitUi();
@@ -69,6 +70,8 @@ void CGProfileView::OnDelTool()
         m_SectionItemVertical->RemoveSectionItem();
     if (bSectionItemHorizontal)
         m_SectionItemHorizontal->RemoveSectionItem();
+    if (bSectionLineItem)
+        m_SectionLineItem->RemoveSectionItem();
 }
 
 void CGProfileView::OnSetHorizontalLine(double pos)
@@ -76,6 +79,15 @@ void CGProfileView::OnSetHorizontalLine(double pos)
     if (pos < 0 || pos > 1)
         return;
     m_Form2D->SetHorizontalLine(1 - pos);
+}
+
+void CGProfileView::OnSetTwoPointLine(double pos_1[], double pos_2[])
+{
+    if (pos_1[0] < 0 || pos_1[0] > 1 || pos_2[0] < 0 || pos_2[0] > 1)
+        return;
+    if (pos_1[1] < 0 || pos_1[1] > 1 || pos_2[1] < 0 || pos_2[1] > 1)
+        return;
+    m_Form2D->SetTwoPointLine(pos_1, pos_2);
 }
 
 void CGProfileView::OnSetVerticalLine(double pos)
@@ -138,6 +150,7 @@ void CGProfileView::InitConnections()
     connect(m_pPlotTimer, &QTimer::timeout, this, &CGProfileView::OnPlotProfile);
     connect(m_SectionItemVertical, &CGImage3DSectionItemVertical::SignalPositionChange, this, &CGProfileView::OnSetVerticalLine);
     connect(m_SectionItemHorizontal, &CGImage3DSectionItemHorizontal::SignalPositionChange, this, &CGProfileView::OnSetHorizontalLine);
+    connect(m_SectionLineItem, &CGImage3DSectionLineItem::SignalPositionChange, this, &CGProfileView::OnSetTwoPointLine);
 }
 
 void CGProfileView::UseSectionVerticalTool()
@@ -160,12 +173,26 @@ void CGProfileView::UseSectionHorizontalTool()
         return;
     OnDelTool();
 
-    m_SectionItemHorizontal->SetVTKWidget((m_Form3D->m_CGVTKWidget));
+    m_SectionItemHorizontal->SetVTKWidget(m_Form3D->m_CGVTKWidget);
     m_SectionItemHorizontal->SetActor(m_Form3D->m_Actor);
     m_SectionItemHorizontal->InitSectionItem();
     m_SectionItemHorizontal->SetInteractorStyleMouseEvent();
 
     bSectionItemHorizontal = true;
+}
+
+void CGProfileView::UseSectionLineTool()
+{
+    if (!m_Form2D->bGraphicsScene)
+        return;
+    OnDelTool();
+
+    m_SectionLineItem->SetVTKWidget(m_Form3D->m_CGVTKWidget);
+    m_SectionLineItem->SetActor(m_Form3D->m_Actor);
+    m_SectionLineItem->InitSectionItem();
+    m_SectionLineItem->SetInteractorStyleMoveActor();
+
+    bSectionLineItem = true;
 }
 
 void CGProfileView::Request()

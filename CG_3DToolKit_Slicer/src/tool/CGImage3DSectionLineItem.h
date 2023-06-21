@@ -23,7 +23,7 @@ public:
     void RemoveSectionItem();
 
 signals:
-    void SignalPositionChange(double pos_1, double pos_2);
+    void SignalPositionChange(double pos_1[], double pos_2[]);
 
 private slots:
     void OnPositionChange(double* pos_1, double* pos_2);

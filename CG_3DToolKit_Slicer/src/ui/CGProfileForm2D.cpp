@@ -152,6 +152,21 @@ void CGProfileForm2D::SetHorizontalLine(double pos)
     CGImage2DGraphicsItemAdapter::getInstance()->m_SendType = 0;
 }
 
+void CGProfileForm2D::SetTwoPointLine(double *pos_1, double *pos_2)
+{
+    int x1 = static_cast<int>(m_pPixmap->width() * pos_1[0]);
+    int y1 = static_cast<int>(m_pPixmap->height() * (1 - pos_1[1]));
+
+    int x2 = static_cast<int>(m_pPixmap->width() * pos_2[0]);
+    int y2 = static_cast<int>(m_pPixmap->height() * (1 - pos_2[1]));
+
+    m_pTwoPointLineTool->setLine(x1, y1, x2, y2);
+    m_Line.setLine(x1, y1, x2, y2);
+    CGImage2DGraphicsItemAdapter::getInstance()->SendLine(m_Line);
+    CGImage2DGraphicsItemAdapter::getInstance()->m_Status = true;
+    CGImage2DGraphicsItemAdapter::getInstance()->m_SendType = 0;
+}
+
 void CGProfileForm2D::InitTwoPointLineTool()
 {
     //!m_pTwoPointLineTool

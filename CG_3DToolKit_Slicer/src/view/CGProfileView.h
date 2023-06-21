@@ -7,6 +7,7 @@
 #include <CGImage2DGraphicsItemAdapter.h>
 #include <CGImage3DSectionItemVertical.h>
 #include <CGImage3DSectionItemHorizontal.h>
+#include <CGImage3DSectionLineItem.h>
 
 class CGProfileForm2D;
 class CGProfileForm3D;
@@ -30,12 +31,14 @@ public slots:
     void OnDelTool();
     void OnSetVerticalLine(double pos);
     void OnSetHorizontalLine(double pos);
+    void OnSetTwoPointLine(double pos_1[], double pos_2[]);
 
 public:
     void InitUi() override;
     void InitConnections() override;
     void UseSectionVerticalTool();
     void UseSectionHorizontalTool();
+    void UseSectionLineTool();
 
     void Request();
     void Apply();
@@ -60,6 +63,7 @@ public:
     CGProfileForm3D *m_Form3D;
     CGImage3DSectionItemVertical *m_SectionItemVertical;
     CGImage3DSectionItemHorizontal *m_SectionItemHorizontal;
+    CGImage3DSectionLineItem *m_SectionLineItem;
     QTimer *m_pPlotTimer;
 
 private:
@@ -70,6 +74,7 @@ private:
 
     bool bSectionItemVertical = false;
     bool bSectionItemHorizontal = false;
+    bool bSectionLineItem = false;
 };
 
 #endif // CGPROFILEVIEW_H

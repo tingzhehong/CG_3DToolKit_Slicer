@@ -53,23 +53,19 @@ void MoveActorInteractorStyle::OnMouseMove()
     vtkInteractorStyleTrackballCamera::OnMouseMove();
 
     if (m_pickedActor)
-	{
+    {
         int x = GetInteractor()->GetEventPosition()[0];
         int y = GetInteractor()->GetEventPosition()[1];
 
-		vtkSmartPointer<vtkPicker> picker = vtkSmartPointer<vtkPicker>::New();
+        vtkSmartPointer<vtkPicker> picker = vtkSmartPointer<vtkPicker>::New();
         picker->SetTolerance(0.001);
         vtkRenderer* defaultRenderer = GetDefaultRenderer();
         picker->Pick(x, y, 0, defaultRenderer);
 
         double* movePos = picker->GetPickPosition();
-        /*m_pickedActor->SetPosition(movePos);*/
-		m_pickedActor->SetPosition(movePos[0], movePos[1], bounds[5]);
-        defaultRenderer->GetRenderWindow()->Render();
+        m_pickedActor->SetPosition(movePos[0], movePos[1], bounds[5]);
 
-		OnPlaneMove();
-		defaultRenderer->GetRenderWindow()->Render();
-
+        OnPlaneMove();
         emit planeMoved(m_sphereActor_1->GetPosition(), m_sphereActor_2->GetPosition());
     }
 }
