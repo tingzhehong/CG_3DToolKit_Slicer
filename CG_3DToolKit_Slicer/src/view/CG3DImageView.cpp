@@ -395,7 +395,6 @@ void CG3DImageView::InitPlaneTool()
 {
     m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
     m_pPlaneWidgetTool->SetProp3D(m_Actor);
-    m_pPlaneWidgetTool->SetPlaceFactor(1.0);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(1, 0, 1);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetOpacity(0.7);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetLineWidth(3);

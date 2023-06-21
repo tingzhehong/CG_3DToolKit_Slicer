@@ -32,6 +32,7 @@ SOURCES += \
     src/tool/CGImage2DGraphicsItemAdapter.cpp \
     src/tool/CGImage3DSectionItemHorizontal.cpp \
     src/tool/CGImage3DSectionItemVertical.cpp \
+    src/tool/CGImage3DSectionLineItem.cpp \
     src/ui/CGAboutDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
@@ -62,6 +63,7 @@ SOURCES += \
     src/vtk/CGBoxWidgetObserver.cpp \
     src/vtk/CGDistanceWidgetObserver.cpp \
     src/vtk/CGMouseEventInteractorStyle.cpp \
+    src/vtk/CGMoveActorInteractorStyle.cpp \
     src/vtk/CGPlaneWidgetObserver.cpp \
     src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGPointPickerInteractorStyle.cpp \
@@ -95,6 +97,7 @@ HEADERS += \
     src/tool/CGImage2DGraphicsItemAdapter.h \
     src/tool/CGImage3DSectionItemHorizontal.h \
     src/tool/CGImage3DSectionItemVertical.h \
+    src/tool/CGImage3DSectionLineItem.h \
     src/ui/CGAboutDialog.h \
     src/ui/CGDepthImageDialog.h \
     src/ui/CGDisOrderDialog.h \
@@ -125,6 +128,7 @@ HEADERS += \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
     src/vtk/CGMouseEventInteractorStyle.h \
+    src/vtk/CGMoveActorInteractorStyle.h \
     src/vtk/CGPlaneWidgetObserver.h \
     src/vtk/CGPointPickObserver.h \
     src/vtk/CGPointPickerInteractorStyle.h \
