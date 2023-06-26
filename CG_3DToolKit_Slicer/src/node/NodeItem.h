@@ -29,9 +29,11 @@ private:
     bool m_isUserBrush;
     bool m_isSelected;
 
+public:
     QList<PortItem*> m_portList;
     QString m_title;
 
+private:
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
@@ -89,6 +91,10 @@ public:
 
     QString NodeName(){return m_NodeName;}
     void setNodeName(const QString name){m_NodeName = name;}
+
+    void PortClass();
+    QList<PortItem*> m_InPortItem;
+    QList<PortItem*> m_OutPortItem;
 
     NodeItem *m_Prev, *m_Next;
 

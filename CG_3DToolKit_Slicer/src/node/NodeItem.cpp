@@ -357,3 +357,21 @@ void NodeItem::setBackgroundBrush(const QBrush &brush)
     m_backgroundBrush = brush;
     update();
 }
+
+void NodeItem::PortClass()
+{
+    m_InPortItem.clear();
+    m_OutPortItem.clear();
+
+    foreach (PortItem *port, m_portList)
+    {
+        if (port->portType() == PortItem::TypeIn)
+        {
+            m_InPortItem.append(port);
+        }
+        if (port->portType() == PortItem::TypeOut)
+        {
+            m_OutPortItem.append(port);
+        }
+    }
+}
