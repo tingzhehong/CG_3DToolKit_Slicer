@@ -7,6 +7,14 @@
 #include <QGridLayout>
 #include <QIcon>
 #include <QDebug>
+#include <memory>
+#include "NumberInputNodeBlock.h"
+#include "NumberOutputNodeBlock.h"
+#include "MathAddNodeBlock.h"
+#include "MathDivNodeBlock.h"
+#include "MathMulNodeBlock.h"
+#include "MathSubNodeBlock.h"
+
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
 {
@@ -41,12 +49,22 @@ void CGNodeView::InitConnections()
 
 void CGNodeView::CreateMathsNodeItem(const QString toolname)
 {
-         if (toolname == u8"数值/输入")
-        m_NodeView->NodeItemNumberInput(toolname);
-    else if (toolname == u8"数值/输出")
-        m_NodeView->NodeItemNumberOutput(toolname);
+         if (toolname == u8"数值/输入")   
+            std::shared_ptr<NumberInputNodeBlock> input(new NumberInputNodeBlock(m_NodeView));
+    else if (toolname == u8"数值/输出")        
+            std::shared_ptr<NumberOutputNodeBlock> output(new NumberOutputNodeBlock(m_NodeView));
+    else if (toolname == u8"加")
+            std::shared_ptr<MathAddNodeBlock> add(new MathAddNodeBlock(m_NodeView));
+    else if (toolname == u8"减")
+            std::shared_ptr<MathSubNodeBlock> sub(new MathSubNodeBlock(m_NodeView));
+    else if (toolname == u8"乘")
+            std::shared_ptr<MathMulNodeBlock> mul(new MathMulNodeBlock(m_NodeView));
+    else if (toolname == u8"除")
+            std::shared_ptr<MathDivNodeBlock> div(new MathDivNodeBlock(m_NodeView));
     else
-        m_NodeView->NodeItemFactory(toolname, 2, 1);
+            ;
+
+    m_NodeView->m_IDCounter++;
 }
 
 void CGNodeView::CreateLogicsNodeItem(const QString toolname)

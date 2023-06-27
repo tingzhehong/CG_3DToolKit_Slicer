@@ -21,6 +21,8 @@ SOURCES += \
     src/block/maths/MathDivNodeBlock.cpp \
     src/block/maths/MathMulNodeBlock.cpp \
     src/block/maths/MathSubNodeBlock.cpp \
+    src/block/maths/NumberInputNodeBlock.cpp \
+    src/block/maths/NumberOutputNodeBlock.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/node/GroupItem.cpp \
@@ -88,6 +90,8 @@ HEADERS += \
     src/block/maths/MathDivNodeBlock.h \
     src/block/maths/MathMulNodeBlock.h \
     src/block/maths/MathSubNodeBlock.h \
+    src/block/maths/NumberInputNodeBlock.h \
+    src/block/maths/NumberOutputNodeBlock.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
     src/com/CGVTKHeader.h \
@@ -154,6 +158,10 @@ FORMS += \
 INCLUDEPATH += \
     ./src/alg \
     ./src/block \
+    ./src/block/maths \
+    ./src/block/logics \
+    ./src/block/functions2d \
+    ./src/block/functions3d \
     ./src/com \
     ./src/dev \
     ./src/node \

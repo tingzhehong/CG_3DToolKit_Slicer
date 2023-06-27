@@ -4,6 +4,8 @@ MathMulNodeBlock::MathMulNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBl
 {
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
+
+    NodeItemFactory(tr(u8"乘"), 2, 1);
 }
 
 void MathMulNodeBlock::Run()

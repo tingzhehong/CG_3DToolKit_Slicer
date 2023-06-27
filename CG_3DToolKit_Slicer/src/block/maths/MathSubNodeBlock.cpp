@@ -4,6 +4,8 @@ MathSubNodeBlock::MathSubNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBl
 {
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
+
+    NodeItemFactory(tr(u8"减"), 2, 1);
 }
 
 void MathSubNodeBlock::Run()
