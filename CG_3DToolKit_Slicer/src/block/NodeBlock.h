@@ -25,6 +25,8 @@ public:
     NodeView *m_NodeView;
     NodeItem *m_NodeItem;
 
+    unsigned int m_IDCounter;
+
 private:
     NodeItem *CreatNodeItem01(const QString nodename);
     NodeItem *CreatNodeItem10(const QString nodename);
@@ -34,9 +36,6 @@ private:
     NodeItem *CreatNodeItem12(const QString nodename);
 
     int RandPos();
-
-private:
-    unsigned int m_IDCounter;
 
 };
 

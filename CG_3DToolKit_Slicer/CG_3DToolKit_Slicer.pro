@@ -17,6 +17,10 @@ SOURCES += \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
+    src/block/maths/MathAddNodeBlock.cpp \
+    src/block/maths/MathDivNodeBlock.cpp \
+    src/block/maths/MathMulNodeBlock.cpp \
+    src/block/maths/MathSubNodeBlock.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/node/GroupItem.cpp \
@@ -80,6 +84,10 @@ HEADERS += \
     src/alg/CGImage.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
+    src/block/maths/MathAddNodeBlock.h \
+    src/block/maths/MathDivNodeBlock.h \
+    src/block/maths/MathMulNodeBlock.h \
+    src/block/maths/MathSubNodeBlock.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
     src/com/CGVTKHeader.h \
