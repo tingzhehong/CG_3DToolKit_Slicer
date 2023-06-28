@@ -87,7 +87,7 @@ void CGNodeView::CreateMathsNodeItem(const QString toolname)
 
 void CGNodeView::CreateLogicsNodeItem(const QString toolname)
 {
-    m_NodeView->NodeItemFactory(toolname, 1, 1);
+    m_NodeView->NodeItemFactory(toolname, 2, 1);
 }
 
 void CGNodeView::Run()
