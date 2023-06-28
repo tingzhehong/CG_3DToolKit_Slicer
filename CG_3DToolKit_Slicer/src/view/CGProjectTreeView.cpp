@@ -39,8 +39,8 @@ void CGProjectTreeView::InitUi()
     EditionTopItem->addChild(m_WindowNodeEdit);
     ProfileTopTtem->addChild(m_WindowProfile);
     m_ProjectTree->addTopLevelItem(ImageTopItem);
-    m_ProjectTree->addTopLevelItem(EditionTopItem);
     m_ProjectTree->addTopLevelItem(ProfileTopTtem);
+    m_ProjectTree->addTopLevelItem(EditionTopItem);
     m_ProjectTree->expandAll();
 
     QVBoxLayout *pTreeLayout = new QVBoxLayout();

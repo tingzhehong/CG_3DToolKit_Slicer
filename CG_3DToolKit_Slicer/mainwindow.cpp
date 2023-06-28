@@ -843,4 +843,5 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
 void MainWindow::on_action_trigger_triggered()
 {
     m_pCGNodeView->Run();
+    CGConsoleView::getInstance()->ConsoleOut(tr(u8"Node block: 流程计算完成."));
 }
