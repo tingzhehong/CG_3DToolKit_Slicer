@@ -106,6 +106,7 @@
    <addaction name="action_Depth"/>
    <addaction name="action_Intensity"/>
    <addaction name="separator"/>
+   <addaction name="action_trigger"/>
   </widget>
   <widget class="QDockWidget" name="dock_project">
    <property name="windowTitle">
@@ -530,6 +531,18 @@
    </property>
    <property name="toolTip">
     <string>点距离测量</string>
+   </property>
+  </action>
+  <action name="action_trigger">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/trigger.png</normaloff>:/res/icon/trigger.png</iconset>
+   </property>
+   <property name="text">
+    <string>运行</string>
+   </property>
+   <property name="toolTip">
+    <string>运行</string>
    </property>
   </action>
  </widget>

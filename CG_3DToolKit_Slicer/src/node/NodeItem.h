@@ -93,12 +93,13 @@ public:
     void setNodeName(const QString name){m_NodeName = name;}
 
     void PortClass();
+
+public:
     QList<PortItem*> m_InPortItem;
     QList<PortItem*> m_OutPortItem;
 
     NodeItem *m_Prev, *m_Next;
 
-private:
     unsigned int m_NodeID;
     QString m_NodeName;
     QList<QVariant> m_Parameters;

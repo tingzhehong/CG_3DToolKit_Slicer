@@ -130,6 +130,9 @@ void CGImage3DSectionLineItem::OnPositionChange(double *pos_1, double *pos_2)
 {
     m_CGVTKWidget->update();
 
+    if (m_Bounds[0] == m_Bounds[1]) return;
+    if (m_Bounds[2] == m_Bounds[3]) return;
+    
     double posact_1[2];
     posact_1[0] = (pos_1[0] - m_Bounds[0]) / (m_Bounds[1] - m_Bounds[0]);
     posact_1[1] = (pos_1[1] - m_Bounds[2]) / (m_Bounds[3] - m_Bounds[2]);

@@ -30,5 +30,6 @@
         <file>res/icon/dock.png</file>
         <file>res/icon/smallPointProperties.png</file>
         <file>res/icon/smallPointDistance.png</file>
+        <file>res/icon/trigger.png</file>
     </qresource>
 </RCC>

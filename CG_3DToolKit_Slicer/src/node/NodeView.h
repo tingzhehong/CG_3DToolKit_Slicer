@@ -62,6 +62,7 @@ signals:
     void selectionsChanged();
     void calledMenuNode(NodeItem *node);
     void calledMenuView();
+    void signalRemoveNode(unsigned int nodeId);
 
 public slots:
     void addNode(NodeItem *node);

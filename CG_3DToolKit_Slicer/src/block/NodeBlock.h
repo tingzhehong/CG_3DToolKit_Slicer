@@ -19,6 +19,8 @@ public:
     NodeItem *NodeItemNumberInput(QString nodename);
     NodeItem *NodeItemNumberOutput(QString nodename);
 
+    bool Valid();
+
     virtual void Run() = 0;
 
 public:

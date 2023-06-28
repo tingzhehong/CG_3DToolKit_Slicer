@@ -101,6 +101,26 @@ NodeItem *NodeBlock::NodeItemNumberOutput(QString nodename)
     return m_NodeItem;
 }
 
+bool NodeBlock::Valid()
+{
+    int num = m_NodeItem->m_portList.size();
+    bool ret = true;
+    for (int i = 0; i < num; ++i)
+    {
+        PortItem *port = m_NodeItem->m_portList.at(i);
+        if (port->portType() == PortItem::TypeIn)
+        {
+            QVariant var = port->value();
+            if (var.isNull())
+            {
+                ret = false;
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
 NodeItem *NodeBlock::CreatNodeItem01(const QString nodename)
 {
     QWidget *widget = new QWidget;

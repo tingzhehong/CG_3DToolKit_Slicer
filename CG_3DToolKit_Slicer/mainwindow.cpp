@@ -839,3 +839,8 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
     }
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
+
+void MainWindow::on_action_trigger_triggered()
+{
+    m_pCGNodeView->Run();
+}

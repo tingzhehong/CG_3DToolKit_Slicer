@@ -445,6 +445,8 @@ void NodeView::removeNode(NodeItem *node)
     m_selectedNodes.removeOne(node);
     node->disconnect();
     node->deleteLater();
+
+    emit signalRemoveNode(node->m_NodeID);
 }
 
 NodeItem *NodeView::nodeAt(const QUuid &uuid)

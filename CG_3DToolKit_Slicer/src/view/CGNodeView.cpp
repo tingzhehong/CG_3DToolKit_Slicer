@@ -33,8 +33,9 @@ void CGNodeView::InitUi()
 {
     m_NodeView = new NodeView(this);
     m_NodeView->setRopeFlexion(50);
-//  Test();
-//  Verify();
+
+    //Test();
+    //Verify();
 
     QGridLayout *pMainLayout = new QGridLayout();
     pMainLayout->addWidget(m_NodeView);
@@ -44,32 +45,82 @@ void CGNodeView::InitUi()
 
 void CGNodeView::InitConnections()
 {
+    connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
 
 }
 
 void CGNodeView::CreateMathsNodeItem(const QString toolname)
 {
-         if (toolname == u8"数值/输入")   
-            std::shared_ptr<NumberInputNodeBlock> input(new NumberInputNodeBlock(m_NodeView));
-    else if (toolname == u8"数值/输出")        
-            std::shared_ptr<NumberOutputNodeBlock> output(new NumberOutputNodeBlock(m_NodeView));
-    else if (toolname == u8"加")
-            std::shared_ptr<MathAddNodeBlock> add(new MathAddNodeBlock(m_NodeView));
-    else if (toolname == u8"减")
-            std::shared_ptr<MathSubNodeBlock> sub(new MathSubNodeBlock(m_NodeView));
-    else if (toolname == u8"乘")
-            std::shared_ptr<MathMulNodeBlock> mul(new MathMulNodeBlock(m_NodeView));
-    else if (toolname == u8"除")
-            std::shared_ptr<MathDivNodeBlock> div(new MathDivNodeBlock(m_NodeView));
-    else
-            ;
+         if (toolname == u8"数值/输入") {
+            NumberInputNodeBlock *input = new NumberInputNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(input));
+         }
+    else if (toolname == u8"数值/输出") {
+            NumberOutputNodeBlock *output = new NumberOutputNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(output));
+         }
+    else if (toolname == u8"加") {
+            MathAddNodeBlock *add = new MathAddNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(add));
+            m_NodeView->m_IDCounter++;
+         }
+    else if (toolname == u8"减") {
+            MathSubNodeBlock *sub = new MathSubNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(sub));
+            m_NodeView->m_IDCounter++;
+         }
+    else if (toolname == u8"乘") {
+            MathMulNodeBlock *mul = new MathMulNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(mul));
+            m_NodeView->m_IDCounter++;
+         }
+    else if (toolname == u8"除") {
+            MathDivNodeBlock *div = new MathDivNodeBlock(m_NodeView);
+            m_NodeBlockList.append(dynamic_cast<NodeBlock*>(div));
+            m_NodeView->m_IDCounter++;
+         }
+    else {
+            ;   
+         }
 
-    m_NodeView->m_IDCounter++;
 }
 
 void CGNodeView::CreateLogicsNodeItem(const QString toolname)
 {
     m_NodeView->NodeItemFactory(toolname, 1, 1);
+}
+
+void CGNodeView::Run()
+{
+    m_RunBlockList.clear();
+
+    foreach (NodeBlock *block, m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID != 0)
+            m_RunBlockList.append(block);
+    }
+
+    int i = 0;
+    int j = 0;
+    int num = m_RunBlockList.size();
+    qDebug() << "Run Node Block Size: " << m_RunBlockList.size();
+
+    while (i < num)
+    {
+        NodeBlock *block = m_RunBlockList.at(i);
+
+        if (block->Valid())
+        {
+            block->Run();
+            qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
+        }
+
+        ++i;
+
+        if (i == num)
+            break;
+    }
+
 }
 
 void CGNodeView::Test()
@@ -123,4 +174,17 @@ void CGNodeView::Verify()
     m_NodeView->NodeItemFactory("1#", 1, 1);
     m_NodeView->NodeItemFactory("2#", 2, 1);
     m_NodeView->NodeItemFactory("3#", 3, 1);
+}
+
+void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
+{
+    foreach (NodeBlock* block, m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            m_NodeBlockList.removeOne(block);
+            delete block;
+            block = nullptr;
+        }
+    }
 }
