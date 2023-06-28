@@ -96,7 +96,7 @@ NodeItem *NodeBlock::NodeItemNumberOutput(QString nodename)
     m_NodeItem->setPos(x, y);
 
     PortItem *portIn = m_NodeItem->createPortIn(8, QColor(Qt::cyan));
-    connect(portIn, &PortItem::valueChanged, this, [=](QVariant value){ lineEdit->setText(value.toString()); });
+    connect(portIn, &PortItem::valueChanged, this, [=](QVariant value){ lineEdit->setText(QString::asprintf("%.6f", value.toFloat())); });
 
     return m_NodeItem;
 }
@@ -119,6 +119,11 @@ bool NodeBlock::Valid()
         }
     }
     return ret;
+}
+
+bool NodeBlock::IsRuned()
+{
+    return m_IsRuned;
 }
 
 NodeItem *NodeBlock::CreatNodeItem01(const QString nodename)

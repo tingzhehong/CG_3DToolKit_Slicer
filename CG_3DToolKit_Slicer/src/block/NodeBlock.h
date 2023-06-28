@@ -20,6 +20,7 @@ public:
     NodeItem *NodeItemNumberOutput(QString nodename);
 
     bool Valid();
+    bool IsRuned();
 
     virtual void Run() = 0;
 
@@ -28,6 +29,7 @@ public:
     NodeItem *m_NodeItem;
 
     unsigned int m_IDCounter;
+    bool m_IsRuned;
 
 private:
     NodeItem *CreatNodeItem01(const QString nodename);

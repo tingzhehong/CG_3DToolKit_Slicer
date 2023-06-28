@@ -201,9 +201,16 @@ void NodeView::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Delete)
     {
-        if (m_activeNode && m_selectedNodes.size() > 0)
+        if (m_activeNode && m_selectedNodes.size() == 1)
         {
             removeNode(m_activeNode);
+        }
+        if (m_selectedNodes.size() > 1)
+        {
+            foreach (NodeItem *node, m_selectedNodes)
+            {
+                removeNode(node);
+            }
         }
     }
 
@@ -688,7 +695,7 @@ NodeItem *NodeView::NodeItemNumberOutput(QString nodename)
     node->setPos(x, y);
 
     PortItem *portIn = node->createPortIn(8, QColor(Qt::cyan));
-    connect(portIn, &PortItem::valueChanged, this, [=](QVariant value){ lineEdit->setText(value.toString()); });
+    connect(portIn, &PortItem::valueChanged, this, [=](QVariant value){ lineEdit->setText(QString::asprintf("%.6f", value.toFloat())); });
 
     return node;
 }

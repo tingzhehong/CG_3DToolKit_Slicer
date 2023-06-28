@@ -21,6 +21,7 @@ public:
     void CreateLogicsNodeItem(const QString toolname);
 
     void Run();
+    void RunBlockUpdate();
 
 private:
     void Test();

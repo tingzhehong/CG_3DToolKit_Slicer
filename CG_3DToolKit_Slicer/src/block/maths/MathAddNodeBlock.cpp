@@ -20,4 +20,5 @@ void MathAddNodeBlock::Run()
     float Out = Add(In_0, In_1);
 
     m_NodeItem->m_OutPortItem[0]->setValue(Out);
+    m_IsRuned = true;
 }

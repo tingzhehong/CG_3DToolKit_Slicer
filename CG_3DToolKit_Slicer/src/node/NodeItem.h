@@ -84,7 +84,7 @@ public slots:
     void setBackgroundColor(const QColor &color);
     void setBackgroundBrush(const QBrush &brush);
 
-///////
+
 public:
     unsigned int NodeID(){return m_NodeID;}
     void  setNodeID(const unsigned int id){m_NodeID = id;}

@@ -96,31 +96,56 @@ void CGNodeView::Run()
 
     foreach (NodeBlock *block, m_NodeBlockList)
     {
+        block->m_IsRuned = false;
         if (block->m_NodeItem->m_NodeID != 0)
             m_RunBlockList.append(block);
     }
 
     int i = 0;
     int j = 0;
+    int k = 0;
     int num = m_RunBlockList.size();
     qDebug() << "Run Node Block Size: " << m_RunBlockList.size();
 
-    while (i < num)
+    while (i < 100)
     {
-        NodeBlock *block = m_RunBlockList.at(i);
+        j = 0;
 
-        if (block->Valid())
+        while (j < num)
         {
-            block->Run();
-            qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
-        }
+            NodeBlock *block = m_RunBlockList.at(j);
 
+            if (block->Valid() && !block->IsRuned())
+            {
+                block->Run();
+                qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
+                ++k;
+            }
+            ++j;
+
+            if (j == num)
+                break;
+        }
         ++i;
 
-        if (i == num)
+        if (k == num || i == 100)
             break;
-    }
 
+    }
+    qDebug() <<"Run Times Count: " << i;
+
+}
+
+void CGNodeView::RunBlockUpdate()
+{
+    m_RunBlockList.clear();
+
+    foreach (NodeBlock *block, m_NodeBlockList)
+    {
+        block->m_IsRuned = false;
+        if (block->m_NodeItem->m_NodeID != 0)
+            m_RunBlockList.append(block);
+    }
 }
 
 void CGNodeView::Test()
