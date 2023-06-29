@@ -101,7 +101,7 @@ NodeItem *NodeBlock::NodeItemNumberOutput(QString nodename)
     return m_NodeItem;
 }
 
-bool NodeBlock::Valid()
+bool NodeBlock::IsValid()
 {
     int num = m_NodeItem->m_portList.size();
     bool ret = true;

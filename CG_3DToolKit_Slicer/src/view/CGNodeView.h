@@ -5,6 +5,8 @@
 #include <NodeView.h>
 #include <NodeItem.h>
 
+#define RUNMAXLOOP 100
+
 class NodeBlock;
 class CGNodeView : public CGBaseWidget
 {

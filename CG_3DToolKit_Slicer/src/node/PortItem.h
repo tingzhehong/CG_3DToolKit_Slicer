@@ -35,8 +35,6 @@ private:
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
-protected:
-
 signals:
     void positionChanged();
     void valueChanged(const QVariant &value);

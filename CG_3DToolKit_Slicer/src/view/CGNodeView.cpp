@@ -14,6 +14,7 @@
 #include "MathDivNodeBlock.h"
 #include "MathMulNodeBlock.h"
 #include "MathSubNodeBlock.h"
+#include "LogicsCondition.h"
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -87,7 +88,16 @@ void CGNodeView::CreateMathsNodeItem(const QString toolname)
 
 void CGNodeView::CreateLogicsNodeItem(const QString toolname)
 {
-    m_NodeView->NodeItemFactory(toolname, 2, 1);
+    if (toolname == u8"条件") {
+        LogicsCondition *condition = new LogicsCondition(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(condition));
+        m_NodeView->m_IDCounter++;
+    }
+    if (toolname == u8"循环") {
+
+        m_NodeView->m_IDCounter++;
+    }
+
 }
 
 void CGNodeView::Run()
@@ -107,7 +117,7 @@ void CGNodeView::Run()
     int num = m_RunBlockList.size();
     qDebug() << "Run Node Block Size: " << m_RunBlockList.size();
 
-    while (i < 100)
+    while (i < RUNMAXLOOP)
     {
         j = 0;
 
@@ -115,7 +125,7 @@ void CGNodeView::Run()
         {
             NodeBlock *block = m_RunBlockList.at(j);
 
-            if (block->Valid() && !block->IsRuned())
+            if (block->IsValid() && !block->IsRuned())
             {
                 block->Run();
                 qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
@@ -128,7 +138,7 @@ void CGNodeView::Run()
         }
         ++i;
 
-        if (k == num || i == 100)
+        if (k == num || i == RUNMAXLOOP)
             break;
 
     }

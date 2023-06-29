@@ -15,6 +15,7 @@ public:
     ~NodeView();
 
 private:
+
     QGraphicsScene *m_scene;
     QPointF m_scenePos;
     QPointF m_pressPos;

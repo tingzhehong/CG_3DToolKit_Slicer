@@ -19,8 +19,9 @@ public:
     NodeItem *NodeItemNumberInput(QString nodename);
     NodeItem *NodeItemNumberOutput(QString nodename);
 
-    bool Valid();
+    bool IsValid();
     bool IsRuned();
+    int  RandPos();
 
     virtual void Run() = 0;
 
@@ -32,14 +33,14 @@ public:
     bool m_IsRuned;
 
 private:
-    NodeItem *CreatNodeItem01(const QString nodename);
-    NodeItem *CreatNodeItem10(const QString nodename);
-    NodeItem *CreatNodeItem11(const QString nodename);
-    NodeItem *CreatNodeItem21(const QString nodename);
-    NodeItem *CreatNodeItem31(const QString nodename);
-    NodeItem *CreatNodeItem12(const QString nodename);
+    virtual NodeItem *CreatNodeItem01(const QString nodename);
+    virtual NodeItem *CreatNodeItem10(const QString nodename);
+    virtual NodeItem *CreatNodeItem11(const QString nodename);
+    virtual NodeItem *CreatNodeItem21(const QString nodename);
+    virtual NodeItem *CreatNodeItem31(const QString nodename);
+    virtual NodeItem *CreatNodeItem12(const QString nodename);
 
-    int RandPos();
+
 
 };
 
