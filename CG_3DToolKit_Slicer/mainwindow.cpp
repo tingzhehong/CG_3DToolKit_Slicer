@@ -348,14 +348,14 @@ void MainWindow::CreateLogics(const QString toolname)
     m_pCGNodeView->CreateLogicsNodeItem(toolname);
 }
 
-void MainWindow::Create2DFuction(const QString toolname)
+void MainWindow::Create2DFuction(const QString toolname, int index)
 {
-
+    m_pCGNodeView->Create2DFuctionNodeItem(toolname, index);
 }
 
-void MainWindow::Create3DFuction(const QString toolname)
+void MainWindow::Create3DFuction(const QString toolname, int index)
 {
-
+    m_pCGNodeView->Create3DFuctionNodeItem(toolname, index);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -426,11 +426,11 @@ void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     case CGDataTreeView::DateTreeEnum::Fuction2D:
-        Create2DFuction(strColumn);
+        Create2DFuction(strColumn, index);
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     case CGDataTreeView::DateTreeEnum::Fuction3D:
-        Create3DFuction(strColumn);
+        Create3DFuction(strColumn, index);
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     default:
@@ -843,5 +843,5 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
 void MainWindow::on_action_trigger_triggered()
 {
     m_pCGNodeView->Run();
-    CGConsoleView::getInstance()->ConsoleOut(tr(u8"Node block: 流程计算完成."));
+    CGConsoleView::getInstance()->ConsoleOut(tr(u8"Node block: 流程计算完成"));
 }

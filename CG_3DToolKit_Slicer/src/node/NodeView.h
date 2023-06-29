@@ -22,14 +22,15 @@ private:
     bool m_moveScene;
     qreal m_currentScale;
 
+public:
     RopeItem *m_activeRope;
     NodeItem *m_activeNode;
     QList<NodeItem*> m_nodeList;
     QList<RopeItem*> m_ropeList;
     QList<GroupItem*> m_groupList;
-
     QList<NodeItem*> m_selectedNodes;
 
+private:
     bool m_isCheckingColor;
     bool m_isOnlyOneInputConnection;
     qreal m_ropeFlexion;

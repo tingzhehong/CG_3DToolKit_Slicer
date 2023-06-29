@@ -31,5 +31,7 @@
         <file>res/icon/smallPointProperties.png</file>
         <file>res/icon/smallPointDistance.png</file>
         <file>res/icon/trigger.png</file>
+        <file>res/icon/ccPlus.png</file>
+        <file>res/icon/ccMinus.png</file>
     </qresource>
 </RCC>

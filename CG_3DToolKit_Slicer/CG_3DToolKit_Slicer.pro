@@ -17,6 +17,9 @@ SOURCES += \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
+    src/block/functions2d/Functions2DSourceNodeBlock.cpp \
+    src/block/functions3d/Functions3DSourceNodeBlock.cpp \
+    src/block/logics/LogicsCirculate.cpp \
     src/block/logics/LogicsCondition.cpp \
     src/block/maths/MathAddNodeBlock.cpp \
     src/block/maths/MathDivNodeBlock.cpp \
@@ -87,6 +90,9 @@ HEADERS += \
     src/alg/CGImage.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
+    src/block/functions2d/Functions2DSourceNodeBlock.h \
+    src/block/functions3d/Functions3DSourceNodeBlock.h \
+    src/block/logics/LogicsCirculate.h \
     src/block/logics/LogicsCondition.h \
     src/block/maths/MathAddNodeBlock.h \
     src/block/maths/MathDivNodeBlock.h \

@@ -21,6 +21,8 @@ public:
     void InitConnections() override;
     void CreateMathsNodeItem(const QString toolname);
     void CreateLogicsNodeItem(const QString toolname);
+    void Create2DFuctionNodeItem(const QString toolname, int index);
+    void Create3DFuctionNodeItem(const QString toolname, int index);
 
     void Run();
     void RunBlockUpdate();

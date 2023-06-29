@@ -38,9 +38,8 @@ private:
     virtual NodeItem *CreatNodeItem11(const QString nodename);
     virtual NodeItem *CreatNodeItem21(const QString nodename);
     virtual NodeItem *CreatNodeItem31(const QString nodename);
+    virtual NodeItem *CreatNodeItem41(const QString nodename);
     virtual NodeItem *CreatNodeItem12(const QString nodename);
-
-
 
 };
 

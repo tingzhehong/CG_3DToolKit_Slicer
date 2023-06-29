@@ -43,5 +43,8 @@
 //POINTCLOUD
 #include <CGPointCloud.h>
 
+Q_DECLARE_METATYPE(cv::Mat)
+Q_DECLARE_METATYPE(PointT)
+Q_DECLARE_METATYPE(PointCloudT)
 
 #endif // CGCOMMON_H

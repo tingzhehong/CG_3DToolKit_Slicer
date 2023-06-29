@@ -15,6 +15,9 @@
 #include "MathMulNodeBlock.h"
 #include "MathSubNodeBlock.h"
 #include "LogicsCondition.h"
+#include "LogicsCirculate.h"
+#include "Functions2DSourceNodeBlock.h"
+#include "Functions3DSourceNodeBlock.h"
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -94,10 +97,31 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
         m_NodeView->m_IDCounter++;
     }
     if (toolname == u8"循环") {
-
+        LogicsCirculate *circulate = new LogicsCirculate(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(circulate));
         m_NodeView->m_IDCounter++;
     }
 
+}
+
+void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
+{
+    if (toolname == u8"2D数据源") {
+        Functions2DSourceNodeBlock *src2d = new Functions2DSourceNodeBlock(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(src2d));
+        m_NodeView->m_IDCounter++;
+    }
+    Q_UNUSED(index);
+}
+
+void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
+{
+    if (toolname == u8"3D数据源") {
+        Functions3DSourceNodeBlock *src3d = new Functions3DSourceNodeBlock(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(src3d));
+        m_NodeView->m_IDCounter++;
+    }
+    Q_UNUSED(index);
 }
 
 void CGNodeView::Run()
@@ -128,7 +152,7 @@ void CGNodeView::Run()
             if (block->IsValid() && !block->IsRuned())
             {
                 block->Run();
-                qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
+                //qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
                 ++k;
             }
             ++j;

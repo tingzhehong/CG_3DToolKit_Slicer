@@ -31,8 +31,10 @@ private:
     bool m_isSelected;
     bool m_isMove;
 
+public:
     QList<NodeItem*> m_nodeList;
 
+private:
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);

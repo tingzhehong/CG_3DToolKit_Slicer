@@ -100,6 +100,7 @@ public:
 
     NodeItem *m_Prev, *m_Next;
 
+    bool m_GroupNode;
     unsigned int m_NodeID;
     QString m_NodeName;
     QList<QVariant> m_Parameters;
