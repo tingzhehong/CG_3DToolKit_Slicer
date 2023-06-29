@@ -1,5 +1,5 @@
 ﻿#include "Functions3DSourceNodeBlock.h"
-#include "CGPCLHeader.h"
+#include "CGMetaType.h"
 #include <QLabel>
 
 Functions3DSourceNodeBlock::Functions3DSourceNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
@@ -12,7 +12,12 @@ Functions3DSourceNodeBlock::Functions3DSourceNodeBlock(NodeView *nodeview, QWidg
 
 void Functions3DSourceNodeBlock::Run()
 {
+    m_NodeItem->PortClass();
 
+    if (m_NodeItem->m_OutPortItem.size() != 1) return;
+
+    m_NodeItem->m_OutPortItem.at(0)->setValue(QVariant::fromValue(g_PointCloud));
+    m_IsRuned = true;
 }
 
 NodeItem *Functions3DSourceNodeBlock::CreatNodeItem01(const QString nodename)

@@ -1,5 +1,5 @@
 ﻿#include "Functions2DSourceNodeBlock.h"
-#include "CGOCVHeader.h"
+#include "CGMetaType.h"
 #include <QLabel>
 
 Functions2DSourceNodeBlock::Functions2DSourceNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
@@ -12,7 +12,12 @@ Functions2DSourceNodeBlock::Functions2DSourceNodeBlock(NodeView *nodeview, QWidg
 
 void Functions2DSourceNodeBlock::Run()
 {
+    m_NodeItem->PortClass();
 
+    if (m_NodeItem->m_OutPortItem.size() != 1) return;
+
+    m_NodeItem->m_OutPortItem.at(0)->setValue(QVariant::fromValue(g_Image));
+    m_IsRuned = true;
 }
 
 NodeItem *Functions2DSourceNodeBlock::CreatNodeItem01(const QString nodename)

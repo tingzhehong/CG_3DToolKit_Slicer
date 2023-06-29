@@ -100,6 +100,7 @@ HEADERS += \
     src/block/maths/MathSubNodeBlock.h \
     src/block/maths/NumberInputNodeBlock.h \
     src/block/maths/NumberOutputNodeBlock.h \
+    src/com/CGMetaType.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
     src/com/CGVTKHeader.h \
