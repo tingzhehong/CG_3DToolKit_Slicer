@@ -16,6 +16,7 @@
 #include "MathSubNodeBlock.h"
 #include "LogicsCondition.h"
 #include "LogicsCirculate.h"
+#include "LogicsGroup.h"
 #include "Functions2DSourceNodeBlock.h"
 #include "Functions3DSourceNodeBlock.h"
 
@@ -101,7 +102,10 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(circulate));
         m_NodeView->m_IDCounter++;
     }
-
+    if (toolname == u8"组") {
+        LogicsGroup *gp = new LogicsGroup(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(gp));
+    }
 }
 
 void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)

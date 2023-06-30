@@ -21,6 +21,7 @@ SOURCES += \
     src/block/functions3d/Functions3DSourceNodeBlock.cpp \
     src/block/logics/LogicsCirculate.cpp \
     src/block/logics/LogicsCondition.cpp \
+    src/block/logics/LogicsGroup.cpp \
     src/block/maths/MathAddNodeBlock.cpp \
     src/block/maths/MathDivNodeBlock.cpp \
     src/block/maths/MathMulNodeBlock.cpp \
@@ -94,6 +95,7 @@ HEADERS += \
     src/block/functions3d/Functions3DSourceNodeBlock.h \
     src/block/logics/LogicsCirculate.h \
     src/block/logics/LogicsCondition.h \
+    src/block/logics/LogicsGroup.h \
     src/block/maths/MathAddNodeBlock.h \
     src/block/maths/MathDivNodeBlock.h \
     src/block/maths/MathMulNodeBlock.h \

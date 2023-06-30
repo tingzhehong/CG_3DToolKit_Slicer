@@ -33,6 +33,7 @@ public:
     bool m_IsRuned;
 
 private:
+    virtual NodeItem *CreatNodeItem00(const QString nodename);
     virtual NodeItem *CreatNodeItem01(const QString nodename);
     virtual NodeItem *CreatNodeItem10(const QString nodename);
     virtual NodeItem *CreatNodeItem11(const QString nodename);

@@ -36,9 +36,9 @@ public slots:
 
 protected:
     QStringList m_MathsNames{u8"加", u8"减", u8"乘", u8"除", u8"数值/输入", u8"数值/输出"};
-    QStringList m_LogicsNames{u8"条件", u8"循环"};
-    QStringList m_2DFuctionNames{u8"2D数据源"};
-    QStringList m_3DFuctionNames{u8"3D数据源"};
+    QStringList m_LogicsNames{u8"条件", u8"循环", u8"组"};
+    QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端"};
+    QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端"};
 
     QList<NodeBlock*> m_NodeBlockList;
     QList<NodeBlock*> m_RunBlockList;
