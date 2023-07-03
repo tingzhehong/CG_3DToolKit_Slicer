@@ -12,6 +12,9 @@ public:
     explicit Functions3DTerminalNodeBlock(NodeView *nodeview, QWidget *parent = nullptr);
     ~Functions3DTerminalNodeBlock() = default;
 
+signals:
+    void SignalShow3D();
+
 public:
     void Run() override;
 

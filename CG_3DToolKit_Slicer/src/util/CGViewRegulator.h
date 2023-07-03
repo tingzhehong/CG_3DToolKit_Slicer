@@ -20,7 +20,7 @@ public:
 public slots:
     void On2DImageViewRequest();
     void On3DImageViewRequest();
-    void OnNodeViewRequest();
+    void OnNodeViewRequest(const int type);
     void OnProfileViewRequest();
 
 public:

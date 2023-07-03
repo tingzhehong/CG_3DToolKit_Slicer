@@ -16,6 +16,10 @@ public:
     explicit CGNodeView(QWidget *parent = nullptr);
     ~CGNodeView();
 
+signals:
+    void Signal2DRequest(const int type = 2);
+    void Signal3DRequest(const int type = 3);
+
 public:
     void InitUi() override;
     void InitConnections() override;

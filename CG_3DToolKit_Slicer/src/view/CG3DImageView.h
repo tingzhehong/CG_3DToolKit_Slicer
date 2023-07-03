@@ -46,6 +46,7 @@ public:
 
     vtkCamera* GetCamera();
     vtkActor* GetActor() const;
+    void SetActor(vtkActor* actor);
 
     void ResetCameraParameter();
     void GetCameraParameter();

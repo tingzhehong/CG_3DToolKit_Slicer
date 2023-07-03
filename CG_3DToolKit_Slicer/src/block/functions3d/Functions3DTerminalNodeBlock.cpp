@@ -15,6 +15,9 @@ void Functions3DTerminalNodeBlock::Run()
     m_NodeItem->PortClass();
 
     if (m_NodeItem->m_InPortItem.size() != 1) return;
+
+    emit SignalShow3D();
+    m_IsRuned = true;
 }
 
 NodeItem *Functions3DTerminalNodeBlock::CreatNodeItem10(const QString nodename)

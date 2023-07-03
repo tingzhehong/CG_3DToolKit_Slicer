@@ -12,6 +12,9 @@ public:
     explicit Functions2DTerminalNodeBlock(NodeView *nodeview, QWidget *parent = nullptr);
     ~Functions2DTerminalNodeBlock() = default;
 
+signals:
+    void SignalShow2D();
+
 public:
     void Run() override;
 

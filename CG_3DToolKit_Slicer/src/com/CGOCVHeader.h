@@ -6,6 +6,14 @@
 // OpenCV
 #include <opencv2/opencv.hpp>
 
+enum CG_IMG_TYPE
+{
+    DEPTH,
+    COLOR,
+    GRAY,
+    INTENSITY
+};
+
 struct CG_IMG
 {
     cv::Mat DepthImage;

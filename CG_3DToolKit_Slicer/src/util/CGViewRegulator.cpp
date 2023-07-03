@@ -3,6 +3,8 @@
 #include <CG3DImageView.h>
 #include <CGNodeView.h>
 #include <CGProfileView.h>
+#include <CGPointCloud.h>
+#include <CGImageFormatConvert.h>
 #include <QDebug>
 
 
@@ -34,9 +36,18 @@ void CGViewRegulator::On3DImageViewRequest()
 
 }
 
-void CGViewRegulator::OnNodeViewRequest()
+void CGViewRegulator::OnNodeViewRequest(const int type)
 {
-
+    if (type == 2) {
+        QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+        QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+        m_CG2DImageView->LoadImages(qPixmap);
+    }
+    if (type == 3) {
+        auto actor = m_CG3DImageView->m_Actor;
+        CG::VTKPointCloudIntensity(g_PointCloud, actor);
+        m_CG3DImageView->m_CGVTKWidget->update();
+    }
 }
 
 void CGViewRegulator::OnProfileViewRequest()

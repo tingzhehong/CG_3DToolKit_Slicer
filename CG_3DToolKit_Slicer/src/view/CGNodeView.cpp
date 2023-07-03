@@ -121,6 +121,7 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
         Functions2DTerminalNodeBlock *terml2d = new Functions2DTerminalNodeBlock(m_NodeView);
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(terml2d));
         m_NodeView->m_IDCounter++;
+        connect(terml2d, &Functions2DTerminalNodeBlock::SignalShow2D, this, [&](){emit Signal2DRequest();});
     }
     Q_UNUSED(index);
 }
@@ -136,6 +137,7 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
         Functions3DTerminalNodeBlock *terml3d = new Functions3DTerminalNodeBlock(m_NodeView);
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(terml3d));
         m_NodeView->m_IDCounter++;
+        connect(terml3d, &Functions3DTerminalNodeBlock::SignalShow3D, this, [&](){emit Signal3DRequest();});
     }
     Q_UNUSED(index);
 }
