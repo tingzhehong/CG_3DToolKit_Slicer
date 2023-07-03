@@ -19,6 +19,8 @@
 #include "LogicsGroup.h"
 #include "Functions2DSourceNodeBlock.h"
 #include "Functions3DSourceNodeBlock.h"
+#include "Functions2DTerminalNodeBlock.h"
+#include "Functions3DTerminalNodeBlock.h"
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -115,6 +117,11 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(src2d));
         m_NodeView->m_IDCounter++;
     }
+    if (toolname == u8"2D数据终端") {
+        Functions2DTerminalNodeBlock *terml2d = new Functions2DTerminalNodeBlock(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(terml2d));
+        m_NodeView->m_IDCounter++;
+    }
     Q_UNUSED(index);
 }
 
@@ -123,6 +130,11 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
     if (toolname == u8"3D数据源") {
         Functions3DSourceNodeBlock *src3d = new Functions3DSourceNodeBlock(m_NodeView);
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(src3d));
+        m_NodeView->m_IDCounter++;
+    }
+    if (toolname == u8"3D数据终端") {
+        Functions3DTerminalNodeBlock *terml3d = new Functions3DTerminalNodeBlock(m_NodeView);
+        m_NodeBlockList.append(dynamic_cast<NodeBlock*>(terml3d));
         m_NodeView->m_IDCounter++;
     }
     Q_UNUSED(index);
