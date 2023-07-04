@@ -46,6 +46,8 @@ void MoveActorInteractorStyle::OnLeftButtonUp()
     vtkInteractorStyleTrackballCamera::OnLeftButtonUp();
 
     m_pickedActor = nullptr;
+
+    emit mouseReleased();
 }
 
 void MoveActorInteractorStyle::OnMouseMove()

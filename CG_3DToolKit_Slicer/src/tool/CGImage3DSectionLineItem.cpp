@@ -2,6 +2,7 @@
 #include <CGVTKHeader.h>
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
+#include <CGImage2DGraphicsItemAdapter.h>
 #include <vtkSphereSource.h>
 #include <vtkPlaneSource.h>
 #include <CGOCVHeader.h>
@@ -25,6 +26,7 @@ void CGImage3DSectionLineItem::InitActor()
 void CGImage3DSectionLineItem::InitConnections()
 {
     connect(m_Style, &MoveActorInteractorStyle::planeMoved, this, &CGImage3DSectionLineItem::OnPositionChange);
+    connect(m_Style, &MoveActorInteractorStyle::mouseReleased, this, &CGImage3DSectionLineItem::OnUpdate);
 }
 
 void CGImage3DSectionLineItem::InitSectionItem()
@@ -147,6 +149,7 @@ void CGImage3DSectionLineItem::OnPositionChange(double *pos_1, double *pos_2)
 void CGImage3DSectionLineItem::OnUpdate()
 {
     m_CGVTKWidget->update();
+    CGImage2DGraphicsItemAdapter::getInstance()->m_Status = false;
 }
 
 void CGImage3DSectionLineItem::SetVTKWidget(CGVTKWidget *widget)

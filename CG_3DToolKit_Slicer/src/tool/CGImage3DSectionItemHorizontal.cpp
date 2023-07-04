@@ -2,6 +2,7 @@
 #include <CGVTKHeader.h>
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
+#include <CGImage2DGraphicsItemAdapter.h>
 #include <vtkSphereSource.h>
 #include <vtkPlaneSource.h>
 
@@ -79,6 +80,7 @@ void CGImage3DSectionItemHorizontal::OnPositionChange(double* pos)
 void CGImage3DSectionItemHorizontal::OnUpdate()
 {
     m_CGVTKWidget->update();
+    CGImage2DGraphicsItemAdapter::getInstance()->m_Status = false;
 }
 
 void CGImage3DSectionItemHorizontal::GetBounds(vtkSmartPointer<vtkActor> actor)

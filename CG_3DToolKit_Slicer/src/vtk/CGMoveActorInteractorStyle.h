@@ -23,6 +23,7 @@ public:
 
 signals:
     void planeMoved(double* pos_1, double* pos_2);
+    void mouseReleased();
 
 private:
     void OnPlaneMove();
