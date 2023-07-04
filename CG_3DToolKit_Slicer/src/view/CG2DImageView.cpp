@@ -124,6 +124,11 @@ QPixmap* CG2DImageView::GetPixmap() const
     return m_pPixmap;
 }
 
+void CG2DImageView::SetPixmap(QPixmap *pixmap)
+{
+    m_pPixmap = pixmap;
+}
+
 void CG2DImageView::InitTwoPointLineTool()
 {
     //!m_pTwoPointLineTool

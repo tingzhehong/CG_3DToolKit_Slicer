@@ -543,6 +543,11 @@ vtkActor* CG3DImageView::GetActor() const
     return m_CGVTKWidget->actors3d().back();
 }
 
+void CG3DImageView::SetCamera(vtkCamera *camera)
+{
+    m_CGVTKCamera = camera;
+}
+
 void CG3DImageView::SetActor(vtkActor *actor)
 {
     m_Actor = actor;

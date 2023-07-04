@@ -33,6 +33,7 @@ public:
     void RemoveTools();
 
     QPixmap* GetPixmap() const;
+    void SetPixmap(QPixmap* pixmap);
 
 public:
     QPixmap *m_pPixmap;
