@@ -18,6 +18,7 @@ public:
 public:
     void Connections();
     void Run() override;
+    void FillNodeBlock(QList<NodeBlock*> list);
 
 private slots:
     void AddNodeBlock();
@@ -32,6 +33,9 @@ private:
     QPushButton *addNode;
     QPushButton *delNode;
     QLineEdit *lineEdit;
+
+    QList<NodeBlock*> m_NodeBlockList;
+    QList<NodeBlock*> m_RunBlockList;
 };
 
 #endif // LOGICSCIRCULATE_H

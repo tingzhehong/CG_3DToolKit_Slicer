@@ -3,6 +3,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QIcon>
+#include <QDebug>
 
 LogicsCirculate::LogicsCirculate(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -24,7 +25,38 @@ void LogicsCirculate::Connections()
 
 void LogicsCirculate::Run()
 {
+    m_RunBlockList.clear();
+    m_NodeItem->PortClass();
 
+    int itimes = m_NodeItem->m_InPortItem[0]->value().toInt();
+    int inumbers = group->nodeList().size();
+
+    for (int k = 0; k < inumbers; ++k)
+    {
+        NodeItem *item = group->nodeList().at(k);
+        unsigned int id = item->m_NodeID;
+
+        foreach (NodeBlock* block, m_NodeBlockList)
+        {
+            if (id == block->m_NodeItem->m_NodeID)
+            {
+                m_RunBlockList.append(block);
+            }
+        }
+    }
+
+    for (int i = 0; i < itimes; ++i)
+    {
+        for (int j = 0; j < m_RunBlockList.size(); ++j)
+        {
+            NodeBlock* block = m_RunBlockList.at(j);
+
+            if (block->IsValid())
+                block->Run();
+        }
+    }
+
+    m_IsRuned = true;
 }
 
 void LogicsCirculate::AddNodeBlock()
@@ -51,6 +83,16 @@ void LogicsCirculate::DelNodeBlock()
          }
     }
     lineEdit->clear();
+}
+
+void LogicsCirculate::FillNodeBlock(QList<NodeBlock*> list)
+{
+    m_NodeBlockList.clear();
+
+    foreach (NodeBlock* block, list)
+    {
+       m_NodeBlockList.append(block);
+    }
 }
 
 NodeItem *LogicsCirculate::CreatNodeItem10(const QString nodename)

@@ -101,6 +101,7 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
     }
     if (toolname == u8"循环") {
         LogicsCirculate *circulate = new LogicsCirculate(m_NodeView);
+        circulate->FillNodeBlock(m_NodeBlockList);
         m_NodeBlockList.append(dynamic_cast<NodeBlock*>(circulate));
         m_NodeView->m_IDCounter++;
     }
