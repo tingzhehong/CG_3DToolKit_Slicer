@@ -39,11 +39,13 @@ void CGViewRegulator::On3DImageViewRequest()
 void CGViewRegulator::OnNodeViewRequest(const int type)
 {
     if (type == 2) {
+        if (g_Image.ColorImage.empty()) return;
         QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
         QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
         m_CG2DImageView->LoadImages(qPixmap);
     }
     if (type == 3) {
+        if (g_PointCloud->empty()) return;
         auto actor = m_CG3DImageView->m_Actor;
         CG::VTKPointCloudIntensity(g_PointCloud, actor);
         m_CG3DImageView->m_CGVTKWidget->update();
