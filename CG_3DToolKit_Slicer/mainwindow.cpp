@@ -847,3 +847,26 @@ void MainWindow::on_action_trigger_triggered()
     m_pCGNodeView->Run();
     CGConsoleView::getInstance()->ConsoleOut(tr(u8"Node block: 流程计算完成"));
 }
+
+void MainWindow::on_action_GlobalZoom_triggered()
+{
+    m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_pCG3DImageView->m_CGVTKWidget->update();
+}
+
+void MainWindow::on_action_SnapShot_triggered()
+{
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存快照图片"), ".", "png(*.png);;jpg(*.jpg);;bmp(*.bmp)");
+
+    if (FileName.isEmpty())
+    {
+        QMessageBox::information(this, tr(u8"信息"), tr(u8"请选择保存快照文件！"));
+    }
+    else
+    {
+        QFileInfo file(FileName);
+        const QString ext = file.suffix().toLower();
+        QImage image = CGVTKUtils::vtkImageDataToQImage(m_pCG3DImageView->m_CGVTKWidget->cachedImage());
+        image.save(FileName, ext.toUtf8().data());
+    }
+}

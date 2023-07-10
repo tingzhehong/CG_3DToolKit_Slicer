@@ -90,6 +90,8 @@ private slots:
     void on_action_Ubuntu_triggered();
     void on_action_Windows_triggered();
 
+    void on_action_SnapShot_triggered();
+    void on_action_GlobalZoom_triggered();
     void on_action_ZoomIn_triggered();
     void on_action_ZoomOut_triggered();
     void on_action_console_triggered(bool checked);

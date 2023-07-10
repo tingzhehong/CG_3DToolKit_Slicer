@@ -33,5 +33,7 @@
         <file>res/icon/trigger.png</file>
         <file>res/icon/ccPlus.png</file>
         <file>res/icon/ccMinus.png</file>
+        <file>res/icon/ccGlobalZoom.png</file>
+        <file>res/icon/photo-camera.svg</file>
     </qresource>
 </RCC>

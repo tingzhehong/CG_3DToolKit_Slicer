@@ -162,6 +162,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_SnapShot"/>
+   <addaction name="action_GlobalZoom"/>
    <addaction name="action_SetViewTop"/>
    <addaction name="action_SetViewFront"/>
    <addaction name="action_SetViewLeft"/>
@@ -543,6 +545,30 @@
    </property>
    <property name="toolTip">
     <string>运行</string>
+   </property>
+  </action>
+  <action name="action_GlobalZoom">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/ccGlobalZoom.png</normaloff>:/res/icon/ccGlobalZoom.png</iconset>
+   </property>
+   <property name="text">
+    <string>全局缩放</string>
+   </property>
+   <property name="toolTip">
+    <string>全局缩放</string>
+   </property>
+  </action>
+  <action name="action_SnapShot">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/photo-camera.svg</normaloff>:/res/icon/photo-camera.svg</iconset>
+   </property>
+   <property name="text">
+    <string>快照</string>
+   </property>
+   <property name="toolTip">
+    <string>快照</string>
    </property>
   </action>
  </widget>
