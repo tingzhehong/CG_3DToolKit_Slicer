@@ -852,6 +852,7 @@ void MainWindow::on_action_GlobalZoom_triggered()
 {
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SnapShot_triggered()
