@@ -13,6 +13,8 @@
 #include <vtkPolyVertex.h>
 #include <vtkVertexGlyphFilter.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkPlane.h>
+#include <vtkPlanes.h>
 #include <vtkActor.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>

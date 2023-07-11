@@ -7,12 +7,12 @@
 namespace CGVTKUtils
 {
 
-AngleWidgetObserver::AngleWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
+CGAngleWidgetObserver::CGAngleWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
 {
 
 }
 
-void AngleWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
+void CGAngleWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
 {
     Q_UNUSED(eventId)
     Q_UNUSED(callData)

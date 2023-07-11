@@ -5,6 +5,9 @@
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
 #include <CGPointPickObserver.h>
+#include <CGBoxWidgetObserver.h>
+#include <CGPlaneWidgetObserver.h>
+#include <CGImage3DGraphicsItemAdapter.h>
 
 class vtkActor;
 class vtkCubeAxesActor;
@@ -33,6 +36,8 @@ public slots:
     void OnUseTool();
     void OnDelTool();
     void OnUpdatePoint(float x, float y, float z);
+    void OnBoxWidgetPlaneChanged(vtkPlanes* planes);
+    void OnPlaneWidgetPlaneChanged(vtkPlane* plane);
 
 public:
     void InitUi() override;
@@ -109,6 +114,8 @@ private:
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
+    CGVTKUtils::CGBoxWidgetObserver *m_CGBoxWidgeter = nullptr;
+    CGVTKUtils::CGPlaneWidgetObserver *m_CGPlaneWidgeter = nullptr;
 
     vtkSmartPointer<vtkCamera> m_CGVTKCamera;
     vtkSmartPointer<vtkActor> m_Actor;

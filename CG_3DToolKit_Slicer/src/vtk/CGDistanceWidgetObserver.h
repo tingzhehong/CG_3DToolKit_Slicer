@@ -6,12 +6,12 @@
 namespace CGVTKUtils
 {
 
-class DistanceWidgetObserver : public AbstractWidgetObserver
+class CGDistanceWidgetObserver : public AbstractWidgetObserver
 {
     Q_OBJECT
     
 public:
-    explicit DistanceWidgetObserver(QObject* parent = nullptr);
+    explicit CGDistanceWidgetObserver(QObject* parent = nullptr);
 
 signals:
     void distanceChanged(double dist);

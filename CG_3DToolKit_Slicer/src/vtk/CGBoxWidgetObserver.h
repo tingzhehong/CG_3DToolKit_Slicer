@@ -8,12 +8,12 @@ class vtkPlanes;
 namespace CGVTKUtils
 {
 
-class BoxWidgetObserver : public AbstractWidgetObserver
+class CGBoxWidgetObserver : public AbstractWidgetObserver
 {
     Q_OBJECT
 
 public:
-    explicit BoxWidgetObserver(QObject* parent = nullptr);
+    explicit CGBoxWidgetObserver(QObject* parent = nullptr);
 
 signals:
     void planesChanged(vtkPlanes* planes);

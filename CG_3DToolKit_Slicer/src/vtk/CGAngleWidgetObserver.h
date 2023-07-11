@@ -6,12 +6,12 @@
 namespace CGVTKUtils
 {
 
-class AngleWidgetObserver : public AbstractWidgetObserver
+class CGAngleWidgetObserver : public AbstractWidgetObserver
 {
     Q_OBJECT
 
 public:
-    explicit AngleWidgetObserver(QObject* parent = nullptr);
+    explicit CGAngleWidgetObserver(QObject* parent = nullptr);
 
 signals:
     void angleChanged(double angle);

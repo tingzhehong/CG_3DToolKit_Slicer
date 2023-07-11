@@ -113,6 +113,16 @@ void CG3DImageView::OnUpdatePoint(float x, float y, float z)
     m_CGVTKWidget->update();
 }
 
+void CG3DImageView::OnBoxWidgetPlaneChanged(vtkPlanes *planes)
+{
+    CGImage3DGraphicsItemAdapter::getInstance()->SendPlanes(planes);
+}
+
+void CG3DImageView::OnPlaneWidgetPlaneChanged(vtkPlane *plane)
+{
+    CGImage3DGraphicsItemAdapter::getInstance()->SendPlane(plane);
+}
+
 void CG3DImageView::InitUi()
 {
     m_CGVTKWidget = new CGVTKWidget(this);
@@ -133,6 +143,8 @@ void CG3DImageView::InitUi()
 void CG3DImageView::InitConnections()
 {
     connect(m_CGPointPicker, &CGVTKUtils::CGPointPickObserver::SignalPoint, this, &CG3DImageView::OnUpdatePoint);
+    connect(m_CGBoxWidgeter, &CGVTKUtils::CGBoxWidgetObserver::planesChanged, this, &CG3DImageView::OnBoxWidgetPlaneChanged);
+    connect(m_CGPlaneWidgeter, &CGVTKUtils::CGPlaneWidgetObserver::planesChanged, this, &CG3DImageView::OnPlaneWidgetPlaneChanged);
 }
 
 void CG3DImageView::ShowText2D()
@@ -588,6 +600,12 @@ void CG3DImageView::InitTools()
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
+
+    m_CGBoxWidgeter = new CGVTKUtils::CGBoxWidgetObserver();
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGBoxWidgeter);
+
+    m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGPlaneWidgeter);
 }
 
 void CG3DImageView::InitPointPick()

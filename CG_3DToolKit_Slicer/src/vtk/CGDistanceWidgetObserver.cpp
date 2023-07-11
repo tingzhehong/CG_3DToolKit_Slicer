@@ -6,12 +6,12 @@
 namespace CGVTKUtils
 {
 
-DistanceWidgetObserver::DistanceWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
+CGDistanceWidgetObserver::CGDistanceWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
 {
 
 }
 
-void DistanceWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
+void CGDistanceWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
 {
     Q_UNUSED(eventId)
     Q_UNUSED(callData)

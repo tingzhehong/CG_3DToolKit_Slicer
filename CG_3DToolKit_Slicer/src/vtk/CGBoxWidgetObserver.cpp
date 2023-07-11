@@ -6,12 +6,12 @@
 namespace CGVTKUtils
 {
 
-BoxWidgetObserver::BoxWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
+CGBoxWidgetObserver::CGBoxWidgetObserver(QObject* parent) : AbstractWidgetObserver(parent)
 {
     m_planes = vtkPlanes::New();
 }
 
-void BoxWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
+void CGBoxWidgetObserver::Execute(vtkObject *caller, unsigned long eventId, void* callData)
 {
     Q_UNUSED(eventId)
     Q_UNUSED(callData)

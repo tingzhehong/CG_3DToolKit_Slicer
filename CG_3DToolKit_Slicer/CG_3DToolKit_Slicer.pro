@@ -43,6 +43,7 @@ SOURCES += \
     src/tool/CGGraphicsLineItemVertical.cpp \
     src/tool/CGGraphicsRectItem.cpp \
     src/tool/CGImage2DGraphicsItemAdapter.cpp \
+    src/tool/CGImage3DGraphicsItemAdapter.cpp \
     src/tool/CGImage3DSectionItemHorizontal.cpp \
     src/tool/CGImage3DSectionItemVertical.cpp \
     src/tool/CGImage3DSectionLineItem.cpp \
@@ -122,6 +123,7 @@ HEADERS += \
     src/tool/CGGraphicsLineItemVertical.h \
     src/tool/CGGraphicsRectItem.h \
     src/tool/CGImage2DGraphicsItemAdapter.h \
+    src/tool/CGImage3DGraphicsItemAdapter.h \
     src/tool/CGImage3DSectionItemHorizontal.h \
     src/tool/CGImage3DSectionItemVertical.h \
     src/tool/CGImage3DSectionLineItem.h \
