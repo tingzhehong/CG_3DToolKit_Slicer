@@ -160,6 +160,9 @@ void CGProfileForm2D::SetTwoPointLine(double *pos_1, double *pos_2)
     int x2 = static_cast<int>(m_pPixmap->width() * pos_2[0]);
     int y2 = static_cast<int>(m_pPixmap->height() * (1 - pos_2[1]));
 
+    int sqrtdist = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+    if (sqrtdist == 0) return;
+
     m_pTwoPointLineTool->setLine(x1, y1, x2, y2);
     m_Line.setLine(x1, y1, x2, y2);
     CGImage2DGraphicsItemAdapter::getInstance()->SendLine(m_Line);

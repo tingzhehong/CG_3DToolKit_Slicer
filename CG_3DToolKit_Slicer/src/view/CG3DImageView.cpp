@@ -143,8 +143,6 @@ void CG3DImageView::InitUi()
 void CG3DImageView::InitConnections()
 {
     connect(m_CGPointPicker, &CGVTKUtils::CGPointPickObserver::SignalPoint, this, &CG3DImageView::OnUpdatePoint);
-    connect(m_CGBoxWidgeter, &CGVTKUtils::CGBoxWidgetObserver::planesChanged, this, &CG3DImageView::OnBoxWidgetPlaneChanged);
-    connect(m_CGPlaneWidgeter, &CGVTKUtils::CGPlaneWidgetObserver::planesChanged, this, &CG3DImageView::OnPlaneWidgetPlaneChanged);
 }
 
 void CG3DImageView::ShowText2D()
@@ -429,6 +427,10 @@ void CG3DImageView::InitAngleTool()
 
 void CG3DImageView::InitBoxTool()
 {
+    m_CGBoxWidgeter = new CGVTKUtils::CGBoxWidgetObserver();
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGBoxWidgeter);
+    connect(m_CGBoxWidgeter, &CGVTKUtils::CGBoxWidgetObserver::planesChanged, this, &CG3DImageView::OnBoxWidgetPlaneChanged);
+
     m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
     m_pBoxWidgetTool->SetProp3D(m_Actor);
     m_pBoxWidgetTool->PlaceWidget();
@@ -437,6 +439,10 @@ void CG3DImageView::InitBoxTool()
 
 void CG3DImageView::InitPlaneTool()
 {
+    m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGPlaneWidgeter);
+    connect(m_CGPlaneWidgeter, &CGVTKUtils::CGPlaneWidgetObserver::planesChanged, this, &CG3DImageView::OnPlaneWidgetPlaneChanged);
+
     m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
     m_pPlaneWidgetTool->SetProp3D(m_Actor);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(1, 0, 1);
@@ -592,20 +598,16 @@ void CG3DImageView::InitTools()
 
     m_pDistanceRep->GetLineProperty()->SetColor(1, 0, 0);
     m_pDistanceRep->GetLineProperty()->SetLineWidth(3);
+    m_pDistanceRep->SetLabelFormat("%.3f");
 
     m_pAngleRep->GetRay1()->GetProperty()->SetLineWidth(3);
     m_pAngleRep->GetRay2()->GetProperty()->SetLineWidth(3);
     m_pAngleRep->GetArc()->GetProperty()->SetLineWidth(3);
     m_pAngleRep->GetTextActor()->GetProperty()->SetColor(1, 1, 1);
+    m_pAngleRep->SetLabelFormat("%.3f");
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
-
-    m_CGBoxWidgeter = new CGVTKUtils::CGBoxWidgetObserver();
-    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGBoxWidgeter);
-
-    m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
-    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGPlaneWidgeter);
 }
 
 void CG3DImageView::InitPointPick()
@@ -659,10 +661,12 @@ void CG3DImageView::RemoveTools()
 
         case BoxTool:
             m_pBoxWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGBoxWidgeter);
             break;
 
         case PlaneTool:
             m_pPlaneWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGPlaneWidgeter);
             break;
 
         default:
