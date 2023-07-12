@@ -5,9 +5,9 @@
 #include <NodeView.h>
 #include <NodeItem.h>
 
-#define RUNMAXLOOP 100
-
 class NodeBlock;
+class NodeBlockManager;
+
 class CGNodeView : public CGBaseWidget
 {
     Q_OBJECT
@@ -44,11 +44,13 @@ protected:
     QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端"};
     QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端"};
 
-    QList<NodeBlock*> m_NodeBlockList;
-    QList<NodeBlock*> m_RunBlockList;
+    //Deprecated
+    //QList<NodeBlock*> m_NodeBlockList;
+    //QList<NodeBlock*> m_RunBlockList;
 
 public:
     NodeView *m_NodeView;
+    NodeBlockManager *m_NodeBlockManager;
 };
 
 #endif // CGNODEVIEW_H

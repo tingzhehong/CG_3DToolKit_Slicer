@@ -17,6 +17,7 @@ SOURCES += \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
+    src/block/NodeBlockManager.cpp \
     src/block/functions2d/Functions2DSourceNodeBlock.cpp \
     src/block/functions2d/Functions2DTerminalNodeBlock.cpp \
     src/block/functions3d/Functions3DSourceNodeBlock.cpp \
@@ -37,6 +38,8 @@ SOURCES += \
     src/node/NodeView.cpp \
     src/node/PortItem.cpp \
     src/node/RopeItem.cpp \
+    src/plugin/AlgorithmInterface.cpp \
+    src/plugin/PluginManager.cpp \
     src/tool/CGGraphicsCircleItem.cpp \
     src/tool/CGGraphicsLineItem.cpp \
     src/tool/CGGraphicsLineItemHorizontal.cpp \
@@ -94,6 +97,7 @@ HEADERS += \
     src/alg/CGImage.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
+    src/block/NodeBlockManager.h \
     src/block/functions2d/Functions2DSourceNodeBlock.h \
     src/block/functions2d/Functions2DTerminalNodeBlock.h \
     src/block/functions3d/Functions3DSourceNodeBlock.h \
@@ -117,6 +121,8 @@ HEADERS += \
     src/node/NodeView.h \
     src/node/PortItem.h \
     src/node/RopeItem.h \
+    src/plugin/AlgorithmInterface.h \
+    src/plugin/PluginManager.h \
     src/tool/CGGraphicsCircleItem.h \
     src/tool/CGGraphicsLineItem.h \
     src/tool/CGGraphicsLineItemHorizontal.h \
@@ -182,6 +188,7 @@ INCLUDEPATH += \
     ./src/com \
     ./src/dev \
     ./src/node \
+    ./src/plugin \
     ./src/tool \
     ./src/ui \
     ./src/util \
