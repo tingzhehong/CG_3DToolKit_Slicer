@@ -18,7 +18,7 @@ public:
 
     QList<AlgorithmInterface *> PluginList() const;
     QList<AlgorithmInterface *> m_Plugins;
-    QList<QObject *> m_PluginObjects;
+    QList<CG_NODEBLOCK *> m_PluginObjects;
     QList<int> m_PluginIDs;
     QStringList m_PluginNames;
     QStringList m_PluginVersions;

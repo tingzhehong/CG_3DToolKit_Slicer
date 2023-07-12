@@ -7,6 +7,8 @@
 
 class NodeBlock;
 class NodeBlockManager;
+class AlgorithmInterface;
+class PluginManager;
 
 class CGNodeView : public CGBaseWidget
 {
@@ -51,6 +53,7 @@ protected:
 public:
     NodeView *m_NodeView;
     NodeBlockManager *m_NodeBlockManager;
+    PluginManager *m_PluginManager;
 };
 
 #endif // CGNODEVIEW_H

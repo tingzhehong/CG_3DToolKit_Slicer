@@ -1,7 +1,10 @@
 ﻿#ifndef ALGORITHMINTERFACE_H
 #define ALGORITHMINTERFACE_H
 
+#pragma once
+
 #include <QObject>
+#include <QColor>
 #include <QMap>
 #include <iostream>
 #include <fstream>
@@ -20,6 +23,35 @@ typedef pcl::PointXYZRGB PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
 
+struct CG_IMG
+{
+    cv::Mat DepthImage;
+    cv::Mat ColorImage;
+    cv::Mat GrayImage;
+    cv::Mat IntensityImage;
+};
+
+struct CG_PORT
+{
+    int NUM;
+    QColor CLR;
+};
+
+struct CG_ARGUMENT
+{
+    QString ARG;
+    float VALUE;
+};
+
+struct CG_NODEBLOCK
+{
+    QString Name;
+    QString Title;
+    CG_PORT Input;
+    CG_PORT Output;
+    QList<CG_ARGUMENT> Arguments;
+};
+
 class AlgorithmInterface : public QObject
 {
     Q_OBJECT
@@ -30,10 +62,10 @@ public:
 
 signals:
     void SignalMessage(const QString msg);
-    void SignalExcuted();
+    void SignalComputed();
 
 public:
-    virtual QObject *CreatAlgorithmPlugin() = 0;
+    virtual CG_NODEBLOCK *CreatAlgorithmPlugin() = 0;
     virtual QString AlgorithmPluginName() = 0;
     virtual QString AlogorithmPlugVersion() = 0;
     virtual int AlgorithmPluginID() = 0;
@@ -46,6 +78,7 @@ public:
 
 Q_DECLARE_INTERFACE(AlgorithmInterface, AlgorithmInterface_iid)
 Q_DECLARE_METATYPE(cv::Mat)
+Q_DECLARE_METATYPE(CG_IMG)
 Q_DECLARE_METATYPE(PointT)
 Q_DECLARE_METATYPE(PointCloudT::Ptr)
 

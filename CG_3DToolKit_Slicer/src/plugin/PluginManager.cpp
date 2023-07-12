@@ -28,7 +28,7 @@ bool PluginManager::LoadPlugin(QString path)
             if (instance)
             {
                 AlgorithmInterface *plugin = qobject_cast<AlgorithmInterface*>(instance);
-                QObject *object = plugin->CreatAlgorithmPlugin();
+                CG_NODEBLOCK *object = plugin->CreatAlgorithmPlugin();
                 QString name = plugin->AlgorithmPluginName();
                 QString ver = plugin->AlogorithmPlugVersion();
                 int id = plugin->AlgorithmPluginID();

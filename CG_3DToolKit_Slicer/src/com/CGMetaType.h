@@ -1,6 +1,8 @@
 ﻿#ifndef CGMETATYPE_H
 #define CGMETATYPE_H
 
+#pragma once
+
 #include <CGOCVHeader.h>
 #include <CGPCLHeader.h>
 #include <CGVTKHeader.h>

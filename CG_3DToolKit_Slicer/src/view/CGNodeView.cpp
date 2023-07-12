@@ -23,6 +23,7 @@
 #include "Functions2DTerminalNodeBlock.h"
 #include "Functions3DTerminalNodeBlock.h"
 #include "NodeBlockManager.h"
+#include "PluginManager.h"
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
