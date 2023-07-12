@@ -33,16 +33,22 @@ bool PluginManager::LoadPlugin(QString path)
                 QString ver = plugin->AlogorithmPlugVersion();
                 int id = plugin->AlgorithmPluginID();
 
-                m_Plugins.append(plugin);
-                m_PluginObjects.append(object);
-
                 if (plugin->m_Type == CG_ALGORITHM_TYPE::ALG2D)
+                {
+                    m_Plugins2D.append(plugin);
+                    m_PluginObjects2D.append(object);
                     m_PluginNames2D.append(name);
+                    m_PluginIDs2D.append(id);
+                    m_PluginVersions2D.append(ver);
+                }
                 if (plugin->m_Type == CG_ALGORITHM_TYPE::ALG3D)
+                {
+                    m_Plugins3D.append(plugin);
+                    m_PluginObjects3D.append(object);
                     m_PluginNames3D.append(name);
-
-                m_PluginIDs.append(id);
-                m_PluginVersions.append(ver);
+                    m_PluginIDs3D.append(id);
+                    m_PluginVersions2D.append(ver);
+                }
             }
             else
             {
@@ -54,7 +60,12 @@ bool PluginManager::LoadPlugin(QString path)
     return true;
 }
 
-QList<AlgorithmInterface *> PluginManager::PluginList() const
+QList<AlgorithmInterface *> PluginManager::PluginList2D() const
 {
-    return m_Plugins;
+    return m_Plugins2D;
+}
+
+QList<AlgorithmInterface *> PluginManager::PluginList3D() const
+{
+    return m_Plugins3D;
 }

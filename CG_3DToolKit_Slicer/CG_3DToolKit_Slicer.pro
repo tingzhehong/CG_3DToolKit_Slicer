@@ -17,7 +17,9 @@ SOURCES += \
     src/alg/CGImage.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
+    src/block/NodeBlockFactory.cpp \
     src/block/NodeBlockManager.cpp \
+    src/block/NodeBlockWidget.cpp \
     src/block/functions2d/Functions2DSourceNodeBlock.cpp \
     src/block/functions2d/Functions2DTerminalNodeBlock.cpp \
     src/block/functions3d/Functions3DSourceNodeBlock.cpp \
@@ -39,6 +41,7 @@ SOURCES += \
     src/node/PortItem.cpp \
     src/node/RopeItem.cpp \
     src/plugin/AlgorithmInterface.cpp \
+    src/plugin/AlgorithmNodeBlock.cpp \
     src/plugin/PluginManager.cpp \
     src/tool/CGGraphicsCircleItem.cpp \
     src/tool/CGGraphicsLineItem.cpp \
@@ -51,6 +54,7 @@ SOURCES += \
     src/tool/CGImage3DSectionItemVertical.cpp \
     src/tool/CGImage3DSectionLineItem.cpp \
     src/ui/CGAboutDialog.cpp \
+    src/ui/CGAlgorithmArgumentsDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
     src/ui/CGProfileForm2D.cpp \
@@ -97,7 +101,9 @@ HEADERS += \
     src/alg/CGImage.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
+    src/block/NodeBlockFactory.h \
     src/block/NodeBlockManager.h \
+    src/block/NodeBlockWidget.h \
     src/block/functions2d/Functions2DSourceNodeBlock.h \
     src/block/functions2d/Functions2DTerminalNodeBlock.h \
     src/block/functions3d/Functions3DSourceNodeBlock.h \
@@ -122,6 +128,7 @@ HEADERS += \
     src/node/PortItem.h \
     src/node/RopeItem.h \
     src/plugin/AlgorithmInterface.h \
+    src/plugin/AlgorithmNodeBlock.h \
     src/plugin/PluginManager.h \
     src/tool/CGGraphicsCircleItem.h \
     src/tool/CGGraphicsLineItem.h \
@@ -134,6 +141,7 @@ HEADERS += \
     src/tool/CGImage3DSectionItemVertical.h \
     src/tool/CGImage3DSectionLineItem.h \
     src/ui/CGAboutDialog.h \
+    src/ui/CGAlgorithmArgumentsDialog.h \
     src/ui/CGDepthImageDialog.h \
     src/ui/CGDisOrderDialog.h \
     src/ui/CGProfileForm2D.h \

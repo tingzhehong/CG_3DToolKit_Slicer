@@ -6,6 +6,7 @@
 #include <NodeItem.h>
 
 class NodeBlock;
+class NodeBlockFactory;
 class NodeBlockManager;
 class AlgorithmInterface;
 class PluginManager;
@@ -54,6 +55,7 @@ protected:
 
 public:
     NodeView *m_NodeView;
+    NodeBlockFactory *m_NodeBlockFactory;
     NodeBlockManager *m_NodeBlockManager;
     PluginManager *m_PluginManager;
 };
