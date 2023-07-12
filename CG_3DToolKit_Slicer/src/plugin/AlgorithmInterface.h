@@ -55,8 +55,8 @@ struct CG_NODEBLOCK
 {
     QString Name;
     QString Title;
-    CG_PORT Input;
-    CG_PORT Output;
+    QList<CG_PORT> Input;
+    QList<CG_PORT> Output;
     QList<CG_ARGUMENT> Arguments;
 };
 
