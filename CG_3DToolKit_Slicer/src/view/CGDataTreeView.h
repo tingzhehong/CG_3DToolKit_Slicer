@@ -16,6 +16,9 @@ signals:
     void Signal3DToolClear();
     void SignalProfileToolClear();
 
+public slots:
+    void OnAlgorithmPluginAdd(QPair<QStringList, QStringList> names);
+
 public:
     void InitUi() override;
     void InitConnections() override;

@@ -35,7 +35,12 @@ bool PluginManager::LoadPlugin(QString path)
 
                 m_Plugins.append(plugin);
                 m_PluginObjects.append(object);
-                m_PluginNames.append(name);
+
+                if (plugin->m_Type == CG_ALGORITHM_TYPE::ALG2D)
+                    m_PluginNames2D.append(name);
+                if (plugin->m_Type == CG_ALGORITHM_TYPE::ALG3D)
+                    m_PluginNames3D.append(name);
+
                 m_PluginIDs.append(id);
                 m_PluginVersions.append(ver);
             }

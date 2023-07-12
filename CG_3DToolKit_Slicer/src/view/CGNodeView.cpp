@@ -62,6 +62,19 @@ void CGNodeView::InitConnections()
 
 }
 
+void CGNodeView::InitPluginManager()
+{
+    m_PluginManager = new PluginManager();
+
+    if (m_PluginManager->LoadPlugin("./Algorithms"))
+    {
+        m_2DFuctionNames.append(m_PluginManager->m_PluginNames2D);
+        m_3DFuctionNames.append(m_PluginManager->m_PluginNames3D);
+
+        emit SignalAlgorithmPlugin(qMakePair(m_PluginManager->m_PluginNames2D, m_PluginManager->m_PluginNames3D));
+    }
+}
+
 void CGNodeView::CreateMathsNodeItem(const QString toolname)
 {
          if (toolname == u8"数值/输入") {

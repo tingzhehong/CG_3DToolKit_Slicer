@@ -21,10 +21,12 @@ public:
 signals:
     void Signal2DRequest(const int type = 2);
     void Signal3DRequest(const int type = 3);
+    void SignalAlgorithmPlugin(QPair<QStringList, QStringList> names);
 
 public:
     void InitUi() override;
     void InitConnections() override;
+    void InitPluginManager();
     void CreateMathsNodeItem(const QString toolname);
     void CreateLogicsNodeItem(const QString toolname);
     void Create2DFuctionNodeItem(const QString toolname, int index);

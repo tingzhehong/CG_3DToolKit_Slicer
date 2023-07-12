@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QColor>
+#include <QVariant>
 #include <QMap>
 #include <iostream>
 #include <fstream>
@@ -23,6 +24,12 @@ typedef pcl::PointXYZRGB PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
 
+enum CG_ALGORITHM_TYPE
+{
+    ALG2D,
+    ALG3D,
+};
+
 struct CG_IMG
 {
     cv::Mat DepthImage;
@@ -35,6 +42,7 @@ struct CG_PORT
 {
     int NUM;
     QColor CLR;
+    QVariant VAL;
 };
 
 struct CG_ARGUMENT
@@ -72,6 +80,9 @@ public:
 
 
     virtual void Compute() = 0;
+
+public:
+    CG_ALGORITHM_TYPE m_Type;
 };
 
 #define AlgorithmInterface_iid "com.Interface.AlgorithmInterface"

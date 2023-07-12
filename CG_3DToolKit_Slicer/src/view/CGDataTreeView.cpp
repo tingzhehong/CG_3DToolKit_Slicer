@@ -20,6 +20,21 @@ CGDataTreeView::~CGDataTreeView()
     m_DataTree = nullptr;
 }
 
+void CGDataTreeView::OnAlgorithmPluginAdd(QPair<QStringList, QStringList> names)
+{
+    for (int i = 0; i < names.first.size(); ++i) {
+        QTreeWidgetItem *p2DFuctionItem = new QTreeWidgetItem(QStringList() << names.first.at(i));
+        m_2DFuction->addChild(p2DFuctionItem);
+        m_2DFuctionNames.append(names.first.at(i));
+    }
+
+    for (int j = 0; j < names.second.size(); ++j) {
+        QTreeWidgetItem *p3DFuctionItem = new QTreeWidgetItem(QStringList() << names.second.at(j));
+        m_3DFuction->addChild(p3DFuctionItem);
+        m_3DFuctionNames.append(names.second.at(j));
+    }
+}
+
 void CGDataTreeView::InitUi()
 {
     m_DataTree = new QTreeWidget(this);
