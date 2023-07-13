@@ -78,6 +78,8 @@ public:
     virtual QString AlogorithmPlugVersion() = 0;
     virtual int AlgorithmPluginID() = 0;
 
+    virtual void SetAlgorithmInputData(QVector<QVariant> &data) = 0;
+    virtual QVector<QVariant> GetAlgorithmOutputData() = 0;
 
     virtual void Compute() = 0;
 

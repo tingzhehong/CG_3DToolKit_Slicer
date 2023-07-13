@@ -186,7 +186,7 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
 
 void CGNodeView::Run()
 {
-    m_NodeBlockManager->run();
+    m_NodeBlockManager->run();  //QThreadPool::globalInstance()->start(m_NodeBlockManager);
 }
 
 void CGNodeView::RunBlockUpdate()

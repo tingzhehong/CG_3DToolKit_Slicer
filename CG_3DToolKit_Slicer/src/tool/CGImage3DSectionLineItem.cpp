@@ -55,9 +55,9 @@ void CGImage3DSectionLineItem::InitSectionItem()
     sphere_3->Update();
 
     vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
-    plane->SetOrigin(m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2, m_Bounds[2], m_Bounds[4]);
-    plane->SetPoint1(m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2, m_Bounds[2], m_Bounds[5]);
-    plane->SetPoint2(m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2, m_Bounds[3], m_Bounds[4]);
+    plane->SetOrigin(m_Bounds[0], m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2, m_Bounds[4]);
+    plane->SetPoint1(m_Bounds[0], m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2, m_Bounds[5]);
+    plane->SetPoint2(m_Bounds[1], m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2, m_Bounds[4]);
 
     vtkSmartPointer<vtkPolyDataMapper> mapper_1= vtkSmartPointer<vtkPolyDataMapper>::New();
     mapper_1->SetInputConnection(sphere_1->GetOutputPort());
@@ -73,11 +73,11 @@ void CGImage3DSectionLineItem::InitSectionItem()
 
     m_SphereActor_1->SetMapper(mapper_1);
     m_SphereActor_1->GetProperty()->SetColor(1, 0, 0);
-    m_SphereActor_1->SetPosition(m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2, m_Bounds[2], m_Bounds[5]);
+    m_SphereActor_1->SetPosition(m_Bounds[0], m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2, m_Bounds[5]);
 
     m_SphereActor_2->SetMapper(mapper_2);
     m_SphereActor_2->GetProperty()->SetColor(1, 1, 0);
-    m_SphereActor_2->SetPosition(m_Bounds[0] + (m_Bounds[1] - m_Bounds[0]) / 2, m_Bounds[3], m_Bounds[5]);
+    m_SphereActor_2->SetPosition(m_Bounds[1], m_Bounds[2] + (m_Bounds[3] - m_Bounds[2]) / 2, m_Bounds[5]);
 
     m_SphereActor_3->SetMapper(mapper_3);
     m_SphereActor_3->GetProperty()->SetColor(0, 1, 1);

@@ -18,7 +18,7 @@ public:
 public:
     void Connections();
     void Run() override;
-    void FillNodeBlock(QList<NodeBlock*> list);
+    void FillNodeBlock(QVector<NodeBlock*> list);
 
 private slots:
     void AddNodeBlock();

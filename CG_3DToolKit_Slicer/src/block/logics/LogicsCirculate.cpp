@@ -85,7 +85,7 @@ void LogicsCirculate::DelNodeBlock()
     lineEdit->clear();
 }
 
-void LogicsCirculate::FillNodeBlock(QList<NodeBlock*> list)
+void LogicsCirculate::FillNodeBlock(QVector<NodeBlock*> list)
 {
     m_NodeBlockList.clear();
 

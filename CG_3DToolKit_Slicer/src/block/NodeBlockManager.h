@@ -18,8 +18,8 @@ public:
     void run() override;
 
 public:
-    QList<NodeBlock*> m_NodeBlockList;
-    QList<NodeBlock*> m_RunBlockList;
+    QVector<NodeBlock*> m_NodeBlockList;
+    QVector<NodeBlock*> m_RunBlockList;
 
 };
 
