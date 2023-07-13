@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDialog>
+#include <NodeBlockWidget.h>
 
 class QLabel;
 class QPushButton;

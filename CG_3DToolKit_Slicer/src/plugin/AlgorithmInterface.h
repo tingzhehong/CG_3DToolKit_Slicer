@@ -57,7 +57,6 @@ struct CG_NODEBLOCK
     QString Title;
     QList<CG_PORT> Input;
     QList<CG_PORT> Output;
-    QList<CG_ARGUMENT> Arguments;
 };
 
 class AlgorithmInterface : public QObject
@@ -78,8 +77,11 @@ public:
     virtual QString AlogorithmPlugVersion() = 0;
     virtual int AlgorithmPluginID() = 0;
 
-    virtual void SetAlgorithmInputData(QVector<QVariant> &data) = 0;
+    virtual void SetAlgorithmInputData(QVector<QVariant> &datas) = 0;
     virtual QVector<QVariant> GetAlgorithmOutputData() = 0;
+
+    virtual void SetAlgorithmInputArguments(QVector<CG_ARGUMENT> &args) = 0;
+    virtual QVector<CG_ARGUMENT> GetAlgorithmOutputArguments() = 0;
 
     virtual void Compute() = 0;
 

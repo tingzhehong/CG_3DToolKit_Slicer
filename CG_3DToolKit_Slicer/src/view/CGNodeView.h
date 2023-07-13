@@ -10,6 +10,7 @@ class NodeBlockFactory;
 class NodeBlockManager;
 class AlgorithmInterface;
 class PluginManager;
+class CGAlgorithmArgumentsDialog;
 
 class CGNodeView : public CGBaseWidget
 {
@@ -58,6 +59,7 @@ public:
     NodeBlockFactory *m_NodeBlockFactory;
     NodeBlockManager *m_NodeBlockManager;
     PluginManager *m_PluginManager;
+    CGAlgorithmArgumentsDialog *m_CGAlgorithmArgumentsDialog;
 };
 
 #endif // CGNODEVIEW_H

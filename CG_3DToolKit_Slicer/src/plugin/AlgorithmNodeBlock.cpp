@@ -5,6 +5,7 @@ AlgorithmNodeBlock::AlgorithmNodeBlock(NodeView *nodeview, QWidget *parent) : No
 {
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
+    m_NodeItem->m_AlgorithmNode = true;
     m_plugin = nullptr;
 }
 

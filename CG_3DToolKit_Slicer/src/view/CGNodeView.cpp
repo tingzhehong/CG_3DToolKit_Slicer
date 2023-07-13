@@ -25,6 +25,7 @@
 #include "NodeBlockFactory.h"
 #include "NodeBlockManager.h"
 #include "PluginManager.h"
+#include <CGAlgorithmArgumentsDialog.h>
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -51,6 +52,8 @@ void CGNodeView::InitUi()
     m_NodeBlockManager = new NodeBlockManager(this);
     m_NodeBlockManager->setAutoDelete(false);
 
+    m_CGAlgorithmArgumentsDialog = new CGAlgorithmArgumentsDialog(this);
+
     //Test();
     //Verify();
 
@@ -63,7 +66,7 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
-
+    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b){ if(!b) m_CGAlgorithmArgumentsDialog->exec(); });
 }
 
 void CGNodeView::InitPluginManager()

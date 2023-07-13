@@ -4,7 +4,8 @@ NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
 
 NodeBlockWidget::NodeBlockWidget(QWidget *parent) : QWidget(parent)
 {
-
+    InitUi();
+    InitConnections();
 }
 
 NodeBlockWidget *NodeBlockWidget::getInstance()

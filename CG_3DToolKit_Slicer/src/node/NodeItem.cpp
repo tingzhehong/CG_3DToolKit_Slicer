@@ -23,7 +23,9 @@ NodeItem::NodeItem(QWidget *widget, QGraphicsItem *parent) : QGraphicsObject(par
     m_isUserBrush(false),
     m_isSelected(false),
     m_Prev(nullptr),
-    m_Next(nullptr)
+    m_Next(nullptr),
+    m_GroupNode(false),
+    m_AlgorithmNode(false)
 {
     widget->setAttribute(Qt::WA_NoSystemBackground);
     QGraphicsProxyWidget *proxyWidget = new QGraphicsProxyWidget(this);
