@@ -18,8 +18,16 @@ public:
     void InitUi();
     void InitConnections();
 
-private:
+public slots:
+    void OnOK();
+    void OnCancel();
 
+protected:
+    void closeEvent(QCloseEvent *closeEvent);
+
+private:
+    QPushButton *m_pOKBtn;
+    QPushButton *m_pCancelBtn;
 };
 
 #endif // CGALGORITHMARGUMENTSDIALOG_H

@@ -51,6 +51,12 @@ struct CG_ARGUMENT
     float VALUE;
 };
 
+struct CG_SHOWDATA
+{
+    CG_ALGORITHM_TYPE Type;
+    QVariant Data;
+};
+
 struct CG_NODEBLOCK
 {
     QString Name;
@@ -82,6 +88,8 @@ public:
 
     virtual void SetAlgorithmInputArguments(QVector<CG_ARGUMENT> &args) = 0;
     virtual QVector<CG_ARGUMENT> GetAlgorithmOutputArguments() = 0;
+
+    virtual CG_SHOWDATA GetAlgorithmShowData() = 0;
 
     virtual void Compute() = 0;
 

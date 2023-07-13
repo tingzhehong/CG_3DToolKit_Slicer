@@ -3,6 +3,10 @@
 
 #include <QWidget>
 
+class QLabel;
+class QTableWidget;
+class QTableWidgetItem;
+class CGVTKWidget;
 class NodeBlockWidget : public QWidget
 {
     Q_OBJECT
@@ -16,6 +20,11 @@ public:
 private:
     void InitUi();
     void InitConnections();
+    void InitTableWidget();
+
+private:
+    QTableWidget *m_ArgumentsTable;
+    CGVTKWidget *m_CGVTKWidget;
 
 private:
     static NodeBlockWidget *m_NodeBlockWidget;
