@@ -86,8 +86,8 @@ public:
     virtual void SetAlgorithmInputData(QVector<QVariant> &datas) = 0;
     virtual QVector<QVariant> GetAlgorithmOutputData() = 0;
 
-    virtual void SetAlgorithmInputArguments(QVector<CG_ARGUMENT> &args) = 0;
-    virtual QVector<CG_ARGUMENT> GetAlgorithmOutputArguments() = 0;
+    virtual void SetAlgorithmArguments(QVector<CG_ARGUMENT> &args) = 0;
+    virtual QVector<CG_ARGUMENT> GetAlgorithmArguments() = 0;
 
     virtual CG_SHOWDATA GetAlgorithmShowData() = 0;
 

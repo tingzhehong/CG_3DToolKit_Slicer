@@ -292,14 +292,14 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
     {
         int index = m_PluginManager->m_PluginNames2D.indexOf(nodeName);
         AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index);
-        arguments = plugin->GetAlgorithmOutputArguments();
+        arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
     }
     if (m_PluginManager->m_PluginNames3D.contains(nodeName))
     {
         int index = m_PluginManager->m_PluginNames3D.indexOf(nodeName);
         AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index);
-        arguments = plugin->GetAlgorithmOutputArguments();
+        arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
     }
 

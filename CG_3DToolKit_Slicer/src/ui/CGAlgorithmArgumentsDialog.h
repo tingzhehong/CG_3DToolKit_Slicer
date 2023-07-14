@@ -18,6 +18,9 @@ public:
     void InitUi();
     void InitConnections();
 
+signals:
+    void SignalSetArguments(QVector<CG_ARGUMENT> args);
+
 public slots:
     void OnOK();
     void OnCancel();
