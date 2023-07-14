@@ -3,6 +3,9 @@
 
 #include <QWidget>
 
+class QTreeWidget;
+class QTreeWidgetItem;
+
 class CGPropertiesForm2 : public QWidget
 {
     Q_OBJECT
@@ -14,6 +17,7 @@ public:
     void InitUi();
 
 public:
+    QTreeWidget *m_PropertiesTree;
 
 };
 

@@ -9,7 +9,7 @@ LogicsGroup::LogicsGroup(NodeView *nodeview, QWidget *parent) : NodeBlock(nodevi
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
 
-    mainnode = NodeItemFactory(tr(u8"组(主节点)"), 0, 0);
+    mainnode = NodeItemFactory(tr(u8"组(主控节点)"), 0, 0);
     group = m_NodeView->createGroup(QList<NodeItem*>{mainnode});
     group->setTitle(u8"Group 组");
 

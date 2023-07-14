@@ -81,6 +81,7 @@ void MainWindow::InitConnections()
     connect(m_pCGDataTreeView, &CGDataTreeView::SignalProfileToolClear, m_pCGProfileView, &CGProfileView::OnDelTool);
 
     connect(m_pCGProfileView, &CGProfileView::SignalRequest, m_pCGViewRegulator, &CGViewRegulator::OnProfileViewRequest);
+    
     connect(m_pCGNodeView, &CGNodeView::Signal2DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::Signal3DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::SignalAlgorithmPlugin, m_pCGDataTreeView, &CGDataTreeView::OnAlgorithmPluginAdd);
