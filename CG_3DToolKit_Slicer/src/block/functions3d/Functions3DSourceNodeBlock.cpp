@@ -15,6 +15,7 @@ void Functions3DSourceNodeBlock::Run()
     m_NodeItem->PortClass();
 
     if (m_NodeItem->m_OutPortItem.size() != 1) return;
+    if (!g_PointCloud) return;
 
     m_NodeItem->m_OutPortItem.at(0)->setValue(QVariant::fromValue(g_PointCloud));
     m_IsRuned = true;

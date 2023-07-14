@@ -31,6 +31,41 @@ NodeBlockWidget *NodeBlockWidget::getInstance()
     return m_NodeBlockWidget;
 }
 
+void NodeBlockWidget::LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args)
+{
+    m_ArgumentsTable->clear();
+
+    InitTableWidget();
+    int num = args.size();
+    if (num > 16)
+    {
+        m_ArgumentsTable->setRowCount(num);
+    }
+
+    for (int i = 0; i < num; ++i)
+    {
+        m_ArgumentsTable->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
+        m_ArgumentsTable->setItem(i, 1, new QTableWidgetItem(args.at(i).ARG));
+        m_ArgumentsTable->setItem(i, 2, new QTableWidgetItem(QString::number(args.at(i).VALUE, 'f', 3)));
+
+        m_ArgumentsTable->item(i, 0)->setFlags(Qt::ItemIsEnabled);
+        m_ArgumentsTable->item(i, 1)->setFlags(Qt::ItemIsEnabled);
+    }
+}
+
+void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
+{
+    if (data.Type = CG_ALGORITHM_TYPE::ALG2D)
+    {
+
+    }
+
+    if (data.Type = CG_ALGORITHM_TYPE::ALG3D)
+    {
+
+    }
+}
+
 void NodeBlockWidget::InitUi()
 {
     m_ArgumentsTable = new QTableWidget(this);

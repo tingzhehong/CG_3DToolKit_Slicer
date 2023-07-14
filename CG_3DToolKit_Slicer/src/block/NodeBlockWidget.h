@@ -2,6 +2,7 @@
 #define NODEBLOCKWIDGET_H
 
 #include <QWidget>
+#include <AlgorithmInterface.h>
 
 class QLabel;
 class QTableWidget;
@@ -16,6 +17,9 @@ private:
 
 public:
     static NodeBlockWidget *getInstance();
+
+    void LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args);
+    void LoadAlgorithmShowData(CG_SHOWDATA &data);
 
 private:
     void InitUi();

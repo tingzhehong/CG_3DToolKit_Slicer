@@ -24,6 +24,7 @@
 #include "Functions3DTerminalNodeBlock.h"
 #include "NodeBlockFactory.h"
 #include "NodeBlockManager.h"
+#include "NodeBlockWidget.h"
 #include "PluginManager.h"
 #include <CGAlgorithmArgumentsDialog.h>
 
@@ -66,7 +67,7 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
-    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b){ if(!b) m_CGAlgorithmArgumentsDialog->exec(); });
+    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(!b) m_CGAlgorithmArgumentsDialog->exec(); });
 }
 
 void CGNodeView::InitPluginManager()
@@ -268,4 +269,43 @@ void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
             block = nullptr;
         }
     }
+}
+
+void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
+{
+    if (!b) return;
+
+    QString nodeName = NULL;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            nodeName = block->m_NodeItem->m_NodeName;
+            break;
+        }
+    }
+    if (nodeName == NULL) return;
+
+    QVector<CG_ARGUMENT> arguments;
+    CG_SHOWDATA data;
+    if (m_PluginManager->m_PluginNames2D.contains(nodeName))
+    {
+        int index = m_PluginManager->m_PluginNames2D.indexOf(nodeName);
+        AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index);
+        arguments = plugin->GetAlgorithmOutputArguments();
+        data = plugin->GetAlgorithmShowData();
+    }
+    if (m_PluginManager->m_PluginNames3D.contains(nodeName))
+    {
+        int index = m_PluginManager->m_PluginNames3D.indexOf(nodeName);
+        AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index);
+        arguments = plugin->GetAlgorithmOutputArguments();
+        data = plugin->GetAlgorithmShowData();
+    }
+
+    if (arguments.empty()) return;
+    NodeBlockWidget::getInstance()->LoadAlgorithmArguments(arguments);
+
+    if (data.Data.isNull()) return;
+    NodeBlockWidget::getInstance()->LoadAlgorithmShowData(data);
 }

@@ -192,7 +192,8 @@ void NodeView::mouseDoubleClickEvent(QMouseEvent *e)
     {
         qDebug() << hitNode->NodeName();
         bool isAlgorithmPlugin = hitNode->m_AlgorithmNode;
-        emit signalDoubleClick(isAlgorithmPlugin);
+        unsigned int id = hitNode->m_NodeID;
+        emit signalDoubleClick(isAlgorithmPlugin, id);
     }
 
     update();
