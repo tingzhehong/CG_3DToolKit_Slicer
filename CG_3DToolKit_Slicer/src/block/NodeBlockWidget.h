@@ -8,6 +8,7 @@ class QLabel;
 class QTableWidget;
 class QTableWidgetItem;
 class CGVTKWidget;
+class vtkActor;
 class NodeBlockWidget : public QWidget
 {
     Q_OBJECT
@@ -25,10 +26,17 @@ private:
     void InitUi();
     void InitConnections();
     void InitTableWidget();
+    void ClearPointCloud();
+
+protected:
+    void PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *actor);
 
 private:
     QTableWidget *m_ArgumentsTable;
     CGVTKWidget *m_CGVTKWidget;
+
+    cv::Mat _image;
+    PointCloudT::Ptr _cloud;
 
 private:
     static NodeBlockWidget *m_NodeBlockWidget;

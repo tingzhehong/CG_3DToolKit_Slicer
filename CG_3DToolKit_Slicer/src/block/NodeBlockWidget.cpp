@@ -20,6 +20,8 @@ NodeBlockWidget::NodeBlockWidget(QWidget *parent) : QWidget(parent)
     InitUi();
     InitConnections();
     InitTableWidget();
+
+    _cloud.reset(new PointCloudT);
 }
 
 NodeBlockWidget *NodeBlockWidget::getInstance()
@@ -57,12 +59,21 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
 {
     if (data.Type = CG_ALGORITHM_TYPE::ALG2D)
     {
-
+        if (data.Data.canConvert<cv::Mat>())
+            _image = data.Data.value<cv::Mat>();
     }
 
     if (data.Type = CG_ALGORITHM_TYPE::ALG3D)
     {
+        if (data.Data.canConvert<PointCloudT::Ptr>())
+            _cloud = data.Data.value<PointCloudT::Ptr>();
 
+        vtkSmartPointer<vtkActor> _actor = vtkSmartPointer<vtkActor>::New();
+        PointCloud2VTKActor(_cloud, _actor);
+        ClearPointCloud();
+        m_CGVTKWidget->addActor3D(_actor, QColor(25, 50, 75));
+        m_CGVTKWidget->defaultRenderer()->ResetCamera();
+        m_CGVTKWidget->update();
     }
 }
 
@@ -106,4 +117,58 @@ void NodeBlockWidget::InitTableWidget()
     m_ArgumentsTable->setHorizontalHeaderLabels(QStringList() << QString::fromLocal8Bit("序号")
                                                               << QString::fromLocal8Bit("参数")
                                                               << QString::fromLocal8Bit("数值"));
+}
+
+void NodeBlockWidget::ClearPointCloud()
+{
+    int num = m_CGVTKWidget->actors3d().count();
+    for (int i = 0; i < num; ++i)
+    {
+        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CGVTKWidget->actors3d()[i]);
+    }
+}
+
+void NodeBlockWidget::PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *actor)
+{
+    if (cloud->empty()) return;
+    pcl::PointXYZRGB min_pt;
+    pcl::PointXYZRGB max_pt;
+    pcl::getMinMax3D(*cloud, min_pt, max_pt);
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
+    long long n = 0;
+    double x, y, z;
+    double r, g, b;
+    double MinZ = min_pt.z, MaxZ = max_pt.z;
+    for (size_t i = 0; i < cloud->size(); ++i)
+    {
+
+        n = (double)i;
+        x = (double)cloud->points[i].x;
+        y = (double)cloud->points[i].y;
+        z = (double)cloud->points[i].z;
+        r = (double)cloud->points[i].r;
+        g = (double)cloud->points[i].g;
+        b = (double)cloud->points[i].b;
+
+        points->InsertPoint(n, x, y, z);
+     }
+
+     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+     polyData->SetPoints(points);
+
+     vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+     glyphFilter->SetInputData(polyData);
+     glyphFilter->Update();
+
+     vtkSmartPointer<vtkElevationFilter> coloredGrid = vtkElevationFilter::New();
+     coloredGrid->SetInputConnection(glyphFilter->GetOutputPort());
+     coloredGrid->SetLowPoint(0, 0, MaxZ);
+     coloredGrid->SetHighPoint(0, 0, MinZ);
+
+     vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+     mapper->SetInputConnection(coloredGrid->GetOutputPort());
+
+     actor->SetMapper(mapper);
 }
