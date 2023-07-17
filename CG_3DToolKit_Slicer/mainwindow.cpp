@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     InitUi();
     InitConnections();
+    InitPlugins();
     showMaximized();
 }
 
@@ -85,6 +86,11 @@ void MainWindow::InitConnections()
     connect(m_pCGNodeView, &CGNodeView::Signal2DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::Signal3DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::SignalAlgorithmPlugin, m_pCGDataTreeView, &CGDataTreeView::OnAlgorithmPluginAdd);
+}
+
+void MainWindow::InitPlugins()
+{
+    m_pCGNodeView->InitPluginManager();
 }
 
 void MainWindow::QSS(const int Style)
@@ -352,14 +358,14 @@ void MainWindow::CreateLogics(const QString toolname)
     m_pCGNodeView->CreateLogicsNodeItem(toolname);
 }
 
-void MainWindow::Create2DFuction(const QString toolname, int index)
+void MainWindow::Create2DFuction(const QString toolname)
 {
-    m_pCGNodeView->Create2DFuctionNodeItem(toolname, index);
+    m_pCGNodeView->Create2DFuctionNodeItem(toolname);
 }
 
-void MainWindow::Create3DFuction(const QString toolname, int index)
+void MainWindow::Create3DFuction(const QString toolname)
 {
-    m_pCGNodeView->Create3DFuctionNodeItem(toolname, index);
+    m_pCGNodeView->Create3DFuctionNodeItem(toolname);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -430,11 +436,11 @@ void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     case CGDataTreeView::DateTreeEnum::Fuction2D:
-        Create2DFuction(strColumn, index);
+        Create2DFuction(strColumn);
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     case CGDataTreeView::DateTreeEnum::Fuction3D:
-        Create3DFuction(strColumn, index);
+        Create3DFuction(strColumn);
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
         break;
     default:

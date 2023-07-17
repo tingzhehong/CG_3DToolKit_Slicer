@@ -31,8 +31,8 @@ public:
     void InitPluginManager();
     void CreateMathsNodeItem(const QString toolname);
     void CreateLogicsNodeItem(const QString toolname);
-    void Create2DFuctionNodeItem(const QString toolname, int index);
-    void Create3DFuctionNodeItem(const QString toolname, int index);
+    void Create2DFuctionNodeItem(const QString toolname);
+    void Create3DFuctionNodeItem(const QString toolname);
 
     void Run();
     void RunBlockUpdate();

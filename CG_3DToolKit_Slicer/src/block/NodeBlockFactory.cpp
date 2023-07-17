@@ -1,5 +1,6 @@
 ﻿#include "NodeBlockFactory.h"
 #include <AlgorithmNodeBlock.h>
+#include <QDebug>
 
 NodeBlockFactory::NodeBlockFactory(QObject *parent) : QObject(parent)
 {
@@ -14,6 +15,7 @@ NodeBlock* NodeBlockFactory::CreatNodeBlock(AlgorithmInterface *plugin, CG_NODEB
     AlgorithmNodeBlock *block = new AlgorithmNodeBlock(nodeview);
     block->SetPlugin(plugin);
     block->NodeItemFactory(pluginobj->Name, iInput, iOutput);
+    block->m_NodeItem->m_AlgorithmNode = true;
     block->m_NodeItem->PortClass();
 
     for (int i = 0; i < iInput; ++i)

@@ -1,6 +1,7 @@
 ﻿#include "Functions2DTerminalNodeBlock.h"
 #include "CGMetaType.h"
 #include <QLabel>
+#include <QDebug>
 
 Functions2DTerminalNodeBlock::Functions2DTerminalNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -15,7 +16,9 @@ void Functions2DTerminalNodeBlock::Run()
     m_NodeItem->PortClass();
 
     if (m_NodeItem->m_InPortItem.size() != 1) return;
-
+    QVariant var = m_NodeItem->m_InPortItem.at(0)->value();
+    cv::Mat img = var.value<cv::Mat>();
+    g_Image.ColorImage = img.clone();
     emit SignalShow2D();
     m_IsRuned = true;
 }

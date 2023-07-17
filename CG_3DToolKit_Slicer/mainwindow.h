@@ -23,6 +23,7 @@ public:
 private:
     void InitUi();
     void InitConnections();
+    void InitPlugins();
     void QSS(const int Style);
 
     bool HandleDepthImage(const std::string filename);
@@ -57,8 +58,8 @@ private:
     void CreateProfileTool(const QString toolname);
     void CreateMaths(const QString toolname);
     void CreateLogics(const QString toolname);
-    void Create2DFuction(const QString toolname, int index);
-    void Create3DFuction(const QString toolname, int index);
+    void Create2DFuction(const QString toolname);
+    void Create3DFuction(const QString toolname);
 
 protected:
     void keyPressEvent(QKeyEvent *event);

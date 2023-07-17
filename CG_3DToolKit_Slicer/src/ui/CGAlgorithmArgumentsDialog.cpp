@@ -12,7 +12,6 @@ CGAlgorithmArgumentsDialog::CGAlgorithmArgumentsDialog(QWidget *parent) : QDialo
 {
     InitUi();
     InitConnections();
-
 }
 
 void CGAlgorithmArgumentsDialog::InitUi()

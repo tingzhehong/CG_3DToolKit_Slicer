@@ -27,12 +27,14 @@ void CGDataTreeView::OnAlgorithmPluginAdd(QPair<QStringList, QStringList> names)
         m_2DFuction->addChild(p2DFuctionItem);
         m_2DFuctionNames.append(names.first.at(i));
     }
+    qDebug() << m_2DFuctionNames;
 
     for (int j = 0; j < names.second.size(); ++j) {
         QTreeWidgetItem *p3DFuctionItem = new QTreeWidgetItem(QStringList() << names.second.at(j));
         m_3DFuction->addChild(p3DFuctionItem);
         m_3DFuctionNames.append(names.second.at(j));
     }
+    qDebug() << m_3DFuctionNames;
 }
 
 void CGDataTreeView::InitUi()

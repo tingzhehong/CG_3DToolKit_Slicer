@@ -11,6 +11,11 @@
 #include <CGVTKHeader.h>
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
+#include <CGImageFormatConvert.h>
+#include <vtkImageData.h>
+#include <vtkImageActor.h>
+#include <vtkInteractorStyleImage.h>
+#include <vtkInteractorStyleTrackballCamera.h>.h>
 
 
 NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
@@ -57,13 +62,28 @@ void NodeBlockWidget::LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args)
 
 void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
 {
-    if (data.Type = CG_ALGORITHM_TYPE::ALG2D)
+    if (data.Type == CG_ALGORITHM_TYPE::ALG2D)
     {
         if (data.Data.canConvert<cv::Mat>())
             _image = data.Data.value<cv::Mat>();
+        QImage _Image = CG::CVMat2QImage(_image);
+
+        vtkSmartPointer<vtkImageData> _data = vtkSmartPointer<vtkImageData>::New();
+        CGVTKUtils::qImageToVtkImage(_Image, _data);
+        vtkSmartPointer<vtkImageActor> _actor = vtkSmartPointer<vtkImageActor>::New();
+        _actor->SetInputData(_data);
+        ClearPointCloud();
+        m_CGVTKWidget->addActor(_actor, QColor(25, 50, 75));
+
+        vtkSmartPointer<vtkInteractorStyleImage> style = vtkSmartPointer<vtkInteractorStyleImage>::New();
+        style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
+
+        m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(style);
+        m_CGVTKWidget->defaultRenderer()->ResetCamera();
+        m_CGVTKWidget->update();
     }
 
-    if (data.Type = CG_ALGORITHM_TYPE::ALG3D)
+    if (data.Type == CG_ALGORITHM_TYPE::ALG3D)
     {
         if (data.Data.canConvert<PointCloudT::Ptr>())
             _cloud = data.Data.value<PointCloudT::Ptr>();
@@ -71,7 +91,12 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         vtkSmartPointer<vtkActor> _actor = vtkSmartPointer<vtkActor>::New();
         PointCloud2VTKActor(_cloud, _actor);
         ClearPointCloud();
-        m_CGVTKWidget->addActor3D(_actor, QColor(25, 50, 75));
+        m_CGVTKWidget->addActor(_actor, QColor(25, 50, 75));
+
+        vtkSmartPointer<vtkInteractorStyleTrackballCamera> style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
+        style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
+
+        m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(style);
         m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CGVTKWidget->update();
     }
@@ -121,10 +146,10 @@ void NodeBlockWidget::InitTableWidget()
 
 void NodeBlockWidget::ClearPointCloud()
 {
-    int num = m_CGVTKWidget->actors3d().count();
+    int num = m_CGVTKWidget->actors().count();
     for (int i = 0; i < num; ++i)
     {
-        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CGVTKWidget->actors3d()[i]);
+        m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CGVTKWidget->actors()[i]);
     }
 }
 

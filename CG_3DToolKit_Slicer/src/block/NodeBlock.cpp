@@ -143,8 +143,8 @@ NodeItem *NodeBlock::CreatNodeItem01(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -170,8 +170,8 @@ NodeItem *NodeBlock::CreatNodeItem10(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -197,8 +197,8 @@ NodeItem *NodeBlock::CreatNodeItem11(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -225,8 +225,8 @@ NodeItem *NodeBlock::CreatNodeItem21(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -254,8 +254,8 @@ NodeItem *NodeBlock::CreatNodeItem31(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -284,8 +284,8 @@ NodeItem *NodeBlock::CreatNodeItem41(const QString nodename)
     widget->resize(150, 60);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -315,8 +315,8 @@ NodeItem *NodeBlock::CreatNodeItem12(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -344,8 +344,8 @@ NodeItem *NodeBlock::CreatNodeItem22(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);
@@ -379,8 +379,8 @@ NodeItem *NodeBlock::CreatNodeItem00(const QString nodename)
     widget->resize(150, 50);
 
     QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
-    label->resize(60, 20);
-    label->move(56, 15);
+    label->resize(100, 20);
+    label->move(50, 15);
 
     QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
     labelId->resize(60, 20);

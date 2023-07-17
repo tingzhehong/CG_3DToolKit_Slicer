@@ -33,7 +33,6 @@ CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
 {
     InitUi();
     InitConnections();
-    //InitPluginManager();
     setWindowTitle(tr(u8"流程节点"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
 }
@@ -67,7 +66,7 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
-    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(!b) m_CGAlgorithmArgumentsDialog->exec(); });
+    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(b) m_CGAlgorithmArgumentsDialog->exec(); });
 }
 
 void CGNodeView::InitPluginManager()
@@ -138,7 +137,7 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
     }
 }
 
-void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
+void CGNodeView::Create2DFuctionNodeItem(const QString toolname)
 {
         if (toolname == u8"2D数据源") {
             Functions2DSourceNodeBlock *src2d = new Functions2DSourceNodeBlock(m_NodeView);
@@ -152,6 +151,7 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
             connect(terml2d, &Functions2DTerminalNodeBlock::SignalShow2D, this, [&](){emit Signal2DRequest();});
          }
     else {
+            int index = m_2DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
             AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index - 2);
@@ -163,7 +163,7 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname, int index)
 
 }
 
-void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
+void CGNodeView::Create3DFuctionNodeItem(const QString toolname)
 {
         if (toolname == u8"3D数据源") {
             Functions3DSourceNodeBlock *src3d = new Functions3DSourceNodeBlock(m_NodeView);
@@ -177,6 +177,7 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname, int index)
             connect(terml3d, &Functions3DTerminalNodeBlock::SignalShow3D, this, [&](){emit Signal3DRequest();});
          }
     else {
+            int index = m_3DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
             AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index - 2);
