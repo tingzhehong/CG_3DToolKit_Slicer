@@ -315,4 +315,6 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
 
     if (data.Data.isNull()) return;
     NodeBlockWidget::getInstance()->LoadAlgorithmShowData(data);
+
+    NodeBlockWidget::getInstance()->ShowAlgorithmPluginInfomation();
 }

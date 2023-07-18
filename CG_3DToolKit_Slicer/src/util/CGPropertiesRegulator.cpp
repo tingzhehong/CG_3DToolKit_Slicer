@@ -18,7 +18,7 @@ CGPropertiesRegulator *CGPropertiesRegulator::getInstance()
     return m_CGPropertiesRegulator;
 }
 
-void CGPropertiesRegulator::SetCGPropertiesForms(CGPropertiesForm1 *form1, CGPropertiesForm2 *form2)
+void CGPropertiesRegulator::SetCGPropertiesForms(CGPropertiesForm1 *&form1, CGPropertiesForm2 *&form2)
 {
     m_Form1 = form1;
     m_Form2 = form2;

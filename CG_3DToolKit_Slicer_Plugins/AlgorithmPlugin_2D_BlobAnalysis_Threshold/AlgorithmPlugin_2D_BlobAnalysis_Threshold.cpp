@@ -68,9 +68,13 @@ void AlgorithmPlugin_2D_BlobAnalysis_Threshold::SetAlgorithmInputData(QVector<QV
         return;
     }
 
-    if (datas.at(0).canConvert<CG_IMG>())
-       _IMG = datas.at(0).value<CG_IMG>();
-    _imgSrc = _IMG.GrayImage;
+    if (datas.at(0).canConvert<CG_IMG>()) {
+        _IMG = datas.at(0).value<CG_IMG>();
+        _imgSrc = _IMG.GrayImage;
+    }
+    else if (datas.at(0).canConvert<cv::Mat>()) {
+        _imgSrc = datas.at(0).value<cv::Mat>();
+    }
     _thresUp = datas.at(1).toInt();
     _thresDown = datas.at(2).toInt();
     _thresUpArgs.VALUE = _thresUp;

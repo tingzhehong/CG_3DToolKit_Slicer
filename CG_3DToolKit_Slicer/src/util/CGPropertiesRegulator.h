@@ -16,9 +16,9 @@ private:
 public:
     static CGPropertiesRegulator *getInstance();
 
-    void SetCGPropertiesForms(CGPropertiesForm1 *form1, CGPropertiesForm2 *form2);
+    void SetCGPropertiesForms(CGPropertiesForm1 *&form1, CGPropertiesForm2 *&form2);
 
-private:
+public:
     CGPropertiesForm1 *m_Form1;
     CGPropertiesForm2 *m_Form2;
 

@@ -2,6 +2,8 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -12,6 +14,7 @@
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
 #include <CGImageFormatConvert.h>
+#include <CGPropertiesForm2.h>
 #include <vtkImageData.h>
 #include <vtkImageActor.h>
 #include <vtkInteractorStyleImage.h>
@@ -110,6 +113,29 @@ void NodeBlockWidget::SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin)
 {
     m_plugin = plugin;
     m_args = plugin->GetAlgorithmArguments();
+}
+
+void NodeBlockWidget::ShowAlgorithmPluginInfomation()
+{
+    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->clear();
+
+    QTreeWidgetItem *pPluginItem = new QTreeWidgetItem(QStringList{tr(u8"算子属性")});
+
+    QStringList propertiesList;
+    QString name = m_plugin->AlgorithmPluginName();
+    QString id = QString::number(m_plugin->AlgorithmPluginID());
+    QString ver = m_plugin->AlogorithmPlugVersion();
+    propertiesList.append(tr(u8"Node Block ID: ") + id);
+    propertiesList.append(tr(u8"Node Block Name: ") + name);
+    propertiesList.append(tr(u8"Node Block Version: ") + ver);
+
+    for (int i = 0; i < propertiesList.size(); ++i) {
+        QTreeWidgetItem *pItem = new QTreeWidgetItem(QStringList() << propertiesList.at(i));
+        pPluginItem->addChild(pItem);
+    }
+    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pPluginItem);
+    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form2->update();
 }
 
 void NodeBlockWidget::InitUi()

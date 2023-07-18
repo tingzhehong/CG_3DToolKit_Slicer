@@ -23,6 +23,7 @@ public:
     void LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args);
     void LoadAlgorithmShowData(CG_SHOWDATA &data);
     void SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin);
+    void ShowAlgorithmPluginInfomation();
 
 private:
     void InitUi();

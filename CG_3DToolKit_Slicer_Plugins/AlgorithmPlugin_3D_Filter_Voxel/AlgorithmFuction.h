@@ -7,7 +7,7 @@
 namespace alg
 {
     /**
-    * @brief        体系滤波 VoxelFilter
+    * @brief        体素滤波 VoxelFilter
     * @param[in]
     * @param[out]
     * @return
