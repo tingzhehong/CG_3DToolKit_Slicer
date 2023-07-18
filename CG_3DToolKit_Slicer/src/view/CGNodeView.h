@@ -2,6 +2,7 @@
 #define CGNODEVIEW_H
 
 #include <CGBaseWidget.h>
+#include <CGConsoleView.h>
 #include <NodeView.h>
 #include <NodeItem.h>
 

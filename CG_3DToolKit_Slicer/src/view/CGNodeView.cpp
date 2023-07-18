@@ -159,6 +159,7 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname)
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;
+            connect(plugin, &AlgorithmInterface::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
          }
 
 }
@@ -185,6 +186,7 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname)
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;;
+            connect(plugin, &AlgorithmInterface::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
          }
 
 }

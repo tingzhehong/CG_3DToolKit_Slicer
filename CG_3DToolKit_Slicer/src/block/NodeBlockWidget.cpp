@@ -58,6 +58,7 @@ void NodeBlockWidget::LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args)
         m_ArgumentsTable->item(i, 0)->setFlags(Qt::ItemIsEnabled);
         m_ArgumentsTable->item(i, 1)->setFlags(Qt::ItemIsEnabled);
     }
+    m_ArgumentsTable->update();
 }
 
 void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
@@ -79,6 +80,9 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
 
         m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(style);
+        m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(0, 0, 1);
+        m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+        m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 1, 0);
         m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CGVTKWidget->update();
     }

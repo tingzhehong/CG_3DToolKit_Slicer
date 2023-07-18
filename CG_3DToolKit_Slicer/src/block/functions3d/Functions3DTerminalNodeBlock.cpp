@@ -1,6 +1,7 @@
 ﻿#include "Functions3DTerminalNodeBlock.h"
 #include "CGMetaType.h"
 #include <QLabel>
+#include <QDebug>
 
 Functions3DTerminalNodeBlock::Functions3DTerminalNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -15,7 +16,9 @@ void Functions3DTerminalNodeBlock::Run()
     m_NodeItem->PortClass();
 
     if (m_NodeItem->m_InPortItem.size() != 1) return;
-
+    QVariant var = m_NodeItem->m_InPortItem.at(0)->value();
+    PointCloudT::Ptr cloud = var.value<PointCloudT::Ptr>();
+    g_PointCloud = cloud;
     emit SignalShow3D();
     m_IsRuned = true;
 }
