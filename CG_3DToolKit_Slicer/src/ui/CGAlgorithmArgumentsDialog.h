@@ -19,7 +19,7 @@ public:
     void InitConnections();
 
 signals:
-    void SignalSetArguments(QVector<CG_ARGUMENT> args);
+    void SignalSetArguments();
 
 public slots:
     void OnOK();

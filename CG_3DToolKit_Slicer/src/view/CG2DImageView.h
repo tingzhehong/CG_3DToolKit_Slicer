@@ -4,6 +4,7 @@
 #include <CGBaseWidget.h>
 #include <CGGraphicsView.h>
 #include <CGImage2DGraphicsItemAdapter.h>
+#include <CGPropertiesRegulator.h>
 
 class CGGraphicsLineItem;
 class CGGraphicsRectItem;

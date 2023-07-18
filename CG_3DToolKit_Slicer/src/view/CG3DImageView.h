@@ -8,6 +8,7 @@
 #include <CGBoxWidgetObserver.h>
 #include <CGPlaneWidgetObserver.h>
 #include <CGImage3DGraphicsItemAdapter.h>
+#include <CGPropertiesRegulator.h>
 
 class vtkActor;
 class vtkCubeAxesActor;

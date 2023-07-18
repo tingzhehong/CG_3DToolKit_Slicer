@@ -17,6 +17,8 @@ void CGPropertiesView::InitForms()
     m_Form2 = new CGPropertiesForm2();
     insertTab(0, m_Form1, tr(u8"属性 1"));
     insertTab(1, m_Form2, tr(u8"属性 2"));
+
+    CGPropertiesRegulator::getInstance()->SetCGPropertiesForms(m_Form1, m_Form2);
 }
 
 void CGPropertiesView::InitConnections()

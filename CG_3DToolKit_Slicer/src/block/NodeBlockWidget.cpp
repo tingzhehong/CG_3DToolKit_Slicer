@@ -15,7 +15,7 @@
 #include <vtkImageData.h>
 #include <vtkImageActor.h>
 #include <vtkInteractorStyleImage.h>
-#include <vtkInteractorStyleTrackballCamera.h>.h>
+#include <vtkInteractorStyleTrackballCamera.h>
 
 
 NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
@@ -106,6 +106,12 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
     }
 }
 
+void NodeBlockWidget::SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin)
+{
+    m_plugin = plugin;
+    m_args = plugin->GetAlgorithmArguments();
+}
+
 void NodeBlockWidget::InitUi()
 {
     m_ArgumentsTable = new QTableWidget(this);
@@ -133,7 +139,7 @@ void NodeBlockWidget::InitUi()
 
 void NodeBlockWidget::InitConnections()
 {
-
+    connect(m_ArgumentsTable, &QTableWidget::itemChanged, this, &NodeBlockWidget::OnTableWidgetItemChanged);
 }
 
 void NodeBlockWidget::InitTableWidget()
@@ -200,4 +206,26 @@ void NodeBlockWidget::PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *acto
      mapper->SetInputConnection(coloredGrid->GetOutputPort());
 
      actor->SetMapper(mapper);
+}
+
+void NodeBlockWidget::OnTableWidgetItemChanged(QTableWidgetItem *current)
+{
+    if (current == nullptr) return;
+    int row = current->row();
+    float value = 0.0f;
+
+    if (m_plugin->GetAlgorithmArguments().size() == 0) return;
+    if (m_ArgumentsTable->item(row, 0) == nullptr ||
+        m_ArgumentsTable->item(row, 1) == nullptr ||
+        m_ArgumentsTable->item(row, 2) == nullptr) return;
+
+    QString strValue = m_ArgumentsTable->item(row, 2)->text().trimmed();
+    value = strValue.toFloat();
+
+    m_args[row].VALUE = value;
+}
+
+void NodeBlockWidget::OnSendAlgorithmArguuments()
+{
+    m_plugin->SetAlgorithmArguments(m_args);
 }

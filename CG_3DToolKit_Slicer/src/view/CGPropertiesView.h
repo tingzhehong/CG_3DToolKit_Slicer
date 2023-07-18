@@ -2,6 +2,7 @@
 #define CGPROPERTIESVIEW_H
 
 #include <QTabWidget>
+#include <CGPropertiesRegulator.h>
 
 class CGPropertiesForm1;
 class CGPropertiesForm2;

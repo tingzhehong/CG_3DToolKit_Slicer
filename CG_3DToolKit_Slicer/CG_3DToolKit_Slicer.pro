@@ -66,6 +66,7 @@ SOURCES += \
     src/util/CGBaseTreeWidget.cpp \
     src/util/CGBaseWidget.cpp \
     src/alg/CGImageFormatConvert.cpp \
+    src/util/CGPropertiesRegulator.cpp \
     src/util/CGSubWindowWidget.cpp \
     src/util/CGViewRegulator.cpp \
     src/view/CG2DImageView.cpp \
@@ -153,6 +154,7 @@ HEADERS += \
     src/util/CGBaseTreeWidget.h \
     src/util/CGBaseWidget.h \
     src/alg/CGImageFormatConvert.h \
+    src/util/CGPropertiesRegulator.h \
     src/util/CGSubWindowWidget.h \
     src/util/CGViewRegulator.h \
     src/view/CG2DImageView.h \

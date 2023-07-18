@@ -48,6 +48,7 @@ void CGAlgorithmArgumentsDialog::InitConnections()
 
 void CGAlgorithmArgumentsDialog::OnOK()
 {
+    emit SignalSetArguments();
     this->accept();
 }
 

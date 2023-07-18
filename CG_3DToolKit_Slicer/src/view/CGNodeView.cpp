@@ -67,6 +67,7 @@ void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
     connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(b) m_CGAlgorithmArgumentsDialog->exec(); });
+    connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguuments();});
 }
 
 void CGNodeView::InitPluginManager()
@@ -79,6 +80,7 @@ void CGNodeView::InitPluginManager()
         m_3DFuctionNames.append(m_PluginManager->m_PluginNames3D);
 
         emit SignalAlgorithmPlugin(qMakePair(m_PluginManager->m_PluginNames2D, m_PluginManager->m_PluginNames3D));
+        CGConsoleView::getInstance()->ConsoleOut(tr(u8"The app init plugins succeed."));
     }
 }
 
@@ -297,6 +299,7 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
         AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index);
         arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
     }
     if (m_PluginManager->m_PluginNames3D.contains(nodeName))
     {
@@ -304,6 +307,7 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
         AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index);
         arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
     }
 
     if (arguments.empty()) return;
