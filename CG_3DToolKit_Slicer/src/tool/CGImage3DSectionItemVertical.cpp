@@ -49,7 +49,7 @@ void CGImage3DSectionItemVertical::InitSectionItem()
 void CGImage3DSectionItemVertical::SetInteractorStyleDefault()
 {
     vtkSmartPointer<vtkInteractorStyleTrackballCamera> style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
-    m_Style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
+    style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
     m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(style);
     m_CGVTKWidget->update();
 }

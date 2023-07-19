@@ -60,3 +60,8 @@ void CGViewRegulator::OnProfileViewRequest()
     m_CGProfileView->pActor = pActor;
     m_CGProfileView->Apply();
 }
+
+void CGViewRegulator::OnProfileViewSectionToolRemoved()
+{
+    m_CG3DImageView->InitPointPick();
+}

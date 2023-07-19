@@ -24,6 +24,7 @@ public:
 
 signals:
     void SignalRequest();
+    void SingalSectionToolRemoved();
 
 public slots:
     void OnPlotProfile();

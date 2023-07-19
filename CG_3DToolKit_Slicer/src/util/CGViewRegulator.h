@@ -22,6 +22,7 @@ public slots:
     void On3DImageViewRequest();
     void OnNodeViewRequest(const int type);
     void OnProfileViewRequest();
+    void OnProfileViewSectionToolRemoved();
 
 public:
     CG2DImageView *m_CG2DImageView;
