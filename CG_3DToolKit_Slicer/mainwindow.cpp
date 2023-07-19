@@ -283,6 +283,7 @@ void MainWindow::Create2DTool(const QString toolname)
         break;
     }
     m_pCG2DImageView->OnUseTool();
+    m_pCGPropertiesView->setCurrentIndex(1);
 }
 
 void MainWindow::Create3DTool(const QString toolname)
@@ -306,6 +307,7 @@ void MainWindow::Create3DTool(const QString toolname)
         break;
     }
     m_pCG3DImageView->OnUseTool();
+    m_pCGPropertiesView->setCurrentIndex(1);
 }
 
 void MainWindow::CreateProfileTool(const QString toolname)
@@ -361,11 +363,13 @@ void MainWindow::CreateLogics(const QString toolname)
 void MainWindow::Create2DFuction(const QString toolname)
 {
     m_pCGNodeView->Create2DFuctionNodeItem(toolname);
+    m_pCGPropertiesView->setCurrentIndex(1);
 }
 
 void MainWindow::Create3DFuction(const QString toolname)
 {
     m_pCGNodeView->Create3DFuctionNodeItem(toolname);
+    m_pCGPropertiesView->setCurrentIndex(1);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -510,6 +514,7 @@ void MainWindow::on_action_open_Image_triggered()
             m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
         }
         m_pCGPropertiesView->m_Form1->CreateImageProperties();
+        m_pCGPropertiesView->setCurrentIndex(0);
     }
 }
 
@@ -560,6 +565,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
             }
         }
         m_pCGPropertiesView->m_Form1->CreatePointCloudProperties();
+        m_pCGPropertiesView->setCurrentIndex(0);
     }
 }
 

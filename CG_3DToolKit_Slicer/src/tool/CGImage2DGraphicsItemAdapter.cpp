@@ -1,4 +1,5 @@
 #include "CGImage2DGraphicsItemAdapter.h"
+#include <CGPropertiesRegulator.h>
 
 
 CGImage2DGraphicsItemAdapter *CGImage2DGraphicsItemAdapter:: m_CGImage2DGraphicsItemAdapter = nullptr;
@@ -21,16 +22,19 @@ CGImage2DGraphicsItemAdapter *CGImage2DGraphicsItemAdapter::getInstance()
 void CGImage2DGraphicsItemAdapter::SendLine(QLineF line)
 {
     m_Line = line;
+    CGPropertiesRegulator::getInstance()->ShowPropertiesLine(line);
 }
 
 void CGImage2DGraphicsItemAdapter::SendRect(QRectF rect)
 {
     m_Rect = rect;
+    CGPropertiesRegulator::getInstance()->ShowPropertiesRect(rect);
 }
 
 void CGImage2DGraphicsItemAdapter::SendAngle(qreal angle)
 {
     m_Angle = angle;
+    CGPropertiesRegulator::getInstance()->ShowPropertiesAngle(angle);
 }
 
 QLineF CGImage2DGraphicsItemAdapter::GetLine() const

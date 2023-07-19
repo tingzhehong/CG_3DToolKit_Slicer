@@ -428,11 +428,13 @@ void CG3DImageView::InitAngleTool()
 void CG3DImageView::InitBoxTool()
 {
     m_CGBoxWidgeter = new CGVTKUtils::CGBoxWidgetObserver();
-    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGBoxWidgeter);
+    m_pBoxWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGBoxWidgeter);
     connect(m_CGBoxWidgeter, &CGVTKUtils::CGBoxWidgetObserver::planesChanged, this, &CG3DImageView::OnBoxWidgetPlaneChanged);
 
     m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
     m_pBoxWidgetTool->SetProp3D(m_Actor);
+    m_pBoxWidgetTool->GetSelectedFaceProperty()->SetColor(1, 0, 1);
+    m_pBoxWidgetTool->GetSelectedFaceProperty()->SetOpacity(0.7);
     m_pBoxWidgetTool->PlaceWidget();
     m_pBoxWidgetTool->On();
 }
@@ -440,7 +442,7 @@ void CG3DImageView::InitBoxTool()
 void CG3DImageView::InitPlaneTool()
 {
     m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
-    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonReleaseEvent, m_CGPlaneWidgeter);
+    m_pPlaneWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGPlaneWidgeter);
     connect(m_CGPlaneWidgeter, &CGVTKUtils::CGPlaneWidgetObserver::planesChanged, this, &CG3DImageView::OnPlaneWidgetPlaneChanged);
 
     m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
