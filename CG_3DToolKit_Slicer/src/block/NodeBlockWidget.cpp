@@ -1,4 +1,5 @@
 ﻿#include "NodeBlockWidget.h"
+#include "NodeBlock.h"
 #include <QLabel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
@@ -118,6 +119,11 @@ void NodeBlockWidget::SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin)
 {
     m_plugin = plugin;
     m_args = plugin->GetAlgorithmArguments();
+}
+
+void NodeBlockWidget::SetCurrentNodeBlock(NodeBlock *block)
+{
+    m_block = block;
 }
 
 void NodeBlockWidget::ShowAlgorithmPluginInfomation()
@@ -259,4 +265,9 @@ void NodeBlockWidget::OnTableWidgetItemChanged(QTableWidgetItem *current)
 void NodeBlockWidget::OnSendAlgorithmArguuments()
 {
     m_plugin->SetAlgorithmArguments(m_args);
+
+    for (auto it = m_args.begin(); it != m_args.end(); ++it)
+    {
+        m_block->m_NodeItem->m_Parameters[it->ARG] = it->VALUE;
+    }
 }

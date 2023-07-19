@@ -10,6 +10,7 @@ class QTableWidget;
 class QTableWidgetItem;
 class CGVTKWidget;
 class vtkActor;
+class NodeBlock;
 class NodeBlockWidget : public QWidget
 {
     Q_OBJECT
@@ -23,6 +24,7 @@ public:
     void LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args);
     void LoadAlgorithmShowData(CG_SHOWDATA &data);
     void SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin);
+    void SetCurrentNodeBlock(NodeBlock *block);
     void ShowAlgorithmPluginInfomation();
 
 private:
@@ -47,6 +49,7 @@ private:
 
     AlgorithmInterface *m_plugin;
     QVector<CG_ARGUMENT> m_args;
+    NodeBlock *m_block;
 
 private:
     static NodeBlockWidget *m_NodeBlockWidget;

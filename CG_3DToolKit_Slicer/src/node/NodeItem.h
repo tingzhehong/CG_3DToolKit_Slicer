@@ -104,7 +104,7 @@ public:
     bool m_AlgorithmNode;
     unsigned int m_NodeID;
     QString m_NodeName;
-    QVector<QVariant> m_Parameters;
+    QMap<QString, QVariant> m_Parameters;
 
 };
 

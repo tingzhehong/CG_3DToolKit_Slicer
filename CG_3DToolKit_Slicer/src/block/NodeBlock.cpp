@@ -49,6 +49,7 @@ NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
         ++m_IDCounter;
         break;
     default:
+        m_NodeItem = CreatNodeItem00(nodename);
         break;
     }
 

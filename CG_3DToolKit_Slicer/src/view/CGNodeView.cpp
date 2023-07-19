@@ -187,7 +187,7 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname)
             CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects3D.at(index - 2);
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
-            m_NodeView->m_IDCounter++;;
+            m_NodeView->m_IDCounter++;
             connect(plugin, &AlgorithmInterface::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
          }
 
@@ -286,6 +286,7 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
         if (block->m_NodeItem->m_NodeID == nodeId)
         {
             nodeName = block->m_NodeItem->m_NodeName;
+            NodeBlockWidget::getInstance()->SetCurrentNodeBlock(block);
             break;
         }
     }
