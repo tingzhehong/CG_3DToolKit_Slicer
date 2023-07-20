@@ -67,7 +67,7 @@ void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
     connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(b) m_CGAlgorithmArgumentsDialog->exec(); });
-    connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguuments();});
+    connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
 }
 
 void CGNodeView::InitPluginManager()
@@ -156,12 +156,13 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname)
             int index = m_2DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
-            AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index - 2);
+            AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index - 2)->Clone();
             CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects2D.at(index - 2);
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;
             connect(plugin, &AlgorithmInterface::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
+            m_PluginNodeBlockList[algorithmNodeBlock->m_NodeItem->m_NodeID] = plugin;
          }
 
 }
@@ -183,12 +184,13 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname)
             int index = m_3DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
-            AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index - 2);
+            AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index - 2)->Clone();
             CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects3D.at(index - 2);
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;
             connect(plugin, &AlgorithmInterface::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
+            m_PluginNodeBlockList[algorithmNodeBlock->m_NodeItem->m_NodeID] = plugin;
          }
 
 }
@@ -270,6 +272,7 @@ void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
         if (block->m_NodeItem->m_NodeID == nodeId)
         {
             m_NodeBlockManager->m_NodeBlockList.removeOne(block);
+            m_PluginNodeBlockList.remove(nodeId);
             delete block;
             block = nullptr;
         }
@@ -296,16 +299,14 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
     CG_SHOWDATA data;
     if (m_PluginManager->m_PluginNames2D.contains(nodeName))
     {
-        int index = m_PluginManager->m_PluginNames2D.indexOf(nodeName);
-        AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index);
+        AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
         arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
         NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
     }
     if (m_PluginManager->m_PluginNames3D.contains(nodeName))
     {
-        int index = m_PluginManager->m_PluginNames3D.indexOf(nodeName);
-        AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index);
+        AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
         arguments = plugin->GetAlgorithmArguments();
         data = plugin->GetAlgorithmShowData();
         NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);

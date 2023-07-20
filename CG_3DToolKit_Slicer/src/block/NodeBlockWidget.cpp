@@ -262,7 +262,7 @@ void NodeBlockWidget::OnTableWidgetItemChanged(QTableWidgetItem *current)
     m_args[row].VALUE = value;
 }
 
-void NodeBlockWidget::OnSendAlgorithmArguuments()
+void NodeBlockWidget::OnSendAlgorithmArguments()
 {
     m_plugin->SetAlgorithmArguments(m_args);
 

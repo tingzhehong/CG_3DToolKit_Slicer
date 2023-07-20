@@ -90,6 +90,7 @@ public:
     virtual QVector<CG_ARGUMENT> GetAlgorithmArguments() = 0;
 
     virtual CG_SHOWDATA GetAlgorithmShowData() = 0;
+    virtual AlgorithmInterface* Clone() = 0;
 
     virtual void Compute() = 0;
 

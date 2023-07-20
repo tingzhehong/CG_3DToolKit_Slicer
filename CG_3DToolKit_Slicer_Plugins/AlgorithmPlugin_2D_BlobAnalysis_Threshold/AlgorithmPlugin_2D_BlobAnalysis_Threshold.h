@@ -28,6 +28,7 @@ public:
     QVector<CG_ARGUMENT> GetAlgorithmArguments() override;
 
     CG_SHOWDATA GetAlgorithmShowData() override;
+    AlgorithmInterface *Clone() override;
 
     void Compute() override;
 

@@ -124,3 +124,9 @@ void AlgorithmPlugin_3D_Filter_Voxel::Compute()
 
     emit SignalComputed();
 }
+
+AlgorithmInterface *AlgorithmPlugin_3D_Filter_Voxel::Clone()
+{
+    AlgorithmPlugin_3D_Filter_Voxel *p = new AlgorithmPlugin_3D_Filter_Voxel();
+    return dynamic_cast<AlgorithmInterface *>(p);
+}

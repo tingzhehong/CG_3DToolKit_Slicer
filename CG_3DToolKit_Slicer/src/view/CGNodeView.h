@@ -56,6 +56,8 @@ protected:
     //QList<NodeBlock*> m_NodeBlockList;
     //QList<NodeBlock*> m_RunBlockList;
 
+    QMap<unsigned int, AlgorithmInterface*> m_PluginNodeBlockList;
+
 public:
     NodeView *m_NodeView;
     NodeBlockFactory *m_NodeBlockFactory;

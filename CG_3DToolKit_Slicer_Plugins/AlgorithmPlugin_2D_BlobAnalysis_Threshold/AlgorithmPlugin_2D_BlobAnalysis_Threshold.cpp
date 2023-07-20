@@ -137,3 +137,9 @@ void AlgorithmPlugin_2D_BlobAnalysis_Threshold::Compute()
 
     emit SignalComputed();
 }
+
+AlgorithmInterface *AlgorithmPlugin_2D_BlobAnalysis_Threshold::Clone()
+{
+    AlgorithmPlugin_2D_BlobAnalysis_Threshold *p = new AlgorithmPlugin_2D_BlobAnalysis_Threshold();
+    return dynamic_cast<AlgorithmInterface *>(p);
+}

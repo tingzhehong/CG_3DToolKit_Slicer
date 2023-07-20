@@ -38,7 +38,7 @@ protected:
 
 public slots:
     void OnTableWidgetItemChanged(QTableWidgetItem *current);
-    void OnSendAlgorithmArguuments();
+    void OnSendAlgorithmArguments();
 
 private:
     QTableWidget *m_ArgumentsTable;
