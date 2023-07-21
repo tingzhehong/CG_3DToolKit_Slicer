@@ -42,10 +42,12 @@ private:
     void mousePressEvent(QGraphicsSceneMouseEvent *e);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *e);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e);
 
 signals:
     void selected(bool state);
     void becameEmpty(GroupItem *group);
+    void signalDoubleClick();
 
 public slots:
     bool isHovered(const QPointF &point);

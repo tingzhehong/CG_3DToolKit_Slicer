@@ -27,6 +27,9 @@
 #include "NodeBlockWidget.h"
 #include "PluginManager.h"
 #include <CGAlgorithmArgumentsDialog.h>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonArray>
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)

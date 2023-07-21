@@ -148,6 +148,13 @@ void GroupItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     update();
 }
 
+void GroupItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
+{
+    QGraphicsItem::mouseMoveEvent(e);
+    emit signalDoubleClick();
+    update();
+}
+
 bool GroupItem::isHovered(const QPointF &point)
 {
     bool result = false;
