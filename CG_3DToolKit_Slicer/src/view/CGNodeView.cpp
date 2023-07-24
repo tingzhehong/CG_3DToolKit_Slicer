@@ -18,6 +18,8 @@
 #include "LogicsCondition.h"
 #include "LogicsCirculate.h"
 #include "LogicsGroup.h"
+#include "Functions2DLocalNodeBlock.h"
+#include "Functions3DLocalNodeBlock.h"
 #include "Functions2DSourceNodeBlock.h"
 #include "Functions3DSourceNodeBlock.h"
 #include "Functions2DTerminalNodeBlock.h"
@@ -155,12 +157,17 @@ void CGNodeView::Create2DFuctionNodeItem(const QString toolname)
             m_NodeView->m_IDCounter++;
             connect(terml2d, &Functions2DTerminalNodeBlock::SignalShow2D, this, [&](){emit Signal2DRequest();});
          }
+    else if (toolname == u8"2D本地图像") {
+            Functions2DLocalNodeBlock *local2d = new Functions2DLocalNodeBlock(m_NodeView);
+            m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(local2d));
+            m_NodeView->m_IDCounter++;
+         }
     else {
             int index = m_2DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
-            AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index - 2)->Clone();
-            CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects2D.at(index - 2);
+            AlgorithmInterface *plugin = m_PluginManager->m_Plugins2D.at(index - 3)->Clone();
+            CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects2D.at(index - 3);
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;
@@ -183,12 +190,17 @@ void CGNodeView::Create3DFuctionNodeItem(const QString toolname)
             m_NodeView->m_IDCounter++;
             connect(terml3d, &Functions3DTerminalNodeBlock::SignalShow3D, this, [&](){emit Signal3DRequest();});
          }
+    else if (toolname == u8"3D本地点云") {
+            Functions3DLocalNodeBlock *local3d = new Functions3DLocalNodeBlock(m_NodeView);
+            m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(local3d));
+            m_NodeView->m_IDCounter++;
+         }
     else {
             int index = m_3DFuctionNames.indexOf(toolname);
             if (index < 2) return;
 
-            AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index - 2)->Clone();
-            CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects3D.at(index - 2);
+            AlgorithmInterface *plugin = m_PluginManager->m_Plugins3D.at(index - 3)->Clone();
+            CG_NODEBLOCK *obj = m_PluginManager->m_PluginObjects3D.at(index - 3);
             NodeBlock *algorithmNodeBlock = m_NodeBlockFactory->CreatNodeBlock(plugin, obj, m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(algorithmNodeBlock);
             m_NodeView->m_IDCounter++;

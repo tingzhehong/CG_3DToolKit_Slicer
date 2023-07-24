@@ -21,8 +21,10 @@ SOURCES += \
     src/block/NodeBlockFactory.cpp \
     src/block/NodeBlockManager.cpp \
     src/block/NodeBlockWidget.cpp \
+    src/block/functions2d/Functions2DLocalNodeBlock.cpp \
     src/block/functions2d/Functions2DSourceNodeBlock.cpp \
     src/block/functions2d/Functions2DTerminalNodeBlock.cpp \
+    src/block/functions3d/Functions3DLocalNodeBlock.cpp \
     src/block/functions3d/Functions3DSourceNodeBlock.cpp \
     src/block/functions3d/Functions3DTerminalNodeBlock.cpp \
     src/block/logics/LogicsCirculate.cpp \
@@ -106,8 +108,10 @@ HEADERS += \
     src/block/NodeBlockFactory.h \
     src/block/NodeBlockManager.h \
     src/block/NodeBlockWidget.h \
+    src/block/functions2d/Functions2DLocalNodeBlock.h \
     src/block/functions2d/Functions2DSourceNodeBlock.h \
     src/block/functions2d/Functions2DTerminalNodeBlock.h \
+    src/block/functions3d/Functions3DLocalNodeBlock.h \
     src/block/functions3d/Functions3DSourceNodeBlock.h \
     src/block/functions3d/Functions3DTerminalNodeBlock.h \
     src/block/logics/LogicsCirculate.h \

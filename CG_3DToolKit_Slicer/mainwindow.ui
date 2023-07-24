@@ -38,6 +38,7 @@
     <addaction name="action_open_Image"/>
     <addaction name="action_open_PointCloud"/>
     <addaction name="action_save_PointCloud"/>
+    <addaction name="action_save_Flow"/>
     <addaction name="separator"/>
     <addaction name="action_exit"/>
    </widget>
@@ -97,6 +98,7 @@
    <addaction name="action_open_Image"/>
    <addaction name="action_open_PointCloud"/>
    <addaction name="action_save_PointCloud"/>
+   <addaction name="action_save_Flow"/>
    <addaction name="separator"/>
    <addaction name="action_exit"/>
    <addaction name="separator"/>
@@ -569,6 +571,18 @@
    </property>
    <property name="toolTip">
     <string>快照</string>
+   </property>
+  </action>
+  <action name="action_save_Flow">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/flowSave.png</normaloff>:/res/icon/flowSave.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存流程</string>
+   </property>
+   <property name="toolTip">
+    <string>保存流程</string>
    </property>
   </action>
  </widget>

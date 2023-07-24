@@ -45,8 +45,8 @@ public:
     QStringList m_ProfileToolNames{u8"2点指定", u8"垂直线", u8"水平线", u8"矩形", u8"圆", u8"圆弧", u8"2点指定剖面", u8"垂直剖面", u8"水平剖面"};
     QStringList m_MathsNames{u8"加", u8"减", u8"乘", u8"除", u8"数值/输入", u8"数值/输出"};
     QStringList m_LogicsNames{u8"条件", u8"循环", u8"组"};
-    QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端"};
-    QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端"};
+    QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端", u8"2D本地图像"};
+    QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端", u8"3D本地点云"};
 
     QStringList m_DataTreeNames{u8"2D工具箱", u8"3D工具箱", u8"轮廓工具箱", u8"数学计算", u8"逻辑运算", u8"2D功能算子", u8"3D功能算子"};
 
