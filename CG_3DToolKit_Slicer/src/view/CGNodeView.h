@@ -42,6 +42,10 @@ private:
     void Test();
     void Verify();
 
+public:
+    void Flow2Node();
+    void Node2Flow();
+
 public slots:
     void OnRemoveNodeBlock(unsigned int nodeId);
     void OnLoadAlgorithmArguments(bool b, unsigned int nodeId);
@@ -51,10 +55,6 @@ protected:
     QStringList m_LogicsNames{u8"条件", u8"循环", u8"组"};
     QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端"};
     QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端"};
-
-    //Deprecated
-    //QList<NodeBlock*> m_NodeBlockList;
-    //QList<NodeBlock*> m_RunBlockList;
 
     QMap<unsigned int, AlgorithmInterface*> m_PluginNodeBlockList;
 

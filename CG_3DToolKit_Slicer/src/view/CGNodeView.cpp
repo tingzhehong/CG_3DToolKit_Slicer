@@ -268,6 +268,16 @@ void CGNodeView::Verify()
     m_NodeView->NodeItemFactory("3#", 3, 1);
 }
 
+void CGNodeView::Flow2Node()
+{
+
+}
+
+void CGNodeView::Node2Flow()
+{
+
+}
+
 void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
 {
     foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)

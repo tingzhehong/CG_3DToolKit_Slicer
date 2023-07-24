@@ -96,6 +96,7 @@ public slots:
     void setConnectionDragable(bool state = true);
 
 
+//Deprecated
 public:
     NodeItem *NodeItemFactory(QString nodename, int in, int out);
     NodeItem *NodeItemNumberInput(QString nodename);
