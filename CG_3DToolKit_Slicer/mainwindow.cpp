@@ -507,12 +507,22 @@ void MainWindow::on_action_open_Image_triggered()
             {
                 m_pCG2DImageView->LoadImages(FileName);
                 m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+                std::thread([&] {
+                    cv::Mat img = cv::imread(filename);
+                        g_Image.GrayImage = img.clone();
+                        g_Image.ColorImage = img.clone();
+                 }).detach();
             }
         }
         else
         {
             m_pCG2DImageView->LoadImages(FileName);
             m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+            std::thread([&] {
+                cv::Mat img = cv::imread(filename);
+                    g_Image.GrayImage = img.clone();
+                    g_Image.ColorImage = img.clone();
+             }).detach();
         }
         m_pCGPropertiesView->m_Form1->CreateImageProperties();
         m_pCGPropertiesView->setCurrentIndex(0);
