@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     src/alg/CGCSV.cpp \
     src/alg/CGImage.cpp \
+    src/alg/CGImageFormatConvert.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
     src/block/NodeBlockFactory.cpp \
@@ -65,7 +66,6 @@ SOURCES += \
     src/ui/CGWaitingDialog.cpp \
     src/util/CGBaseTreeWidget.cpp \
     src/util/CGBaseWidget.cpp \
-    src/alg/CGImageFormatConvert.cpp \
     src/util/CGPropertiesRegulator.cpp \
     src/util/CGSubWindowWidget.cpp \
     src/util/CGViewRegulator.cpp \
@@ -100,6 +100,7 @@ HEADERS += \
     mainwindow.h \
     src/alg/CGCSV.h \
     src/alg/CGImage.h \
+    src/alg/CGImageFormatConvert.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
     src/block/NodeBlockFactory.h \
@@ -153,7 +154,6 @@ HEADERS += \
     src/ui/CGWaitingDialog.h \
     src/util/CGBaseTreeWidget.h \
     src/util/CGBaseWidget.h \
-    src/alg/CGImageFormatConvert.h \
     src/util/CGPropertiesRegulator.h \
     src/util/CGSubWindowWidget.h \
     src/util/CGViewRegulator.h \

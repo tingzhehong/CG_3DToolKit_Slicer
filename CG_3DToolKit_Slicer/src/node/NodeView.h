@@ -95,8 +95,12 @@ public slots:
     void setRopeFlexion(qreal value = 100.0);
     void setConnectionDragable(bool state = true);
 
+public:
+    unsigned int m_IDCounter;
+
 
 //Deprecated
+
 public:
     NodeItem *NodeItemFactory(QString nodename, int in, int out);
     NodeItem *NodeItemNumberInput(QString nodename);
@@ -111,9 +115,6 @@ private:
     NodeItem *CreatNodeItem12(const QString nodename);
 
     int RandPos();
-
-public:
-    unsigned int m_IDCounter;
 
 };
 
