@@ -29,6 +29,7 @@
 #include "NodeBlockWidget.h"
 #include "PluginManager.h"
 #include <CGAlgorithmArgumentsDialog.h>
+#include <CGLocalDataFileDialog.h>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -58,6 +59,7 @@ void CGNodeView::InitUi()
     m_NodeBlockManager->setAutoDelete(false);
 
     m_CGAlgorithmArgumentsDialog = new CGAlgorithmArgumentsDialog();
+    m_CGLocalDataFileDialog = new CGLocalDataFileDialog();
 
     //Test();
     //Verify();
@@ -71,7 +73,8 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
-    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id){ OnLoadAlgorithmArguments(b, id); if(b) m_CGAlgorithmArgumentsDialog->exec(); });
+    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id, QString name) {
+            if(b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } else { OnLoadLocalDataFile(b, id, name); m_CGLocalDataFileDialog->exec(); } });
     connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
 }
 
@@ -344,4 +347,10 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
     NodeBlockWidget::getInstance()->LoadAlgorithmShowData(data);
 
     NodeBlockWidget::getInstance()->ShowAlgorithmPluginInfomation();
+}
+
+void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId, QString name)
+{
+    if (b) return;
+
 }

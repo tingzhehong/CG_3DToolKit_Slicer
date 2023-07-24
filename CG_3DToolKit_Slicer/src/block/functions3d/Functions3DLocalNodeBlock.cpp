@@ -1,4 +1,5 @@
 ﻿#include "Functions3DLocalNodeBlock.h"
+#include "CGMetaType.h"
 
 Functions3DLocalNodeBlock::Functions3DLocalNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -12,5 +13,11 @@ Functions3DLocalNodeBlock::Functions3DLocalNodeBlock(NodeView *nodeview, QWidget
 
 void Functions3DLocalNodeBlock::Run()
 {
+    m_NodeItem->PortClass();
 
+    if (m_NodeItem->m_OutPortItem.size() != 1) return;
+    if (!m_PointCloud) return;
+
+    m_NodeItem->m_OutPortItem.at(0)->setValue(QVariant::fromValue(m_PointCloud));
+    m_IsRuned = true;
 }

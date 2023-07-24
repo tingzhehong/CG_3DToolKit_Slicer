@@ -65,7 +65,7 @@ signals:
     void calledMenuNode(NodeItem *node);
     void calledMenuView();
     void signalRemoveNode(unsigned int nodeId);
-    void signalDoubleClick(bool b, unsigned int nodeID);
+    void signalDoubleClick(bool b, unsigned int nodeID, QString name);
 
 public slots:
     void addNode(NodeItem *node);

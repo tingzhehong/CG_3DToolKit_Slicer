@@ -1,4 +1,5 @@
 ﻿#include "Functions2DLocalNodeBlock.h"
+#include "CGMetaType.h"
 
 Functions2DLocalNodeBlock::Functions2DLocalNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -12,5 +13,10 @@ Functions2DLocalNodeBlock::Functions2DLocalNodeBlock(NodeView *nodeview, QWidget
 
 void Functions2DLocalNodeBlock::Run()
 {
+    m_NodeItem->PortClass();
 
+    if (m_NodeItem->m_OutPortItem.size() != 1) return;
+
+    m_NodeItem->m_OutPortItem.at(0)->setValue(QVariant::fromValue(m_Image));
+    m_IsRuned = true;
 }

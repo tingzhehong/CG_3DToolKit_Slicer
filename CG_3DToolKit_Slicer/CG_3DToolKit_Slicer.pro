@@ -60,6 +60,7 @@ SOURCES += \
     src/ui/CGAlgorithmArgumentsDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
     src/ui/CGDisOrderDialog.cpp \
+    src/ui/CGLocalDataFileDialog.cpp \
     src/ui/CGProfileForm2D.cpp \
     src/ui/CGProfileForm3D.cpp \
     src/ui/CGPropertiesForm1.cpp \
@@ -150,6 +151,7 @@ HEADERS += \
     src/ui/CGAlgorithmArgumentsDialog.h \
     src/ui/CGDepthImageDialog.h \
     src/ui/CGDisOrderDialog.h \
+    src/ui/CGLocalDataFileDialog.h \
     src/ui/CGProfileForm2D.h \
     src/ui/CGProfileForm3D.h \
     src/ui/CGPropertiesForm1.h \

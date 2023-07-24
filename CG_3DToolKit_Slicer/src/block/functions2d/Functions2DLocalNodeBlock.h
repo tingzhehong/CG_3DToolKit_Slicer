@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <NodeBlock.h>
+#include <opencv2/opencv.hpp>
 
 class Functions2DLocalNodeBlock : public NodeBlock
 {
@@ -16,6 +17,7 @@ public:
     void Run() override;
 
 private:
+    cv::Mat m_Image;
 
 };
 

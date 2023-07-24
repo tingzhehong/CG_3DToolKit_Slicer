@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <NodeBlock.h>
+#include <CGPCLHeader.h>
 
 class Functions3DLocalNodeBlock : public NodeBlock
 {
@@ -16,6 +17,7 @@ public:
     void Run() override;
 
 private:
+    PointCloudT::Ptr m_PointCloud;
 
 };
 
