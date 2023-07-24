@@ -451,6 +451,7 @@ void CG3DImageView::InitPlaneTool()
     m_pPlaneWidgetTool->GetPlaneProperty()->SetOpacity(0.7);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetLineWidth(3);
     m_pPlaneWidgetTool->SetRepresentationToSurface();
+    m_pPlaneWidgetTool->NormalToZAxisOn();
     m_pPlaneWidgetTool->PlaceWidget();
     m_pPlaneWidgetTool->On();
 }
