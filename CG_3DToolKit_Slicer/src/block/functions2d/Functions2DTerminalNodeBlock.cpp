@@ -45,7 +45,7 @@ NodeItem *Functions2DTerminalNodeBlock::CreatNodeItem10(const QString nodename)
     int y = RandPos();
     m_NodeItem->setPos(x, y);
 
-    m_NodeItem->createPortIn(8, QColor(Qt::green));
+    m_NodeItem->createPortIn(8, QColor(Qt::yellow));
 
     return m_NodeItem;
 }

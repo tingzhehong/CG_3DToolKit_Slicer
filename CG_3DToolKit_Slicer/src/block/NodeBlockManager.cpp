@@ -23,7 +23,7 @@ void NodeBlockManager::run()
     int num = m_RunBlockList.size();
     qDebug() << "Run Node Block Size: " << m_RunBlockList.size();
 
-    while (i < RUNMAXLOOP)
+    while (i < num)
     {
         j = 0;
 
@@ -44,7 +44,7 @@ void NodeBlockManager::run()
         }
         ++i;
 
-        if (k == num || i == RUNMAXLOOP)
+        if (k == num || i == num)
             break;
 
     }

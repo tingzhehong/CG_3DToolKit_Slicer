@@ -36,6 +36,8 @@ void AlgorithmNodeBlock::Run()
         QVariant value = OutputData[i];
         m_NodeItem->m_OutPortItem.at(i)->setValue(value);
     }
+
+    m_IsRuned = true;
 }
 
 void AlgorithmNodeBlock::SetPlugin(AlgorithmInterface *plugin)

@@ -9,7 +9,7 @@ AlgorithmPlugin_2D_BlobAnalysis_Threshold::AlgorithmPlugin_2D_BlobAnalysis_Thres
 
     CG_PORT in_0;
     in_0.NUM = 0;
-    in_0.CLR = Qt::green;
+    in_0.CLR = Qt::yellow;
 
     CG_PORT in_1;
     in_1.NUM = 1;
@@ -23,7 +23,7 @@ AlgorithmPlugin_2D_BlobAnalysis_Threshold::AlgorithmPlugin_2D_BlobAnalysis_Thres
 
     CG_PORT out_0;
     out_0.NUM = 0;
-    out_0.CLR = Qt::green;
+    out_0.CLR = Qt::yellow;
 
     m_NodeBlock.Name = tr(u8"图像二值化");
     m_NodeBlock.Title = tr(u8"图像二值化");
