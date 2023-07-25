@@ -33,6 +33,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QByteArray>
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -308,6 +309,7 @@ void CGNodeView::Node2Flow(const QString flowname)
         QJsonDocument nodeDoc;
         QJsonArray nodeData;
         QJsonObject nodeObj;
+        QJsonObject parametersObj;
 
         ++i;
         unsigned int id = block->m_NodeItem->m_NodeID;
@@ -322,11 +324,17 @@ void CGNodeView::Node2Flow(const QString flowname)
         nodeObj["pos x"] = QString::number(x, 'f', 3);
         nodeObj["pos y"] = QString::number(y, 'f', 3);
 
-        nodeData.append(nodeObj);
-        nodeDoc.setArray(nodeData);
+        QList<QString> keyList = block->m_NodeItem->m_Parameters.keys();
+        for (int j = 0; j < keyList.size(); ++j)
+        {
+            QString key = keyList[j];
+            QVariant value = block->m_NodeItem->m_Parameters.value(key);
+            parametersObj[key] = value.toString();
+        }
+        nodeObj.insert("arguments", parametersObj);
 
         QString Index = QString::number(i);
-        Obj["node " + Index] = nodeDoc.toJson(QJsonDocument::Indented).toStdString().c_str();
+        Obj.insert("node block " + Index, nodeObj);
     }
     Doc.setObject(Obj);
 
