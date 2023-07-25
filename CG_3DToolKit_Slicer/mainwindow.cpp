@@ -69,6 +69,8 @@ void MainWindow::InitUi()
     m_pCGViewRegulator->m_CGNodeView = m_pCGNodeView;
     m_pCGViewRegulator->m_CGProfileView = m_pCGProfileView;
 
+    g_PointCloud.reset(new PointCloudT);
+
     CGConsoleView::getInstance()->ConsoleOut(tr(u8"The app start succeed."));
 }
 

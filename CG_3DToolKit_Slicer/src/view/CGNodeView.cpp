@@ -74,7 +74,8 @@ void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
     connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id, QString name) {
-            if(b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } else { OnLoadLocalDataFile(b, id, name); m_CGLocalDataFileDialog->exec(); } });
+            if (b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } 
+            else if (name == u8"2D本地图像" || name == u8"3D本地点云") { OnLoadLocalDataFile(b, id); m_CGLocalDataFileDialog->exec(); } });
     connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
 }
 
@@ -349,8 +350,31 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
     NodeBlockWidget::getInstance()->ShowAlgorithmPluginInfomation();
 }
 
-void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId, QString name)
+void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId)
 {
     if (b) return;
 
+    QString nodeName = NULL;
+    NodeBlock *nodeBlock;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            nodeName = block->m_NodeItem->m_NodeName;
+            nodeBlock = block;
+            break;
+        }
+    }
+    m_CGLocalDataFileDialog->SetCurrentNodeBlock(nodeBlock);
+
+    if (nodeName == NULL) {
+        return;}
+    if (nodeName == u8"2D本地图像") {
+        m_CGLocalDataFileDialog->setWindowTitle(tr(u8"本地算子  文件设置  2D本地图像")); m_CGLocalDataFileDialog->m_2d3dfile = 2;}
+    if (nodeName == u8"3D本地点云") {
+        m_CGLocalDataFileDialog->setWindowTitle(tr(u8"本地算子  文件设置  3D本地点云")); m_CGLocalDataFileDialog->m_2d3dfile = 3;}
+
+    QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"文件");
+    QString str = var.toString();
+    m_CGLocalDataFileDialog->m_pFilePath->setText(str);
 }
