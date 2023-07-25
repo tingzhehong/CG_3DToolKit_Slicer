@@ -291,7 +291,47 @@ void CGNodeView::Flow2Node(const QString flowname)
 
 void CGNodeView::Node2Flow(const QString flowname)
 {
+    QFile JsonFile(flowname);
+    if (!JsonFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "Write .flow json file failure!";
+        return;
+    }
+    JsonFile.resize(0);
 
+    QJsonDocument Doc;
+    QJsonObject Obj;
+
+    int i = 0;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        QJsonDocument nodeDoc;
+        QJsonArray nodeData;
+        QJsonObject nodeObj;
+
+        ++i;
+        unsigned int id = block->m_NodeItem->m_NodeID;
+        QString name = block->m_NodeItem->m_NodeName;
+        QString title = block->m_NodeItem->m_title;
+        qreal x = block->m_NodeItem->x();
+        qreal y = block->m_NodeItem->y();
+
+        nodeObj["id"] = QString::number(id);
+        nodeObj["name"] = name;
+        nodeObj["title"] = title;
+        nodeObj["pos x"] = QString::number(x, 'f', 3);
+        nodeObj["pos y"] = QString::number(y, 'f', 3);
+
+        nodeData.append(nodeObj);
+        nodeDoc.setArray(nodeData);
+
+        QString Index = QString::number(i);
+        Obj["node " + Index] = nodeDoc.toJson(QJsonDocument::Indented).toStdString().c_str();
+    }
+    Doc.setObject(Obj);
+
+    JsonFile.write(Doc.toJson());
+    JsonFile.close();
 }
 
 void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)

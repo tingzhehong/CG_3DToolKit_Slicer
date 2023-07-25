@@ -917,7 +917,7 @@ void MainWindow::on_action_save_Flow_triggered()
         {
             FileName.append(".flow");
         }
-        m_pCGNodeView->Flow2Node(FileName);
+        m_pCGNodeView->Node2Flow(FileName);
         CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save node block succeed."));
     }
 }
@@ -932,6 +932,6 @@ void MainWindow::on_action_open_Flow_triggered()
     }
     else
     {
-        m_pCGNodeView->Node2Flow(FileName);
+        m_pCGNodeView->Flow2Node(FileName);
     }
 }
