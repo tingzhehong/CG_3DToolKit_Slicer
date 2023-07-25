@@ -284,12 +284,12 @@ void CGNodeView::Verify()
     m_NodeView->NodeItemFactory("3#", 3, 1);
 }
 
-void CGNodeView::Flow2Node()
+void CGNodeView::Flow2Node(const QString flowname)
 {
 
 }
 
-void CGNodeView::Node2Flow()
+void CGNodeView::Node2Flow(const QString flowname)
 {
 
 }

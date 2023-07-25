@@ -44,8 +44,8 @@ private:
     void Verify();
 
 public:
-    void Flow2Node();
-    void Node2Flow();
+    void Flow2Node(const QString flowname);
+    void Node2Flow(const QString flowname);
 
 public slots:
     void OnRemoveNodeBlock(unsigned int nodeId);

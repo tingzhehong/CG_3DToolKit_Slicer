@@ -36,5 +36,6 @@
         <file>res/icon/ccGlobalZoom.png</file>
         <file>res/icon/photo-camera.svg</file>
         <file>res/icon/flowSave.png</file>
+        <file>res/icon/flowOpen.png</file>
     </qresource>
 </RCC>

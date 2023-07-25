@@ -115,6 +115,8 @@ private slots:
     void on_action_PickPointDistance_triggered(bool checked);
 
     void on_action_trigger_triggered();
+    void on_action_save_Flow_triggered();
+    void on_action_open_Flow_triggered();
 
 private:
     enum QSSStyle

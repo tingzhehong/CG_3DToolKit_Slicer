@@ -898,3 +898,40 @@ void MainWindow::on_action_SnapShot_triggered()
         image.save(FileName, ext.toUtf8().data());
     }
 }
+
+void MainWindow::on_action_save_Flow_triggered()
+{
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存流程文件"), ".", "*.flow");
+
+    if (FileName.isEmpty())
+    {
+       QMessageBox::information(this, tr(u8"信息"), tr(u8"请选择流程文件！"));
+    }
+    else
+    {
+        if (FileName.contains(".flow") || FileName.contains(".FLOW"))
+        {
+            ; //Nothing to do
+        }
+        else
+        {
+            FileName.append(".flow");
+        }
+        m_pCGNodeView->Flow2Node(FileName);
+        CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save node block succeed."));
+    }
+}
+
+void MainWindow::on_action_open_Flow_triggered()
+{
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开流程文件"), ".", "*.flow");
+
+    if (FileName.isEmpty())
+    {
+        QMessageBox::information(this, tr(u8"信息"), tr(u8"请选择流程文件！"));
+    }
+    else
+    {
+        m_pCGNodeView->Node2Flow(FileName);
+    }
+}
