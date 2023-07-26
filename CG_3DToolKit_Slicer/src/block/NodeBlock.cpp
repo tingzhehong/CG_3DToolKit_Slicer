@@ -82,7 +82,11 @@ NodeItem *NodeBlock::NodeItemNumberInput(QString nodename)
     m_NodeItem->setPos(x, y);
 
     PortItem *portOut = m_NodeItem->createPortOut(8, QColor(Qt::cyan));
-    connect(lineEdit, &QLineEdit::textChanged, this, [=](QString str){ portOut->setValue(QVariant::fromValue(str.trimmed().toFloat())); m_IsRuned = true; });
+    connect(lineEdit, &QLineEdit::textChanged, this, [=](QString str) {
+            portOut->setValue(QVariant::fromValue(str.trimmed().toFloat()));
+            m_NodeItem->m_Parameters[u8"值"] = portOut->value();
+            m_IsRuned = true;
+    });
 
     return m_NodeItem;
 }
