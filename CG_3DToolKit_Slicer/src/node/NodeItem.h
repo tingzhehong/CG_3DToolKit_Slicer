@@ -44,6 +44,7 @@ protected:
 signals:
     void selected(bool state);
     void positionChanged();
+    void parametersChanged();
 
 public slots:
     bool isHovered(const QPointF &point);
@@ -93,6 +94,7 @@ public:
     void setNodeName(const QString name){m_NodeName = name;}
 
     void PortClass();
+    void SendParameters(){ emit parametersChanged();}
 
 public:
     QList<PortItem*> m_InPortItem;

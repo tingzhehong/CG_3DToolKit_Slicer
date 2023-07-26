@@ -388,14 +388,16 @@ void CGNodeView::Flow2Node(const QString flowname)
              //Only algorithm plugin have arguments!
              OnDownLoadAlgorithmArguments(id);
 
-             //Number node block Input/Output
-             if (name == u8"数值/输入" || name == u8"数值/输出")
+             //Number node block input parameters
+             if (name == u8"数值/输入" || name == u8"数值/输出") {
                  block->m_NodeItem->m_Parameters[u8"值"] = argsObj[argsList.at(0)].toString();
+                 block->m_NodeItem->SendParameters();
+             }
 
-             //Local node block arguments
-             if (name == u8"2D本地图像" || name == u8"3D本地点云")
+             //Local node block parameters
+             if (name == u8"2D本地图像" || name == u8"3D本地点云") {
                  block->m_NodeItem->m_Parameters[u8"文件"] = argsObj[argsList.at(0)].toString();
-
+             }
          }
      }
      qDebug() << "IDCounter: " << m_NodeView->m_IDCounter - 1;

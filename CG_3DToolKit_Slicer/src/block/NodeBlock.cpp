@@ -87,6 +87,7 @@ NodeItem *NodeBlock::NodeItemNumberInput(QString nodename)
             m_NodeItem->m_Parameters[u8"值"] = portOut->value();
             m_IsRuned = true;
     });
+    connect(m_NodeItem, &NodeItem::parametersChanged, this, [=]{ lineEdit->setText(m_NodeItem->m_Parameters.value(u8"值").toString()); });
 
     return m_NodeItem;
 }
