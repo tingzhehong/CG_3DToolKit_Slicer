@@ -13,7 +13,7 @@ void NodeBlockManager::run()
     foreach (NodeBlock *block, m_NodeBlockList)
     {
         block->m_IsRuned = false;
-        if (block->m_NodeItem->m_NodeID != 0)
+        if (block->m_NodeItem->m_NodeID > 0)
             m_RunBlockList.append(block);
     }
 

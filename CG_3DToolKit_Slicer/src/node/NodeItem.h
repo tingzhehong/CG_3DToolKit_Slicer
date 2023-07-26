@@ -86,8 +86,8 @@ public slots:
 
 
 public:
-    unsigned int NodeID(){return m_NodeID;}
-    void  setNodeID(const unsigned int id){m_NodeID = id;}
+    int NodeID(){return m_NodeID;}
+    void  setNodeID(const int id){m_NodeID = id;}
 
     QString NodeName(){return m_NodeName;}
     void setNodeName(const QString name){m_NodeName = name;}
@@ -102,7 +102,7 @@ public:
 
     bool m_GroupNode;
     bool m_AlgorithmNode;
-    unsigned int m_NodeID;
+    int m_NodeID;
     QString m_NodeName;
     QMap<QString, QVariant> m_Parameters;
 

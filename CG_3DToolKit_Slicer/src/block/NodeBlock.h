@@ -30,6 +30,7 @@ public:
     NodeItem *m_NodeItem;
 
     unsigned int m_IDCounter;
+    		 int m_IDCounterMinus;
     bool m_IsRuned;
 
 private:

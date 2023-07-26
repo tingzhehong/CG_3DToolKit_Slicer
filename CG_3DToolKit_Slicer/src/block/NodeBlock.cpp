@@ -7,6 +7,7 @@ NodeBlock::NodeBlock(NodeView *nodeview, QWidget *parent) : QWidget(parent)
 {
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
+    m_IDCounterMinus = nodeview->m_IDCounterMinus;
 }
 
 NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
@@ -20,9 +21,11 @@ NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
         break;
     case 01:
         m_NodeItem = CreatNodeItem01(nodename);
+        ++m_IDCounter;
         break;
     case 10:
         m_NodeItem = CreatNodeItem10(nodename);
+        ++m_IDCounter;
         break;
     case 11:
         m_NodeItem = CreatNodeItem11(nodename);
@@ -72,7 +75,7 @@ NodeItem *NodeBlock::NodeItemNumberInput(QString nodename)
     m_NodeItem = m_NodeView->createNode(widget);
     m_NodeItem->setTitle(nodename);
     m_NodeItem->setNodeName(nodename);
-    m_NodeItem->setNodeID(0);
+    m_NodeItem->setNodeID(m_IDCounterMinus);
 
     int x = RandPos();
     int y = RandPos();
@@ -101,7 +104,7 @@ NodeItem *NodeBlock::NodeItemNumberOutput(QString nodename)
     m_NodeItem = m_NodeView->createNode(widget);
     m_NodeItem->setTitle(nodename);
     m_NodeItem->setNodeName(nodename);
-    m_NodeItem->setNodeID(0);
+    m_NodeItem->setNodeID(m_IDCounterMinus);
 
     int x = RandPos();
     int y = RandPos();

@@ -43,15 +43,17 @@ private:
     void Test();
     void Verify();
 
+    int ParentNodeID(PortItem *port);
+
 public:
     void Flow2Node(const QString flowname);
     void Node2Flow(const QString flowname);
 
 public slots:
-    void OnRemoveNodeBlock(unsigned int nodeId);
-    void OnLoadAlgorithmArguments(bool b, unsigned int nodeId);
-    void OnLoadLocalDataFile(bool b, unsigned int nodeId);
-    void OnDownLoadAlgorithmArguments(unsigned int nodeId);
+    void OnRemoveNodeBlock(int nodeId);
+    void OnLoadAlgorithmArguments(bool b, int nodeId);
+    void OnLoadLocalDataFile(bool b, int nodeId);
+    void OnDownLoadAlgorithmArguments(int nodeId);
 
 protected:
     QStringList m_MathsNames{u8"加", u8"减", u8"乘", u8"除", u8"数值/输入", u8"数值/输出"};
@@ -59,7 +61,7 @@ protected:
     QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端", u8"2D本地图像"};
     QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端", u8"3D本地点云"};
 
-    QMap<unsigned int, AlgorithmInterface*> m_PluginNodeBlockList;
+    QMap<int, AlgorithmInterface*> m_PluginNodeBlockList;
 
 public:
     NodeView *m_NodeView;

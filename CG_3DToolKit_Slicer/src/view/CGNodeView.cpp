@@ -75,7 +75,7 @@ void CGNodeView::InitUi()
 void CGNodeView::InitConnections()
 {
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
-    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, unsigned int id, QString name) {
+    connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, int id, QString name) {
             if (b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } 
             else if (name == u8"2D本地图像" || name == u8"3D本地点云") { OnLoadLocalDataFile(b, id); m_CGLocalDataFileDialog->exec(); } });
     connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
@@ -100,10 +100,12 @@ void CGNodeView::CreateMathsNodeItem(const QString toolname)
          if (toolname == u8"数值/输入") {
             NumberInputNodeBlock *input = new NumberInputNodeBlock(m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(input));
+            m_NodeView->m_IDCounterMinus--;
          }
     else if (toolname == u8"数值/输出") {
             NumberOutputNodeBlock *output = new NumberOutputNodeBlock(m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(output));
+            m_NodeView->m_IDCounterMinus--;
          }
     else if (toolname == u8"加") {
             MathAddNodeBlock *add = new MathAddNodeBlock(m_NodeView);
@@ -286,6 +288,21 @@ void CGNodeView::Verify()
     m_NodeView->NodeItemFactory("3#", 3, 1);
 }
 
+int CGNodeView::ParentNodeID(PortItem *port)
+{
+    int id = 9999;
+
+    NodeItem *parentNode = Q_NULLPTR;
+
+    if (port->parentItem())
+        parentNode = (NodeItem*)port->parentItem();
+
+    if (parentNode)
+       id = parentNode->m_NodeID;
+
+    return id;
+}
+
 void CGNodeView::Flow2Node(const QString flowname)
 {
     QFileInfo Infor(flowname);
@@ -312,15 +329,17 @@ void CGNodeView::Flow2Node(const QString flowname)
      ///
 
      QJsonObject infoObj = obj["node infomation"].toObject();
-     int num = infoObj["number"].toString().toInt();
-     qDebug() << "number: " << num;
+     int num = infoObj["node number"].toString().toInt();
+     int mun = infoObj["rope number"].toString().toInt();
+     qDebug() << "node number: " << num;
+     qDebug() << "rope number: " << mun;
      //
      for (int i = 1; i <= num; ++i)
      {
          QString Index = QString::number(i);
          QJsonObject nodeObj = obj["node block " + Index].toObject();
 
-         unsigned int id = nodeObj["id"].toString().toInt();
+         int id = nodeObj["id"].toString().toInt();
          QString name = nodeObj["name"].toString();
          QString title = nodeObj["title"].toString();
          qreal x = nodeObj["pos x"].toString().toDouble();
@@ -331,6 +350,7 @@ void CGNodeView::Flow2Node(const QString flowname)
 
          /// Create Node
          ///
+
               if (m_MathsNames.contains(name)) {
                   CreateMathsNodeItem(name);
          }
@@ -344,7 +364,7 @@ void CGNodeView::Flow2Node(const QString flowname)
                   Create3DFuctionNodeItem(name);
          }
          else {
-
+                  ;
          }
          NodeBlock *block = m_NodeBlockManager->m_NodeBlockList.back();
          block->m_NodeItem->setNodeID(id);
@@ -369,7 +389,36 @@ void CGNodeView::Flow2Node(const QString flowname)
              OnDownLoadAlgorithmArguments(id);
          }
      }
-     qDebug() << "IDCounter: " << m_NodeView->m_IDCounter;
+     qDebug() << "IDCounter: " << m_NodeView->m_IDCounter - 1;
+     //
+
+     /// Create Connection
+     ///
+
+     for (int j = 1; j <= mun; ++j)
+     {
+         QString Index = QString::number(j);
+         QJsonObject ropeObj = obj["rope connection " + Index].toObject();
+
+         int nodeOut = ropeObj["node block id out"].toString().toInt();
+         int nodeIn = ropeObj["node block id in"].toString().toInt();
+         int portOutNum = ropeObj["port number out"].toString().toInt();
+         int portInNum = ropeObj["port number in"].toString().toInt();
+
+          PortItem *portOut;
+          PortItem *portIn;
+          foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+          {
+             if (block->m_NodeItem->m_NodeID == nodeOut)
+                 portOut = block->m_NodeItem->portAt(portOutNum);
+
+             if (block->m_NodeItem->m_NodeID == nodeIn)
+                 portIn = block->m_NodeItem->portAt(portInNum);
+          }
+          if (portOut && portIn)
+             m_NodeView->createConnection(portOut, portIn);
+     }
+     qDebug() << "IDCounterMinus: " << m_NodeView->m_IDCounterMinus + 1;
      //
 }
 
@@ -386,6 +435,9 @@ void CGNodeView::Node2Flow(const QString flowname)
     QJsonDocument Doc;
     QJsonObject Obj;
 
+    /// Node Block
+    ///
+
     int i = 0;
     foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
     {
@@ -395,7 +447,7 @@ void CGNodeView::Node2Flow(const QString flowname)
         QJsonObject parametersObj;
 
         ++i;
-        unsigned int id = block->m_NodeItem->m_NodeID;
+        int id = block->m_NodeItem->m_NodeID;
         QString name = block->m_NodeItem->m_NodeName;
         QString title = block->m_NodeItem->m_title;
         qreal x = block->m_NodeItem->x();
@@ -419,10 +471,39 @@ void CGNodeView::Node2Flow(const QString flowname)
         QString Index = QString::number(i);
         Obj.insert("node block " + Index, nodeObj);
     }
+
+    /// Rope Connection
+    ///
+
+    int j = 0;
+    for (RopeItem *rope : m_NodeView->m_ropeList)
+    {
+        ++j;
+        PortItem *portOut = rope->portOut();
+        PortItem *portIn = rope->portIn();
+
+        int ropeOut = ParentNodeID(portOut);
+        int ropeIn = ParentNodeID(portIn);
+
+        QJsonObject ropeObj;
+        ropeObj["color"] = rope->color().name();
+        ropeObj["node block id out"] = QString::number(ropeOut);
+        ropeObj["node block id in"] = QString::number(ropeIn);
+        ropeObj["port number out"] = QString::number(portOut->number());
+        ropeObj["port number in"] = QString::number(portIn->number());
+
+        QString Index = QString::number(j);
+        Obj.insert("rope connection " + Index, ropeObj);
+    }
+
+    /// Infomation
+    ///
+    
     QJsonObject infoObj;
     QDateTime CurrentDataTime = QDateTime::currentDateTime();
     infoObj["time"] = CurrentDataTime.toString("yyyy-MM-dd hh:mm:ss");
-    infoObj["number"] = QString::number(i);
+    infoObj["node number"] = QString::number(i);
+    infoObj["rope number"] = QString::number(j);
     Obj.insert("node infomation", infoObj);
 
     Doc.setObject(Obj);
@@ -431,7 +512,7 @@ void CGNodeView::Node2Flow(const QString flowname)
     JsonFile.close();
 }
 
-void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
+void CGNodeView::OnRemoveNodeBlock(int nodeId)
 {
     foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
     {
@@ -445,7 +526,7 @@ void CGNodeView::OnRemoveNodeBlock(unsigned int nodeId)
     }
 }
 
-void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
+void CGNodeView::OnLoadAlgorithmArguments(bool b, int nodeId)
 {
     if (!b) return;
 
@@ -487,7 +568,7 @@ void CGNodeView::OnLoadAlgorithmArguments(bool b, unsigned int nodeId)
     NodeBlockWidget::getInstance()->ShowAlgorithmPluginInfomation();
 }
 
-void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId)
+void CGNodeView::OnLoadLocalDataFile(bool b, int nodeId)
 {
     if (b) return;
 
@@ -516,7 +597,7 @@ void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId)
     m_CGLocalDataFileDialog->m_pFilePath->setText(str);
 }
 
-void CGNodeView::OnDownLoadAlgorithmArguments(unsigned int nodeId)
+void CGNodeView::OnDownLoadAlgorithmArguments(int nodeId)
 {
     QString nodeName = NULL;
     NodeBlock* nodeBlock;
@@ -536,6 +617,7 @@ void CGNodeView::OnDownLoadAlgorithmArguments(unsigned int nodeId)
     if (m_PluginManager->m_PluginNames2D.contains(nodeName))
     {
         AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
 
         arguments = plugin->GetAlgorithmArguments();
         for (CG_ARGUMENT &parameter : arguments)
@@ -546,13 +628,12 @@ void CGNodeView::OnDownLoadAlgorithmArguments(unsigned int nodeId)
         }
         if (arguments.count() > 0)
             plugin->SetAlgorithmArguments(arguments);
-
-        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
     }
     if (m_PluginManager->m_PluginNames3D.contains(nodeName))
     {
         AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
-
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
+        
         arguments = plugin->GetAlgorithmArguments();
         for (CG_ARGUMENT &parameter : arguments)
         {
@@ -562,8 +643,6 @@ void CGNodeView::OnDownLoadAlgorithmArguments(unsigned int nodeId)
         }
         if (arguments.count() > 0)
             plugin->SetAlgorithmArguments(arguments);
-
-        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
     }
 
     if (arguments.empty()) return;

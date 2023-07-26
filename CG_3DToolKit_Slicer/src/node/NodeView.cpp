@@ -20,7 +20,8 @@ NodeView::NodeView(QWidget *parent) : QGraphicsView(parent),
     m_isOnlyOneInputConnection(true),
     m_ropeFlexion(100.0),
     m_isConnectionDragable(true),
-    m_IDCounter(1)
+    m_IDCounter(1),
+    m_IDCounterMinus(-1)
 {
     setRenderHint(QPainter::Antialiasing);
     setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -193,7 +194,7 @@ void NodeView::mouseDoubleClickEvent(QMouseEvent *e)
         qDebug() << hitNode->NodeName();
         QString name = hitNode->NodeName();
         bool isAlgorithmPlugin = hitNode->m_AlgorithmNode;
-        unsigned int id = hitNode->m_NodeID;
+        int id = hitNode->m_NodeID;
         emit signalDoubleClick(isAlgorithmPlugin, id, name);
     }
 
