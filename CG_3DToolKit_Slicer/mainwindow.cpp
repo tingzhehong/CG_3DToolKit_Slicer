@@ -933,5 +933,6 @@ void MainWindow::on_action_open_Flow_triggered()
     else
     {
         m_pCGNodeView->Flow2Node(FileName);
+        m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
     }
 }

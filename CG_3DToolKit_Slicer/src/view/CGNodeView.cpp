@@ -34,6 +34,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QByteArray>
+#include <QDateTime>
 
 
 CGNodeView::CGNodeView(QWidget *parent) : CGBaseWidget(parent)
@@ -287,7 +288,89 @@ void CGNodeView::Verify()
 
 void CGNodeView::Flow2Node(const QString flowname)
 {
+    QFileInfo Infor(flowname);
+    if (Infor.suffix() != "flow") 
+        return;
 
+    QFile JsonFile(flowname);
+    if (!JsonFile.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "Read .flow json file failure!";
+        return;
+    }
+    QByteArray data = JsonFile.readAll();
+    JsonFile.close();
+    
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+
+    if (!doc.isObject())
+        return;
+
+     QJsonObject obj = doc.object();
+
+     /// Parse Json
+     ///
+
+     QJsonObject infoObj = obj["node infomation"].toObject();
+     int num = infoObj["number"].toString().toInt();
+     qDebug() << "number: " << num;
+     //
+     for (int i = 1; i <= num; ++i)
+     {
+         QString Index = QString::number(i);
+         QJsonObject nodeObj = obj["node block " + Index].toObject();
+
+         unsigned int id = nodeObj["id"].toString().toInt();
+         QString name = nodeObj["name"].toString();
+         QString title = nodeObj["title"].toString();
+         qreal x = nodeObj["pos x"].toString().toDouble();
+         qreal y = nodeObj["pos y"].toString().toDouble();
+         QPointF pos(x, y);
+
+         qDebug() << i << " " << id << " " << name << " " << title << " " << pos;
+
+         /// Create Node
+         ///
+              if (m_MathsNames.contains(name)) {
+                  CreateMathsNodeItem(name);
+         }
+         else if (m_LogicsNames.contains(name)) {
+                  CreateLogicsNodeItem(name);
+         }
+         else if (m_2DFuctionNames.contains(name)) {
+                  Create2DFuctionNodeItem(name);
+         }
+         else if (m_3DFuctionNames.contains(name)) {
+                  Create3DFuctionNodeItem(name);
+         }
+         else {
+
+         }
+         NodeBlock *block = m_NodeBlockManager->m_NodeBlockList.back();
+         block->m_NodeItem->setNodeID(id);
+         block->m_NodeItem->setNodeName(name);
+         block->m_NodeItem->setTitle(title);
+         block->m_NodeItem->setPos(pos);
+
+         QJsonObject argsObj = nodeObj["arguments"].toObject();
+         QStringList argsList = argsObj.keys();
+
+         int n = argsObj.count();
+         int m = argsList.count();
+         if (n > 0)
+         {
+             for (int j = 0; j < m; ++j)
+             {
+                 qreal val = argsObj[argsList.at(j)].toString().toDouble();
+                 block->m_NodeItem->m_Parameters[argsList.at(j)] = val;
+                 qDebug() << argsList[j] << " " << val;
+             }
+             //Only algorithm plugin have arguments!
+             OnDownLoadAlgorithmArguments(id);
+         }
+     }
+     qDebug() << "IDCounter: " << m_NodeView->m_IDCounter;
+     //
 }
 
 void CGNodeView::Node2Flow(const QString flowname)
@@ -336,6 +419,12 @@ void CGNodeView::Node2Flow(const QString flowname)
         QString Index = QString::number(i);
         Obj.insert("node block " + Index, nodeObj);
     }
+    QJsonObject infoObj;
+    QDateTime CurrentDataTime = QDateTime::currentDateTime();
+    infoObj["time"] = CurrentDataTime.toString("yyyy-MM-dd hh:mm:ss");
+    infoObj["number"] = QString::number(i);
+    Obj.insert("node infomation", infoObj);
+
     Doc.setObject(Obj);
 
     JsonFile.write(Doc.toJson());
@@ -425,4 +514,58 @@ void CGNodeView::OnLoadLocalDataFile(bool b, unsigned int nodeId)
     QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"文件");
     QString str = var.toString();
     m_CGLocalDataFileDialog->m_pFilePath->setText(str);
+}
+
+void CGNodeView::OnDownLoadAlgorithmArguments(unsigned int nodeId)
+{
+    QString nodeName = NULL;
+    NodeBlock* nodeBlock;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            nodeName = block->m_NodeItem->m_NodeName;
+            nodeBlock = block;
+            NodeBlockWidget::getInstance()->SetCurrentNodeBlock(block);
+            break;
+        }
+    }
+    if (nodeName == NULL) return;
+
+    QVector<CG_ARGUMENT> arguments;
+    if (m_PluginManager->m_PluginNames2D.contains(nodeName))
+    {
+        AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
+
+        arguments = plugin->GetAlgorithmArguments();
+        for (CG_ARGUMENT &parameter : arguments)
+        {
+            QString key = parameter.ARG;
+            float value = nodeBlock->m_NodeItem->m_Parameters.value(key).toFloat();
+            parameter.VALUE = value;
+        }
+        if (arguments.count() > 0)
+            plugin->SetAlgorithmArguments(arguments);
+
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
+    }
+    if (m_PluginManager->m_PluginNames3D.contains(nodeName))
+    {
+        AlgorithmInterface *plugin = m_PluginNodeBlockList.value(nodeId);
+
+        arguments = plugin->GetAlgorithmArguments();
+        for (CG_ARGUMENT &parameter : arguments)
+        {
+            QString key = parameter.ARG;
+            float value = nodeBlock->m_NodeItem->m_Parameters.value(key).toFloat();
+            parameter.VALUE = value;
+        }
+        if (arguments.count() > 0)
+            plugin->SetAlgorithmArguments(arguments);
+
+        NodeBlockWidget::getInstance()->SetCurrentAlgorithmPlugin(plugin);
+    }
+
+    if (arguments.empty()) return;
+    NodeBlockWidget::getInstance()->LoadAlgorithmArguments(arguments);
 }

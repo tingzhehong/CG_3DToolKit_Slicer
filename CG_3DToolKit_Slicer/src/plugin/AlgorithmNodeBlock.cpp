@@ -12,6 +12,16 @@ void AlgorithmNodeBlock::Run()
 {
     m_NodeItem->PortClass();
 
+    QVector<CG_ARGUMENT> args = m_plugin->GetAlgorithmArguments();
+    for (CG_ARGUMENT &parameter : args)
+    {
+        QString key = parameter.ARG;
+        float value = m_NodeItem->m_Parameters.value(key).toFloat();
+        parameter.VALUE = value;
+    }
+    if (args.count() > 0)
+        m_plugin->SetAlgorithmArguments(args);
+
     QVector<QVariant> InputData;
     foreach (PortItem *InPortItem, m_NodeItem->m_InPortItem)
     {
