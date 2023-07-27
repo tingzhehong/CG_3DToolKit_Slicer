@@ -57,7 +57,7 @@ void NodeBlockWidget::LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args)
     {
         m_ArgumentsTable->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
         m_ArgumentsTable->setItem(i, 1, new QTableWidgetItem(args.at(i).ARG));
-        m_ArgumentsTable->setItem(i, 2, new QTableWidgetItem(QString::number(args.at(i).VALUE, 'f', 3)));
+        m_ArgumentsTable->setItem(i, 2, new QTableWidgetItem(QString::number(args.at(i).VALUE, 'f', 6)));
 
         m_ArgumentsTable->item(i, 0)->setFlags(Qt::ItemIsEnabled);
         m_ArgumentsTable->item(i, 1)->setFlags(Qt::ItemIsEnabled);
