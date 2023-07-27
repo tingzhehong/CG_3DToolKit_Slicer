@@ -533,6 +533,11 @@ void CGNodeView::OnRemoveNodeBlock(int nodeId)
             m_NodeBlockManager->m_NodeBlockList.removeOne(block);
             delete block;
             block = nullptr;
+
+            if (nodeId > 0)
+                m_NodeView->m_IDCounter--;
+            if (nodeId < 0)
+                m_NodeView->m_IDCounterMinus++;
         }
     }
 }
