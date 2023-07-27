@@ -10,7 +10,7 @@ LogicsCirculate::LogicsCirculate(NodeView *nodeview, QWidget *parent) : NodeBloc
     m_NodeView = nodeview;
     m_IDCounter = nodeview->m_IDCounter;
 
-    mainnode = NodeItemFactory(tr(u8"循环(主控节点)"), 1, 0);
+    mainnode = NodeItemFactory(tr(u8"循环"), 1, 0);
     group = m_NodeView->createGroup(QList<NodeItem*>{mainnode});
     group->setTitle(u8"Group 循环");
 

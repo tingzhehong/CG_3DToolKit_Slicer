@@ -149,6 +149,7 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
     if (toolname == u8"组") {
         LogicsGroup *gp = new LogicsGroup(m_NodeView);
         m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(gp));
+        m_NodeView->m_IDCounterMinus--;
     }
 }
 
@@ -386,7 +387,7 @@ void CGNodeView::Flow2Node(const QString flowname)
                  qDebug() << argsList[j] << " " << val;
              }
              //Only algorithm plugin have arguments!
-             OnDownLoadAlgorithmArguments(id);
+             OnReLoadAlgorithmArguments(id);
 
              //Number node block input parameters
              if (name == u8"数值/输入" || name == u8"数值/输出") {
@@ -608,7 +609,7 @@ void CGNodeView::OnLoadLocalDataFile(bool b, int nodeId)
     m_CGLocalDataFileDialog->m_pFilePath->setText(str);
 }
 
-void CGNodeView::OnDownLoadAlgorithmArguments(int nodeId)
+void CGNodeView::OnReLoadAlgorithmArguments(int nodeId)
 {
     QString nodeName = NULL;
     NodeBlock* nodeBlock;

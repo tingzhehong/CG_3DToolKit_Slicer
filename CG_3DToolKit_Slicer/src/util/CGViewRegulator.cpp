@@ -48,6 +48,8 @@ void CGViewRegulator::OnNodeViewRequest(const int type)
         if (g_PointCloud->empty()) return;
         auto actor = m_CG3DImageView->m_Actor;
         CG::VTKPointCloudIntensity(g_PointCloud, actor);
+        m_CG3DImageView->CreatCubeAxes();
+        m_CG3DImageView->CreatXYGrids(actor->GetBounds());
         m_CG3DImageView->m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
         m_CG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CG3DImageView->m_CGVTKWidget->update();

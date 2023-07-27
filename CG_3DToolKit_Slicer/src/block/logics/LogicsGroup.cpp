@@ -7,9 +7,9 @@
 LogicsGroup::LogicsGroup(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
     m_NodeView = nodeview;
-    m_IDCounter = nodeview->m_IDCounter;
+    m_IDCounterMinus = nodeview->m_IDCounterMinus;
 
-    mainnode = NodeItemFactory(tr(u8"组(主控节点)"), 0, 0);
+    mainnode = NodeItemFactory(tr(u8"组"), 0, 0);
     group = m_NodeView->createGroup(QList<NodeItem*>{mainnode});
     group->setTitle(u8"Group 组");
 
@@ -80,7 +80,7 @@ NodeItem *LogicsGroup::CreatNodeItem00(const QString nodename)
     m_NodeItem = m_NodeView->createNode(widget);
     m_NodeItem->setTitle(nodename);
     m_NodeItem->setNodeName(nodename);
-    m_NodeItem->setNodeID(0);
+    m_NodeItem->setNodeID(m_IDCounterMinus);
 
     int x = RandPos();
     int y = RandPos();
