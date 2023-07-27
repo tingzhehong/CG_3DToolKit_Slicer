@@ -76,7 +76,7 @@ QVector<QVariant> AlgorithmPlugin_3D_Adapter_PointCloud2Image::GetAlgorithmOutpu
 {
     QVector<QVariant> datas;
     QVariant outdata;
-    outdata.setValue(QVariant::fromValue(_IMG.ColorImage));
+    outdata.setValue(QVariant::fromValue(_IMG));
     datas << outdata;
 
     return datas;

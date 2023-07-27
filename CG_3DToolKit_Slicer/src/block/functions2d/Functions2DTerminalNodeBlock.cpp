@@ -17,8 +17,22 @@ void Functions2DTerminalNodeBlock::Run()
 
     if (m_NodeItem->m_InPortItem.size() != 1) return;
     QVariant var = m_NodeItem->m_InPortItem.at(0)->value();
-    cv::Mat img = var.value<cv::Mat>();
-    g_Image.ColorImage = img.clone();
+
+    CG_IMG IMG;
+    if (var.canConvert<CG_IMG>()) {
+        IMG = var.value<CG_IMG>();
+        g_Image.ColorImage = IMG.ColorImage.clone();
+        g_Image.DepthImage = IMG.DepthImage.clone();
+        g_Image.GrayImage = IMG.GrayImage.clone();
+        g_Image.IntensityImage = IMG.IntensityImage.clone();
+    }
+
+    cv::Mat img;
+    if (var.canConvert<cv::Mat>()) {
+        img = var.value<cv::Mat>();
+        g_Image.ColorImage = img.clone();
+    }
+
     emit SignalShow2D();
     m_IsRuned = true;
 }
