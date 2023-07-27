@@ -531,7 +531,6 @@ void CGNodeView::OnRemoveNodeBlock(int nodeId)
         if (block->m_NodeItem->m_NodeID == nodeId)
         {
             m_NodeBlockManager->m_NodeBlockList.removeOne(block);
-            m_PluginNodeBlockList.remove(nodeId);
             delete block;
             block = nullptr;
         }
