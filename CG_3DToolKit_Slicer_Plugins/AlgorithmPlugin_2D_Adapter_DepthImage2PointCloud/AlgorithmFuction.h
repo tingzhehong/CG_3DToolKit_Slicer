@@ -2,6 +2,7 @@
 #define ALGORITHMFUCTION_H
 
 #include <AlgorithmInterface.h>
+#include <pcl/filters/filter.h>
 
 // TODO:
 

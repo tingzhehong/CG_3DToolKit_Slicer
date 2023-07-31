@@ -24,8 +24,8 @@ void alg::FromDepthImage2PointCloud(Mat &ImageDepth, float XPitch, float YPitch,
         for (int j = 0; j < imageDepth_flip.cols; j++)
         {
             float z = imageDepth_flip.at<float>(i, j);
-            if (z <= DownLimitThres) continue;
-            if (z >= UpLimitThres) continue;
+            if (z <= DownLimitThres) z = NAN;
+            if (z >= UpLimitThres) z = NAN;
 
             float r = 255;
             float g = 255;

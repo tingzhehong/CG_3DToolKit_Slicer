@@ -39,12 +39,8 @@ private:
     CG_IMG _IMG;
     PointCloudT::Ptr _cloudSrc;
 
-    float _XPitch;
-    float _YPitch;
     float _colNum;
     float _rowNum;
-    CG_ARGUMENT _XPitchArgs;
-    CG_ARGUMENT _YPitchArgs;
     CG_ARGUMENT _colNumArgs;
     CG_ARGUMENT _rowNumArgs;
 

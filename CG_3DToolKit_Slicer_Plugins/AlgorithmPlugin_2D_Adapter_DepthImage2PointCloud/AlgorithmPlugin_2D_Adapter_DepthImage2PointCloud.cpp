@@ -135,6 +135,8 @@ AlgorithmInterface *AlgorithmPlugin_2D_Adapter_DepthImage2PointCloud::Clone()
 void AlgorithmPlugin_2D_Adapter_DepthImage2PointCloud::Compute()
 {
     alg::FromDepthImage2PointCloud(_imgSrc, _XPitch, _YPitch, _DownLimitThres, _UpLimitThres, _cloudDst);
+    std::vector<int> indices;
+    pcl::removeNaNFromPointCloud(*_cloudDst, *_cloudDst, indices);
 
     _computed = true;
 

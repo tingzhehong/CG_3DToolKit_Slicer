@@ -6,7 +6,7 @@ using namespace cv;
 
 // TODO:
 
-void alg::CreateImageALL(PointCloudT::Ptr cloud, cv::Mat &imgDepth, cv::Mat &imgGray, cv::Mat &imgIntensity, const float &XPitch, const float &YPitch, const int &rowNum, const int &colNum)
+void alg::CreateImageALL(PointCloudT::Ptr cloud, cv::Mat &imgDepth, cv::Mat &imgGray, cv::Mat &imgIntensity, const int &rowNum, const int &colNum)
 {
 	pcl::PointXYZRGB min;	//最小值
 	pcl::PointXYZRGB max;	//最大值

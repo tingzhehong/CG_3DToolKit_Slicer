@@ -20,13 +20,6 @@ AlgorithmPlugin_3D_Adapter_PointCloud2Image::AlgorithmPlugin_3D_Adapter_PointClo
     m_NodeBlock.Input << in_0;
     m_NodeBlock.Output << out_0;
 
-    _XPitchArgs.ARG = tr(u8"XPitch");
-    _XPitchArgs.VALUE = 0.001f;
-    _XPitch = 0.001f;
-    _YPitchArgs.ARG = tr(u8"YPitch");
-    _YPitchArgs.VALUE = 0.001f;
-    _YPitch = 0.001f;
-
     _colNumArgs.ARG = tr(u8"图像宽度");
     _colNumArgs.VALUE = 1024;
     _colNum = 1024;
@@ -85,19 +78,14 @@ QVector<QVariant> AlgorithmPlugin_3D_Adapter_PointCloud2Image::GetAlgorithmOutpu
 void AlgorithmPlugin_3D_Adapter_PointCloud2Image::SetAlgorithmArguments(QVector<CG_ARGUMENT> &args)
 {
     int num = args.size();
-    if (num != 4) {
+    if (num != 2) {
         qDebug() << "Algorithm arguments overflow.";
         emit SignalMessage("Algorithm arguments overflow.");
         return;
     }
 
-    _XPitchArgs = args.at(0);
-    _YPitchArgs = args.at(1);
-    _colNumArgs = args.at(2);
-    _rowNumArgs = args.at(3);
-
-    _XPitch = _XPitchArgs.VALUE;
-    _YPitch = _YPitchArgs.VALUE;
+    _colNumArgs = args.at(0);
+    _rowNumArgs = args.at(1);
     _colNum = _colNumArgs.VALUE;
     _rowNum = _rowNumArgs.VALUE;
 
@@ -107,7 +95,7 @@ void AlgorithmPlugin_3D_Adapter_PointCloud2Image::SetAlgorithmArguments(QVector<
 QVector<CG_ARGUMENT> AlgorithmPlugin_3D_Adapter_PointCloud2Image::GetAlgorithmArguments()
 {
     QVector<CG_ARGUMENT> args;
-    args << _XPitchArgs << _YPitchArgs << _colNumArgs << _rowNumArgs;
+    args << _colNumArgs << _rowNumArgs;
 
     return args;
 }
@@ -136,7 +124,7 @@ AlgorithmInterface *AlgorithmPlugin_3D_Adapter_PointCloud2Image::Clone()
 
 void AlgorithmPlugin_3D_Adapter_PointCloud2Image::Compute()
 {
-    alg::CreateImageALL(_cloudSrc, _IMG.DepthImage, _IMG.GrayImage, _IMG.IntensityImage, _XPitch, _YPitch, _rowNum, _colNum);
+    alg::CreateImageALL(_cloudSrc, _IMG.DepthImage, _IMG.GrayImage, _IMG.IntensityImage, _rowNum, _colNum);
     alg::DepthMat2ColorMat(_IMG.DepthImage, _IMG.ColorImage);
 
     _computed = true;

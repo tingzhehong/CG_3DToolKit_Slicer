@@ -16,7 +16,7 @@ namespace alg
     **/
 
     // 创建所有图像
-    void CreateImageALL(PointCloudT::Ptr cloud, cv::Mat &imgDepth, cv::Mat &imgGray, cv::Mat &imgIntensity, const float &XPitch, const float &YPitch, const int &rowNum, const int &colNum);
+    void CreateImageALL(PointCloudT::Ptr cloud, cv::Mat &imgDepth, cv::Mat &imgGray, cv::Mat &imgIntensity, const int &rowNum, const int &colNum);
     // 灰度图像至彩色图像
     void GrayMat2ColorMat(cv::Mat &grayImage, cv::Mat &colorImage);
     // 深度图像至彩色图像

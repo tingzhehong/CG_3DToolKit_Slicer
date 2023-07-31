@@ -99,6 +99,7 @@
    <addaction name="action_open_Image"/>
    <addaction name="action_open_PointCloud"/>
    <addaction name="action_save_PointCloud"/>
+   <addaction name="action_open_Flow"/>
    <addaction name="action_save_Flow"/>
    <addaction name="separator"/>
    <addaction name="action_exit"/>
