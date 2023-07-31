@@ -12,6 +12,7 @@ LogicsGroup::LogicsGroup(NodeView *nodeview, QWidget *parent) : NodeBlock(nodevi
     mainnode = NodeItemFactory(tr(u8"组"), 0, 0);
     group = m_NodeView->createGroup(QList<NodeItem*>{mainnode});
     group->setTitle(u8"Group 组");
+    group->setGroupID(m_IDCounterMinus);
 
     Connections();
 }
@@ -35,6 +36,7 @@ void LogicsGroup::AddNodeBlock()
         if (node->m_NodeID == id && node->m_NodeID != 0) {
             node->m_GroupNode = true;
             group->addNode(node);
+            m_NodeItem->m_Parameters[u8"块 " + QString::number(id)] = QString::number(id);
         }
     }
     lineEdit->clear();
@@ -48,6 +50,7 @@ void LogicsGroup::DelNodeBlock()
         if (node->m_NodeID == id && node->m_NodeID != 0) {
             node->m_GroupNode = false;
             group->removeNode(node);
+            m_NodeItem->m_Parameters.remove(u8"块 " + QString::number(id));
          }
     }
     lineEdit->clear();

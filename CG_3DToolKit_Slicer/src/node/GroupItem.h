@@ -33,6 +33,7 @@ private:
 
 public:
     QList<NodeItem*> m_nodeList;
+    QList<QString> m_nodeListString;
 
 private:
     QRectF boundingRect() const;
@@ -73,6 +74,12 @@ public slots:
     void setTitleColor(const QColor &color);
     void setBackgroundColor(const QColor &color);
     void setBackgroundBrush(const QBrush &brush);
+
+public:
+    int GroupID(){return m_GroupID;}
+    void setGroupID(const int id){m_GroupID = id;}
+    int m_GroupID;
+
 };
 
 #endif // GROUPITEM_H

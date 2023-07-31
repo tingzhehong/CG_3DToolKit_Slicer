@@ -13,6 +13,7 @@ LogicsCirculate::LogicsCirculate(NodeView *nodeview, QWidget *parent) : NodeBloc
     mainnode = NodeItemFactory(tr(u8"循环"), 1, 0);
     group = m_NodeView->createGroup(QList<NodeItem*>{mainnode});
     group->setTitle(u8"Group 循环");
+    group->setGroupID(m_IDCounter - 1);
 
     Connections();
 }
@@ -67,6 +68,7 @@ void LogicsCirculate::AddNodeBlock()
         if (node->m_NodeID == id && node->m_NodeID != 0) {
             node->m_GroupNode = true;
             group->addNode(node);
+            m_NodeItem->m_Parameters[u8"块 " + QString::number(id)] = QString::number(id);
         }
     }
     lineEdit->clear();
@@ -80,6 +82,7 @@ void LogicsCirculate::DelNodeBlock()
         if (node->m_NodeID == id && node->m_NodeID != 0) {
             node->m_GroupNode = false;
             group->removeNode(node);
+            m_NodeItem->m_Parameters.remove(u8"块 " + QString::number(id));
          }
     }
     lineEdit->clear();

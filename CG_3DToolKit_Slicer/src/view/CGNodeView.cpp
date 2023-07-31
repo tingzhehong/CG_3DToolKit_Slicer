@@ -395,14 +395,47 @@ void CGNodeView::Flow2Node(const QString flowname)
                  block->m_NodeItem->SendParameters();
              }
 
+             //Group node block parameters
+             if (name == u8"循环" || name == u8"组") {
+                for (int k = 0; k < m; ++k)
+                {
+                    qDebug() << "group node block id: " << argsObj[argsList.at(k)].toString();
+
+                    for(GroupItem *group : m_NodeView->m_groupList) {
+                        //qDebug() << " node id " << id;
+                        //qDebug() << "group id: " << group->GroupID();
+                        if (group->GroupID() == id) {
+                            group->m_nodeListString.append(argsObj[argsList.at(k)].toString());
+                            break;
+                        }
+                    }
+                }
+             }
+
              //Local node block parameters
              if (name == u8"2D本地图像" || name == u8"3D本地点云") {
                  block->m_NodeItem->m_Parameters[u8"文件"] = argsObj[argsList.at(0)].toString();
              }
          }
      }
-     qDebug() << "IDCounter: " << m_NodeView->m_IDCounter - 1;
      //
+     qDebug() << "IDCounter: " << m_NodeView->m_IDCounter - 1;
+     qDebug() << "IDCounterMinus: " << m_NodeView->m_IDCounterMinus + 1;
+     ///
+
+     /// Group Handle
+     ///
+     for(GroupItem *group : m_NodeView->m_groupList)
+     {
+         for(NodeItem *node : m_NodeView->m_nodeList)
+         {
+             if (group->m_nodeListString.contains(QString::number(node->m_NodeID))) {
+                 group->addNode(node);
+                 qDebug() << "group add node block: " << node->m_NodeID;
+             }
+         }
+     }
+     ///
 
      /// Create Connection
      ///
@@ -429,9 +462,8 @@ void CGNodeView::Flow2Node(const QString flowname)
           }
           if (portOut && portIn)
              m_NodeView->createConnection(portOut, portIn);
-     }
-     qDebug() << "IDCounterMinus: " << m_NodeView->m_IDCounterMinus + 1;
-     //
+     }   
+     ///
 }
 
 void CGNodeView::Node2Flow(const QString flowname)
