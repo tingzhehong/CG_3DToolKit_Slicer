@@ -537,6 +537,14 @@ void CG3DImageView::CreatXYGrids(double *bounds)
         gridLinesPolyData->AddInputData(ls->GetOutput());
         initX += deltaX;
     }
+    if ((initX + deltaX) > xMax)
+    {
+        vtkSmartPointer<vtkLineSource> ls = vtkSmartPointer<vtkLineSource>::New();
+        ls->SetPoint1(xMax, yMin, zMin);
+        ls->SetPoint2(xMax, yMax, zMin);
+        ls->Update();
+        gridLinesPolyData->AddInputData(ls->GetOutput());
+    }
 
     double deltaY = (double)(yMax - yMin) / (markerCount);
     double initY = yMin;
@@ -548,6 +556,14 @@ void CG3DImageView::CreatXYGrids(double *bounds)
         ls->Update();
         gridLinesPolyData->AddInputData(ls->GetOutput());
         initY += deltaY;
+    }
+    if ((initY + deltaY) > yMax)
+    {
+        vtkSmartPointer<vtkLineSource> ls = vtkSmartPointer<vtkLineSource>::New();
+        ls->SetPoint1(xMin, yMax, zMin);
+        ls->SetPoint2(xMax, yMax, zMin);
+        ls->Update();
+        gridLinesPolyData->AddInputData(ls->GetOutput());
     }
 
     gridLinesPolyData->Update();
