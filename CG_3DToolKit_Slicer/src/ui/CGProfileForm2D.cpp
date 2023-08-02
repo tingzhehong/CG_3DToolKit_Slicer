@@ -134,6 +134,7 @@ void CGProfileForm2D::RemoveTools()
 
 void CGProfileForm2D::SetVerticalLine(double pos)
 {
+    //!m_pVerticalLineTool
     int x = static_cast<int>(m_pPixmap->width() * pos);
     m_pVerticalLineTool->setLine(x, 0, x, m_pPixmap->height());
     m_Line.setLine(x, 0, x, m_pPixmap->height());
@@ -144,6 +145,7 @@ void CGProfileForm2D::SetVerticalLine(double pos)
 
 void CGProfileForm2D::SetHorizontalLine(double pos)
 {
+    //!m_pHorizontalLineTool
     int y = static_cast<int>(m_pPixmap->height() * pos);
     m_pHorizontalLineTool->setLine(0, y, m_pPixmap->width(), y);
     m_Line.setLine(0, y, m_pPixmap->width(), y);
@@ -154,6 +156,7 @@ void CGProfileForm2D::SetHorizontalLine(double pos)
 
 void CGProfileForm2D::SetTwoPointLine(double *pos_1, double *pos_2)
 {
+    //!m_pTwoPointLineTool
     int x1 = static_cast<int>(m_pPixmap->width() * pos_1[0]);
     int y1 = static_cast<int>(m_pPixmap->height() * (1 - pos_1[1]));
 
