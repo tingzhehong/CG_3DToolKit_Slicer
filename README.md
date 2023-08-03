@@ -12,17 +12,17 @@ Interface Image
 * Main flow graph
 ![image1](CG_3DToolKit_Slicer/src/doc/5.png)
 * Graphical programming
-![image1](CG_3DToolKit_Slicer/src/doc/6.png)
+![image2](CG_3DToolKit_Slicer/src/doc/6.png)
 * 2D distplay
-![image1](CG_3DToolKit_Slicer/src/doc/4.png)
+![image3](CG_3DToolKit_Slicer/src/doc/4.png)
 * 3D display
-![image1](CG_3DToolKit_Slicer/src/doc/1.png)
+![image4](CG_3DToolKit_Slicer/src/doc/1.png)
 * 3D interaction
-![image1](CG_3DToolKit_Slicer/src/doc/2.png)
+![image5](CG_3DToolKit_Slicer/src/doc/2.png)
 * Profile chart
-![image1](CG_3DToolKit_Slicer/src/doc/3.png)
+![image6](CG_3DToolKit_Slicer/src/doc/3.png)
 * Node block edit
-![image1](CG_3DToolKit_Slicer/src\doc/7.png)
+![image7](CG_3DToolKit_Slicer/src/doc/7.png)
 
 Depend
 -------
