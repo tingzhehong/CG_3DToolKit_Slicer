@@ -10,23 +10,23 @@ CG_ 3DToolKit_ Slicer is a platform that integrates 2D and 3D universal machine 
 Interface Image
 -------
 * Main flow graph
-![image1](.\CG_3DToolKit_Slicer\src\doc\5.png)
+![image1](CG_3DToolKit_Slicer/src/doc/5.png)
 * Graphical programming
-![image1](.\CG_3DToolKit_Slicer\src\doc\6.png)
+![image1](CG_3DToolKit_Slicer/src/doc/6.png)
 * 2D distplay
-![image1](.\CG_3DToolKit_Slicer\src\doc\4.png)
+![image1](CG_3DToolKit_Slicer/src/doc/4.png)
 * 3D display
-![image1](.\CG_3DToolKit_Slicer\src\doc\1.png)
+![image1](CG_3DToolKit_Slicer/src/doc/1.png)
 * 3D interaction
-![image1](.\CG_3DToolKit_Slicer\src\doc\2.png)
+![image1](CG_3DToolKit_Slicer/src/doc/2.png)
 * Profile chart
-![image1](.\CG_3DToolKit_Slicer\src\doc\3.png)
+![image1](CG_3DToolKit_Slicer/src/doc/3.png)
 * Node block edit
-![image1](.\CG_3DToolKit_Slicer\src\doc\7.png)
+![image1](CG_3DToolKit_Slicer/src\doc/7.png)
 
 Depend
 -------
-The 3rd party librarys:
+The 3rd party library:
 
 Qt5 
 >\>5.12.12
