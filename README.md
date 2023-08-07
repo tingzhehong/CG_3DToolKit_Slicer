@@ -29,13 +29,13 @@ Depend
 The 3rd party library:
 
 Qt5 
->\>5.12.12
+>\>=5.12.12
 
 OpenCV
->\>3.4.1
+>\>=3.4.1
 
 PCL
->\>1.8.1
+>\>=1.8.1
 
 Citation
 --------

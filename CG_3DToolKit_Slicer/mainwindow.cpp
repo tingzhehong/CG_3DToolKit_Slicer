@@ -414,6 +414,7 @@ void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
 
 void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
 {
+    if (!item->parent()) return;
     QString strParent = item->parent()->text(0);
     QString strColumn = item->text(column);
     //qDebug() << "DataTreeItem: " << strParent << "  " << strColumn;
