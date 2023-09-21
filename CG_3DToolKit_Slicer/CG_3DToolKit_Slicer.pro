@@ -83,6 +83,7 @@ SOURCES += \
     src/view/CGProfileView.cpp \
     src/view/CGProjectTreeView.cpp \
     src/view/CGPropertiesView.cpp \
+    src/view/CGWebView.cpp \
     src/vtk/CGAbstractWidgetObserver.cpp \
     src/vtk/CGAngleWidgetObserver.cpp \
     src/vtk/CGBoxWidgetObserver.cpp \
@@ -174,6 +175,7 @@ HEADERS += \
     src/view/CGProfileView.h \
     src/view/CGProjectTreeView.h \
     src/view/CGPropertiesView.h \
+    src/view/CGWebView.h \
     src/vtk/CGAbstractWidgetObserver.h \
     src/vtk/CGAngleWidgetObserver.h \
     src/vtk/CGBoxWidgetObserver.h \

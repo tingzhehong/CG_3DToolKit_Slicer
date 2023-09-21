@@ -40,6 +40,7 @@ private:
     CGProfileView *m_pCGProfileView;
     CGNodeView *m_pCGNodeView;
     CGFullScreenView *m_pCGFullScreenView;
+    CGWebView *m_pCGWebView;
 
     QMdiArea *m_pMdiArea;
     QStackedWidget *m_pStackedWidget;

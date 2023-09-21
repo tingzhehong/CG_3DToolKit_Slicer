@@ -25,6 +25,7 @@
 #include <CGPropertiesForm2.h>
 #include <CGProfileView.h>
 #include <CGViewRegulator.h>
+#include <CGWebView.h>
 
 //BLOCK
 #include <NodeBlock.h>

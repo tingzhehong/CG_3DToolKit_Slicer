@@ -34,13 +34,18 @@ void CGProjectTreeView::InitUi()
     QTreeWidgetItem *ProfileTopTtem = new QTreeWidgetItem(QStringList{tr(u8"分析项目")});
     m_WindowProfile = new QTreeWidgetItem(QStringList{tr(u8"轮廓分析")});
 
+    QTreeWidgetItem *WebTopTtem = new QTreeWidgetItem(QStringList{tr(u8"前端项目")});
+    m_WindowWeb = new QTreeWidgetItem(QStringList{tr(u8"浏览窗口")});
+
     ImageTopItem->addChild(m_Window2D);
     ImageTopItem->addChild(m_Window3D);
     EditionTopItem->addChild(m_WindowNodeEdit);
     ProfileTopTtem->addChild(m_WindowProfile);
+    WebTopTtem->addChild(m_WindowWeb);
     m_ProjectTree->addTopLevelItem(ImageTopItem);
     m_ProjectTree->addTopLevelItem(ProfileTopTtem);
     m_ProjectTree->addTopLevelItem(EditionTopItem);
+    m_ProjectTree->addTopLevelItem(WebTopTtem);
     m_ProjectTree->expandAll();
 
     QVBoxLayout *pTreeLayout = new QVBoxLayout();

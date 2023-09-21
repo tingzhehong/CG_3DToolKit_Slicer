@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pCGProfileView(new CGProfileView)
     , m_pCGNodeView(new CGNodeView)
     , m_pCGFullScreenView(new CGFullScreenView)
+    , m_pCGWebView(new CGWebView)
     , m_pCGUsersLoginDialog(new CGUsersLoginDialog)
     , m_pCGWaitingDialog(new CGWaitingDialog)
     , m_pCGAboutDialog(new CGAboutDialog)
@@ -56,6 +57,7 @@ void MainWindow::InitUi()
     m_pStackedWidget->addWidget(m_pCG3DImageView);
     m_pStackedWidget->addWidget(m_pCGNodeView);
     m_pStackedWidget->addWidget(m_pCGProfileView);
+    m_pStackedWidget->addWidget(m_pCGWebView);
     m_pCGSubWindowWidget->setWidget(m_pStackedWidget);
     m_pMdiArea->addSubWindow(m_pCGSubWindowWidget);
     m_pCGSubWindowWidget->setWindowTitle(m_pCG2DImageView->windowTitle());
@@ -405,6 +407,10 @@ void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
         m_pCGProfileView->Request();
         m_pStackedWidget->setCurrentWidget(m_pCGProfileView);
         m_pCGSubWindowWidget->setWindowTitle(m_pCGProfileView->windowTitle());
+        break;
+    case CGProjectTreeView::WindowWeb:
+        m_pStackedWidget->setCurrentWidget(m_pCGWebView);
+        m_pCGSubWindowWidget->setWindowTitle(m_pCGWebView->windowTitle());
         break;
     default:
         break;
