@@ -13,6 +13,7 @@ class AlgorithmInterface;
 class PluginManager;
 class CGAlgorithmArgumentsDialog;
 class CGLocalDataFileDialog;
+class CGScriptCppEditor;
 
 class CGNodeView : public CGBaseWidget
 {
@@ -53,11 +54,12 @@ public slots:
     void OnRemoveNodeBlock(int nodeId);
     void OnLoadAlgorithmArguments(bool b, int nodeId);
     void OnLoadLocalDataFile(bool b, int nodeId);
+    void OnLoadScriptCpp(bool b, int nodeId);
     void OnReLoadAlgorithmArguments(int nodeId);
 
 protected:
     QStringList m_MathsNames{u8"加", u8"减", u8"乘", u8"除", u8"数值/输入", u8"数值/输出"};
-    QStringList m_LogicsNames{u8"条件", u8"循环", u8"组"};
+    QStringList m_LogicsNames{u8"条件", u8"循环", u8"组", u8"脚本"};
     QStringList m_2DFuctionNames{u8"2D数据源", u8"2D数据终端", u8"2D本地图像"};
     QStringList m_3DFuctionNames{u8"3D数据源", u8"3D数据终端", u8"3D本地点云"};
 
@@ -70,6 +72,7 @@ public:
     PluginManager *m_PluginManager;
     CGAlgorithmArgumentsDialog *m_CGAlgorithmArgumentsDialog;
     CGLocalDataFileDialog *m_CGLocalDataFileDialog;
+    CGScriptCppEditor *m_CGScriptCppEditor;
 };
 
 #endif // CGNODEVIEW_H

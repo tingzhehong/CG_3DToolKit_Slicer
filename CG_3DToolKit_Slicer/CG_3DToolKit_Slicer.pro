@@ -30,6 +30,7 @@ SOURCES += \
     src/block/logics/LogicsCirculate.cpp \
     src/block/logics/LogicsCondition.cpp \
     src/block/logics/LogicsGroup.cpp \
+    src/block/logics/LogicsScriptCpp.cpp \
     src/block/maths/MathAddNodeBlock.cpp \
     src/block/maths/MathDivNodeBlock.cpp \
     src/block/maths/MathMulNodeBlock.cpp \
@@ -65,6 +66,7 @@ SOURCES += \
     src/ui/CGProfileForm3D.cpp \
     src/ui/CGPropertiesForm1.cpp \
     src/ui/CGPropertiesForm2.cpp \
+    src/ui/CGScriptCppEditor.cpp \
     src/ui/CGUsersLoginDialog.cpp \
     src/ui/CGWaitingDialog.cpp \
     src/util/CGBaseTreeWidget.cpp \
@@ -119,6 +121,7 @@ HEADERS += \
     src/block/logics/LogicsCirculate.h \
     src/block/logics/LogicsCondition.h \
     src/block/logics/LogicsGroup.h \
+    src/block/logics/LogicsScriptCpp.h \
     src/block/maths/MathAddNodeBlock.h \
     src/block/maths/MathDivNodeBlock.h \
     src/block/maths/MathMulNodeBlock.h \
@@ -157,6 +160,7 @@ HEADERS += \
     src/ui/CGProfileForm3D.h \
     src/ui/CGPropertiesForm1.h \
     src/ui/CGPropertiesForm2.h \
+    src/ui/CGScriptCppEditor.h \
     src/ui/CGUsersLoginDialog.h \
     src/ui/CGWaitingDialog.h \
     src/util/CGBaseTreeWidget.h \

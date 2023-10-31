@@ -18,6 +18,7 @@ NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
     {
     case 00:
         m_NodeItem = CreatNodeItem00(nodename);
+        ++m_IDCounter;
         break;
     case 01:
         m_NodeItem = CreatNodeItem01(nodename);

@@ -18,6 +18,7 @@
 #include "LogicsCondition.h"
 #include "LogicsCirculate.h"
 #include "LogicsGroup.h"
+#include "LogicsScriptCpp.h"
 #include "Functions2DLocalNodeBlock.h"
 #include "Functions3DLocalNodeBlock.h"
 #include "Functions2DSourceNodeBlock.h"
@@ -30,6 +31,7 @@
 #include "PluginManager.h"
 #include <CGAlgorithmArgumentsDialog.h>
 #include <CGLocalDataFileDialog.h>
+#include <CGScriptCppEditor.h>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -62,6 +64,7 @@ void CGNodeView::InitUi()
 
     m_CGAlgorithmArgumentsDialog = new CGAlgorithmArgumentsDialog();
     m_CGLocalDataFileDialog = new CGLocalDataFileDialog();
+    m_CGScriptCppEditor = new CGScriptCppEditor();
 
     //Test();
     //Verify();
@@ -77,7 +80,8 @@ void CGNodeView::InitConnections()
     connect(m_NodeView, &NodeView::signalRemoveNode, this, &CGNodeView::OnRemoveNodeBlock);
     connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, int id, QString name) {
             if (b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } 
-            else if (name == u8"2D本地图像" || name == u8"3D本地点云") { OnLoadLocalDataFile(b, id); m_CGLocalDataFileDialog->exec(); } });
+            else if (name == u8"2D本地图像" || name == u8"3D本地点云") { OnLoadLocalDataFile(b, id); m_CGLocalDataFileDialog->exec(); }
+            else if (name == u8"脚本") { OnLoadScriptCpp(b, id); m_CGScriptCppEditor->exec(); } });
     connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
 }
 
@@ -150,6 +154,11 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
         LogicsGroup *gp = new LogicsGroup(m_NodeView);
         m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(gp));
         m_NodeView->m_IDCounterMinus--;
+    }
+    if (toolname == u8"脚本") {
+       LogicsScriptCpp *cpp = new LogicsScriptCpp(m_NodeView);
+       m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(cpp));
+       m_NodeView->m_IDCounter++;
     }
 }
 
@@ -643,6 +652,25 @@ void CGNodeView::OnLoadLocalDataFile(bool b, int nodeId)
     QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"文件");
     QString str = var.toString();
     m_CGLocalDataFileDialog->m_pFilePath->setText(str);
+}
+
+void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
+{
+    if (b) return;
+
+    QString nodeName = NULL;
+    NodeBlock *nodeBlock;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            nodeName = block->m_NodeItem->m_NodeName;
+            nodeBlock = block;
+            break;
+        }
+    }
+    m_CGScriptCppEditor->SetCurrentNodeBlock(nodeBlock);
+
 }
 
 void CGNodeView::OnReLoadAlgorithmArguments(int nodeId)
