@@ -1,4 +1,5 @@
 ﻿#include "LogicsScriptCpp.h"
+#include <QDebug>
 
 LogicsScriptCpp::LogicsScriptCpp(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
 {
@@ -10,5 +11,10 @@ LogicsScriptCpp::LogicsScriptCpp(NodeView *nodeview, QWidget *parent) : NodeBloc
 
 void LogicsScriptCpp::Run()
 {
+    if (m_NodeItem->portList().size() == 0) return;
+
+    QVariant var = m_NodeItem->m_Parameters.value(u8"代码");
+    QString code = var.toString();
+    qDebug() << code;
 
 }

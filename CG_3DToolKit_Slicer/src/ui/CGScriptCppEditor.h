@@ -26,8 +26,14 @@ public:
     void SetCurrentNodeBlock(NodeBlock *nodeblock);
     NodeBlock *GetCurrentNodeBlock() const;
 
+public slots:
+    void OnItemSet();
+    void OnScriptSet();
+    
 private:
     void InitTableWidget();
+    void ClearItemPort();
+    QColor CheckItemIOColor(QComboBox *combox);
 
 public:
     QTextEdit *m_pTextEdit;
@@ -48,6 +54,7 @@ private:
     QPushButton *m_pItemSetBtn;
     QPushButton *m_pScriptSetBtn;
 
+    QVector<QColor> m_IOColors;
 };
 
 #endif // CGSCRIPTCPPEDITOR_H

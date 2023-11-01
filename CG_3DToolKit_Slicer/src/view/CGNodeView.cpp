@@ -1,6 +1,7 @@
 ﻿#include "CGNodeView.h"
 #include <QLabel>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -425,6 +426,34 @@ void CGNodeView::Flow2Node(const QString flowname)
              if (name == u8"2D本地图像" || name == u8"3D本地点云") {
                  block->m_NodeItem->m_Parameters[u8"文件"] = argsObj[argsList.at(0)].toString();
              }
+
+             //Script Cpp node block parameters
+             if (name == u8"脚本") {
+                block->m_NodeItem->m_Parameters[u8"代码"] = argsObj[argsList.at(0)].toString();
+                block->m_NodeItem->m_Parameters[u8"端口"] = argsObj[argsList.at(1)].toString();
+
+                QStringList IOList = block->m_NodeItem->m_Parameters[u8"端口"].toString().split(",");
+
+                QColor Color_Input_1 = IOList[0];
+                QColor Color_Input_2 = IOList[1];
+                QColor Color_Input_3 = IOList[2];
+                QColor Color_Output_1 = IOList[3];
+                QColor Color_Output_2 = IOList[4];
+                QColor Color_Output_3 = IOList[5];
+
+                if (Color_Input_1 != Qt::white)
+                    block->m_NodeItem->createPortIn(8, Color_Input_1);
+                if (Color_Input_2 != Qt::white)
+                    block->m_NodeItem->createPortIn(24, Color_Input_2);
+                if (Color_Input_3 != Qt::white)
+                    block->m_NodeItem->createPortIn(40, Color_Input_3);
+                if (Color_Output_1 != Qt::white)
+                    block->m_NodeItem->createPortOut(8, Color_Output_1);
+                if (Color_Output_2 != Qt::white)
+                    block->m_NodeItem->createPortOut(24, Color_Output_2);
+                if (Color_Output_3 != Qt::white)
+                    block->m_NodeItem->createPortOut(40, Color_Output_3);
+             }
          }
      }
      //
@@ -671,6 +700,12 @@ void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
     }
     m_CGScriptCppEditor->SetCurrentNodeBlock(nodeBlock);
 
+    if (nodeName == NULL) {
+        return;}
+
+    QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"代码");
+    QString str = var.toString();
+    m_CGScriptCppEditor->m_pTextEdit->setText(str);
 }
 
 void CGNodeView::OnReLoadAlgorithmArguments(int nodeId)

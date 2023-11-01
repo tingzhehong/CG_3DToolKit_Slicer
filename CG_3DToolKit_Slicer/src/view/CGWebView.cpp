@@ -12,6 +12,7 @@ CGWebView::CGWebView(QWidget *parent) : CGBaseWidget(parent)
     InitUi();
     InitConnections();
     setBackgroundRole(QPalette::Window);
+    setStyleSheet("background-color:rgb(250, 250, 250)");
     setWindowTitle(tr(u8"浏览窗口"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
 }
