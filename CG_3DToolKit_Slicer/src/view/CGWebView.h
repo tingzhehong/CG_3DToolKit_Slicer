@@ -16,7 +16,7 @@ public:
     void InitConnections() override;
 
 private:
-
+    QWidget *m_pBrowser;
 };
 
 #endif // CGWEBVIEW_H

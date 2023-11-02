@@ -705,7 +705,11 @@ void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
 
     QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"代码");
     QString str = var.toString();
-    m_CGScriptCppEditor->m_pTextEdit->setText(str);
+
+    if (str.isEmpty())
+        m_CGScriptCppEditor->m_pTextEdit->setText("//*******************\n// Script Cpp Code //\n//*******************\n\nfunction ScriptCpp(input, output)\n{\n    str = \"hello script!\"\n\n    return str;\n}");
+    else
+        m_CGScriptCppEditor->m_pTextEdit->setText(str);
 }
 
 void CGNodeView::OnReLoadAlgorithmArguments(int nodeId)
