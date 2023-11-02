@@ -49,7 +49,7 @@ void LogicsScriptCpp::Run()
         if (clr == Qt::cyan)
             input.setProperty(m, val.toNumber());
         if (clr == Qt::yellow || clr == Qt::red)
-            input.setProperty(m, val.toQMetaObject());
+            input.setProperty(m, val);
     }
 
     for (int n = 0; n < outputList.count(); ++n) {
@@ -58,7 +58,7 @@ void LogicsScriptCpp::Run()
         if (clr == Qt::cyan)
             output.setProperty(n, val.toNumber());
         if (clr == Qt::yellow || clr == Qt::red)
-            output.setProperty(n, val.toQMetaObject());
+            output.setProperty(n, val);
     }
 
     args.append(input);
