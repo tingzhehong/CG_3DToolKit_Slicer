@@ -2,6 +2,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QDebug>
+#include <CGPropertiesForm1.h>
 #include <CGPropertiesForm2.h>
 #include <CGVTKHeader.h>
 #include <vtkPlane.h>
@@ -32,7 +33,7 @@ void CGPropertiesRegulator::SetCGPropertiesForms(CGPropertiesForm1 *&form1, CGPr
 
 void CGPropertiesRegulator::ShowPropertiesLine(QLineF line)
 {
-    m_Form2->m_PropertiesTree->clear();
+    m_Form1->m_PropertiesTree->clear();
 
     QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
     QStringList propertiesList;
@@ -49,13 +50,13 @@ void CGPropertiesRegulator::ShowPropertiesLine(QLineF line)
         pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
         pToolItem->addChild(pItem);
     }
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pToolItem);
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }
 
 void CGPropertiesRegulator::ShowPropertiesRect(QRectF rect)
 {
-    m_Form2->m_PropertiesTree->clear();
+    m_Form1->m_PropertiesTree->clear();
 
     QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
     QStringList propertiesList;
@@ -74,13 +75,13 @@ void CGPropertiesRegulator::ShowPropertiesRect(QRectF rect)
         pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
         pToolItem->addChild(pItem);
     }
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pToolItem);
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }
 
 void CGPropertiesRegulator::ShowPropertiesAngle(qreal angle)
 {
-    m_Form2->m_PropertiesTree->clear();
+    m_Form1->m_PropertiesTree->clear();
 
     QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
     QStringList propertiesList;
@@ -93,13 +94,13 @@ void CGPropertiesRegulator::ShowPropertiesAngle(qreal angle)
         pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
         pToolItem->addChild(pItem);
     }
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pToolItem);
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }
 
 void CGPropertiesRegulator::ShowPropertiesVTKPlane(vtkPlane *plane)
 {
-    m_Form2->m_PropertiesTree->clear();
+    m_Form1->m_PropertiesTree->clear();
 
     QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
     QStringList propertiesList;
@@ -128,13 +129,13 @@ void CGPropertiesRegulator::ShowPropertiesVTKPlane(vtkPlane *plane)
         pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
         pToolItem->addChild(pItem);
     }
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pToolItem);
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }
 
 void CGPropertiesRegulator::ShowPropertiesVTKPlanes(vtkPlanes *planes)
 {
-    m_Form2->m_PropertiesTree->clear();
+    m_Form1->m_PropertiesTree->clear();
 
     QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
     QStringList propertiesList;
@@ -159,6 +160,6 @@ void CGPropertiesRegulator::ShowPropertiesVTKPlanes(vtkPlanes *planes)
         pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
         pToolItem->addChild(pItem);
     }
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->addTopLevelItem(pToolItem);
-    CGPropertiesRegulator::getInstance()->m_Form2->m_PropertiesTree->expandAll();
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }

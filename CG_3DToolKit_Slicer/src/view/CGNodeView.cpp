@@ -434,26 +434,20 @@ void CGNodeView::Flow2Node(const QString flowname)
 
                 QStringList IOList = block->m_NodeItem->m_Parameters[u8"端口"].toString().split(",");
 
-                QColor Color_Input_1 = IOList[0];
-                QColor Color_Input_2 = IOList[1];
-                QColor Color_Input_3 = IOList[2];
-                QColor Color_Output_1 = IOList[3];
-                QColor Color_Output_2 = IOList[4];
-                QColor Color_Output_3 = IOList[5];
+                for (int m = 0; m < IOList.count() - 1; ++m)
+                {
+                    QColor Color = IOList[m];
 
-                if (Color_Input_1 != Qt::white)
-                    block->m_NodeItem->createPortIn(8, Color_Input_1);
-                if (Color_Input_2 != Qt::white)
-                    block->m_NodeItem->createPortIn(24, Color_Input_2);
-                if (Color_Input_3 != Qt::white)
-                    block->m_NodeItem->createPortIn(40, Color_Input_3);
-                if (Color_Output_1 != Qt::white)
-                    block->m_NodeItem->createPortOut(8, Color_Output_1);
-                if (Color_Output_2 != Qt::white)
-                    block->m_NodeItem->createPortOut(24, Color_Output_2);
-                if (Color_Output_3 != Qt::white)
-                    block->m_NodeItem->createPortOut(40, Color_Output_3);
-             }
+                    if (Color != Qt::white)
+                    {
+                        if (m < 3)
+                            block->m_NodeItem->createPortIn(8 + m * 16, Color);
+                        else
+                            block->m_NodeItem->createPortOut(8 + (m - 3) * 16, Color);
+                    }
+                }
+            }
+            
          }
      }
      //

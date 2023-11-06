@@ -288,7 +288,7 @@ void MainWindow::Create2DTool(const QString toolname)
         break;
     }
     m_pCG2DImageView->OnUseTool();
-    m_pCGPropertiesView->setCurrentIndex(1);
+    m_pCGPropertiesView->setCurrentIndex(0);
 }
 
 void MainWindow::Create3DTool(const QString toolname)
@@ -312,7 +312,7 @@ void MainWindow::Create3DTool(const QString toolname)
         break;
     }
     m_pCG3DImageView->OnUseTool();
-    m_pCGPropertiesView->setCurrentIndex(1);
+    m_pCGPropertiesView->setCurrentIndex(0);
 }
 
 void MainWindow::CreateProfileTool(const QString toolname)
