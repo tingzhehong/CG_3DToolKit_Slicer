@@ -21,6 +21,11 @@ public:
 private:
     QString RunScript(QScriptEngine &eng, QScriptValue &func, QScriptValueList &args);
 
+public:
+    Q_INVOKABLE double ScriptAdd(double a, double b);
+    Q_INVOKABLE double ScriptSub(double a, double b);
+    Q_INVOKABLE double ScriptMul(double a, double b);
+    Q_INVOKABLE double ScriptDiv(double a, double b);
 };
 
 #endif // LOGICSSCRIPTCPP_H

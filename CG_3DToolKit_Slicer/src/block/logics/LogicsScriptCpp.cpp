@@ -96,3 +96,23 @@ QString LogicsScriptCpp::RunScript(QScriptEngine &eng, QScriptValue &func, QScri
 
     return str;
 }
+
+double LogicsScriptCpp::ScriptAdd(double a, double b)
+{
+    return a + b;
+}
+
+double LogicsScriptCpp::ScriptSub(double a, double b)
+{
+    return a - b;
+}
+
+double LogicsScriptCpp::ScriptMul(double a, double b)
+{
+    return a * b;
+}
+
+double LogicsScriptCpp::ScriptDiv(double a, double b)
+{
+    return a / b;
+}
