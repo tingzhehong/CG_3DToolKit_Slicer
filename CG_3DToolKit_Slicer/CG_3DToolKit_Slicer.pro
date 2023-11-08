@@ -47,6 +47,7 @@ SOURCES += \
     src/plugin/AlgorithmInterface.cpp \
     src/plugin/AlgorithmNodeBlock.cpp \
     src/plugin/PluginManager.cpp \
+    src/script/CGScriptFunction.cpp \
     src/tool/CGGraphicsCircleItem.cpp \
     src/tool/CGGraphicsLineItem.cpp \
     src/tool/CGGraphicsLineItemHorizontal.cpp \
@@ -141,6 +142,7 @@ HEADERS += \
     src/plugin/AlgorithmInterface.h \
     src/plugin/AlgorithmNodeBlock.h \
     src/plugin/PluginManager.h \
+    src/script/CGScriptFunction.h \
     src/tool/CGGraphicsCircleItem.h \
     src/tool/CGGraphicsLineItem.h \
     src/tool/CGGraphicsLineItemHorizontal.h \
@@ -211,6 +213,7 @@ INCLUDEPATH += \
     ./src/dev \
     ./src/node \
     ./src/plugin \
+    ./src/script \
     ./src/tool \
     ./src/ui \
     ./src/util \

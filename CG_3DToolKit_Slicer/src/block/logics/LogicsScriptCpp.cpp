@@ -1,5 +1,6 @@
 ﻿#include "LogicsScriptCpp.h"
 #include "CGMetaType.h"
+#include "CGScriptFunction.h"
 #include <QDebug>
 
 LogicsScriptCpp::LogicsScriptCpp(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
@@ -61,8 +62,16 @@ void LogicsScriptCpp::Run()
             output.setProperty(n, val);
     }
 
+    QScriptValue function = eng.newObject();
+    function.setProperty("ScriptAdd", eng.newFunction(ScriptAdd));
+    function.setProperty("ScriptSub", eng.newFunction(ScriptSub));
+    function.setProperty("ScriptMul", eng.newFunction(ScriptMul));
+    function.setProperty("ScriptDiv", eng.newFunction(ScriptDiv));
+    function.setProperty("ScriptGaussianFilter", eng.newFunction(ScriptGaussianFilter));
+
     args.append(input);
     args.append(output);
+    args.append(function);
 
     //执行脚本
     QString ret = RunScript(eng, func, args);
@@ -88,6 +97,7 @@ QString LogicsScriptCpp::RunScript(QScriptEngine &eng, QScriptValue &func, QScri
         str += "异常：" + eng.uncaughtException().toString() + "\n";
         str += "堆栈：" + eng.uncaughtExceptionBacktrace().join("/n");
         str += QString("异常位置：第%1行\n").arg(eng.uncaughtExceptionLineNumber());
+        emit SignalMessage(str);
     }
     else
     {
@@ -95,24 +105,4 @@ QString LogicsScriptCpp::RunScript(QScriptEngine &eng, QScriptValue &func, QScri
     }
 
     return str;
-}
-
-double LogicsScriptCpp::ScriptAdd(double a, double b)
-{
-    return a + b;
-}
-
-double LogicsScriptCpp::ScriptSub(double a, double b)
-{
-    return a - b;
-}
-
-double LogicsScriptCpp::ScriptMul(double a, double b)
-{
-    return a * b;
-}
-
-double LogicsScriptCpp::ScriptDiv(double a, double b)
-{
-    return a / b;
 }
