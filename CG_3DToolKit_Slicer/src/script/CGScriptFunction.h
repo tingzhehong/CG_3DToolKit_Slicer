@@ -10,7 +10,7 @@
 #include <QScriptValue>
 #include <QScriptValueList>
 
-
+//Math script function
 QScriptValue ScriptAdd(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptSub(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptMul(QScriptContext *ctx, QScriptEngine *eng);

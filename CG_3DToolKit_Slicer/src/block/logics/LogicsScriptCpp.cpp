@@ -83,6 +83,8 @@ void LogicsScriptCpp::Run()
         QVariant var = args[1].property(k).toVariant();
         m_NodeItem->m_OutPortItem[k]->setValue(var);
     }
+
+    m_IsRuned = true;
 }
 
 QString LogicsScriptCpp::RunScript(QScriptEngine &eng, QScriptValue &func, QScriptValueList &args)
