@@ -68,6 +68,7 @@ void LogicsScriptCpp::Run()
     function.setProperty("ScriptMul", eng.newFunction(ScriptMul));
     function.setProperty("ScriptDiv", eng.newFunction(ScriptDiv));
     function.setProperty("ScriptGaussianFilter", eng.newFunction(ScriptGaussianFilter));
+    function.setProperty("ScriptVoxelFilter", eng.newFunction(ScriptVoxelFilter));
 
     args.append(input);
     args.append(output);

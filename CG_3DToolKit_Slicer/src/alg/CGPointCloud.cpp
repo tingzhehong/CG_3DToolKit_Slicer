@@ -255,7 +255,7 @@ void DownSampleFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr sub_cloud, float 
     pcl::PCLPointCloud2::Ptr filtered_cloud(new pcl::PCLPointCloud2);
 
     pcl::toPCLPointCloud2(*cloud, *blob_cloud);
-    pcl::VoxelGrid <pcl::PCLPointCloud2> VoxeGridlFilter;
+    pcl::VoxelGrid<pcl::PCLPointCloud2> VoxeGridlFilter;
     VoxeGridlFilter.setInputCloud(blob_cloud);
     VoxeGridlFilter.setLeafSize(leaf, leaf, leaf);
     VoxeGridlFilter.filter(*filtered_cloud);

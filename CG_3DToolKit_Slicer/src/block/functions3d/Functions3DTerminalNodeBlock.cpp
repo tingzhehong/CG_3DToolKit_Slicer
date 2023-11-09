@@ -17,8 +17,10 @@ void Functions3DTerminalNodeBlock::Run()
 
     if (m_NodeItem->m_InPortItem.size() != 1) return;
     QVariant var = m_NodeItem->m_InPortItem.at(0)->value();
-    PointCloudT::Ptr cloud = var.value<PointCloudT::Ptr>();
-    g_PointCloud = cloud;
+
+    if (var.canConvert<PointCloudT::Ptr>())
+        g_PointCloud = var.value<PointCloudT::Ptr>();
+
     emit SignalShow3D();
     m_IsRuned = true;
 }
