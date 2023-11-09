@@ -14,6 +14,8 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QColor>
+#include <QColorDialog>
+#include <QFontDialog>
 
 CGScriptCppEditor::CGScriptCppEditor(QWidget *parent): QDialog(parent), m_IOColors(6)
 {
@@ -31,6 +33,7 @@ void CGScriptCppEditor::InitUi()
 
     m_pTableWidget = new QTableWidget();
     m_pTextEdit = new QTextEdit();
+    m_pTextEdit->setLineWrapMode(QTextEdit::NoWrap);
 
     m_Input_1 = new QComboBox();
     m_Input_1->addItems(QStringList() << tr("null") << tr(u8"2D 图像") << tr(u8"3D 点云") << tr(u8"numeric 数值"));
@@ -58,6 +61,8 @@ void CGScriptCppEditor::InitUi()
 
     m_pItemSetBtn = new QPushButton(tr(u8"确定"), this);
     m_pScriptSetBtn = new QPushButton(tr(u8"确定"), this);
+    m_pFontSetBtn = new QPushButton(tr(u8"字体"), this);
+    m_pColorSetBtn = new QPushButton(tr(u8"颜色"), this);
 
     QHBoxLayout *pFirstItemSetLayout = new QHBoxLayout();
     pFirstItemSetLayout->addStretch();
@@ -69,9 +74,11 @@ void CGScriptCppEditor::InitUi()
     pFirstLayout->addLayout(pFirstItemSetLayout);
 
     QHBoxLayout *pSecondScriptSetLayout = new QHBoxLayout();
-    pSecondScriptSetLayout->addStretch();
+    pSecondScriptSetLayout->addStretch(2);
     pSecondScriptSetLayout->addWidget(m_pScriptSetBtn);
-    pSecondScriptSetLayout->addStretch();
+    pSecondScriptSetLayout->addStretch(1);
+    pSecondScriptSetLayout->addWidget(m_pFontSetBtn);
+    pSecondScriptSetLayout->addWidget(m_pColorSetBtn);
 
     QVBoxLayout *pSecondLayout = new QVBoxLayout();
     pSecondLayout->addWidget(m_pTextEdit);
@@ -89,6 +96,8 @@ void CGScriptCppEditor::InitConnections()
 {
     connect(m_pItemSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnItemSet);
     connect(m_pScriptSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnScriptSet);
+    connect(m_pFontSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnFontSet);
+    connect(m_pColorSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnColorSet);
 }
 
 void CGScriptCppEditor::SetCurrentNodeBlock(NodeBlock *nodeblock)
@@ -155,6 +164,21 @@ void CGScriptCppEditor::OnScriptSet()
     int ret = QMessageBox::information(this, tr(u8"脚本编辑器"), tr(u8"脚本代码输入完成！"), QMessageBox::Accepted);
     if (ret == QMessageBox::Accepted)
         this->close();
+}
+
+void CGScriptCppEditor::OnFontSet()
+{
+    QFont initial("微软雅黑", 10);
+    QFont font = QFontDialog::getFont(0, initial, this, tr(u8"字体设置"));
+    m_pTextEdit->setFont(font);
+}
+
+void CGScriptCppEditor::OnColorSet()
+{
+    QColor initial;
+    initial.setRgbF(0, 0, 0);
+    QColor color = QColorDialog::getColor(initial, this, tr(u8"颜色设置"));
+    m_pTextEdit->setTextColor(color);
 }
 
 void CGScriptCppEditor::InitTableWidget()

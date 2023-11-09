@@ -29,6 +29,8 @@ public:
 public slots:
     void OnItemSet();
     void OnScriptSet();
+    void OnFontSet();
+    void OnColorSet();
     
 private:
     void InitTableWidget();
