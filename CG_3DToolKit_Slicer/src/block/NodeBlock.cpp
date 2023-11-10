@@ -52,6 +52,10 @@ NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
         m_NodeItem = CreatNodeItem22(nodename);
         ++m_IDCounter;
         break;
+    case 32:
+        m_NodeItem = CreatNodeItem32(nodename);
+        ++m_IDCounter;
+        break;
     case 33:
         m_NodeItem = CreatNodeItem33(nodename);
         ++m_IDCounter;
@@ -385,6 +389,37 @@ NodeItem *NodeBlock::CreatNodeItem22(const QString nodename)
     m_NodeItem->createPortIn(24, QColor(Qt::cyan));
     m_NodeItem->createPortOut(8, QColor(Qt::cyan));
     m_NodeItem->createPortOut(24, QColor(Qt::cyan));
+
+    return m_NodeItem;
+}
+
+NodeItem *NodeBlock::CreatNodeItem32(const QString nodename)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(100, 20);
+    label->move(50, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
+
+    m_NodeItem = m_NodeView->createNode(widget);
+    m_NodeItem->setTitle(nodename);
+    m_NodeItem->setNodeName(nodename);
+    m_NodeItem->setNodeID(m_IDCounter);
+
+    int x = RandPos();
+    int y = RandPos();
+    m_NodeItem->setPos(x, y);
+
+    m_NodeItem->createPortIn(8, QColor(Qt::cyan));
+    m_NodeItem->createPortIn(24, QColor(Qt::yellow));
+    m_NodeItem->createPortIn(40, QColor(Qt::red));
+    m_NodeItem->createPortOut(8, QColor(Qt::cyan));
+    m_NodeItem->createPortOut(24, QColor(Qt::yellow));
 
     return m_NodeItem;
 }
