@@ -55,6 +55,8 @@ private:
 
     QPushButton *m_pItemSetBtn;
     QPushButton *m_pScriptSetBtn;
+    QPushButton *m_pFontSetBtn;
+    QPushButton *m_pColorSetBtn;
 
     QVector<QColor> m_IOColors;
 };
