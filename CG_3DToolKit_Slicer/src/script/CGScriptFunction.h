@@ -19,5 +19,6 @@ QScriptValue ScriptDiv(QScriptContext *ctx, QScriptEngine *eng);
 //TODO:
 QScriptValue ScriptGaussianFilter(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptVoxelFilter(QScriptContext *ctx, QScriptEngine *eng);
+QScriptValue ScriptMedianFilter(QScriptContext *ctx, QScriptEngine *eng);
 
 #endif // CGSCRIPTFUNCTION_H
