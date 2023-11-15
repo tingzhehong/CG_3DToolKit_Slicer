@@ -26,7 +26,7 @@ void LogicsScriptCpp::Run()
 
     //设置脚本
     eng.evaluate(code);
-    func = eng.globalObject().property("ScriptCpp");
+    func = eng.globalObject().property("ScriptMain");
 
     //设置参数
     QScriptValueList args;

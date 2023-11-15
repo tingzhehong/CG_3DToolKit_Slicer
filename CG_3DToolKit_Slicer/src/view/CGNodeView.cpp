@@ -702,7 +702,7 @@ void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
     QString str = var.toString();
 
     if (str.isEmpty())
-        m_CGScriptCppEditor->m_pTextEdit->setText("//*******************\n// Script Cpp Code //\n//*******************\n\nfunction ScriptCpp(input, output, func)\n{\n    str = \"hello script!\";\n\n    return str;\n}");
+        m_CGScriptCppEditor->m_pTextEdit->setText("//*******************\n// Script JS Code  //\n//*******************\n\nfunction ScriptMain(input, output, func)\n{\n    str = \"hello script!\";\n\n    return str;\n}");
     else
         m_CGScriptCppEditor->m_pTextEdit->setText(str);
 }
