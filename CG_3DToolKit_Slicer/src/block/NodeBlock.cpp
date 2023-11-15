@@ -61,7 +61,7 @@ NodeItem *NodeBlock::NodeItemFactory(QString nodename, int in, int out)
         ++m_IDCounter;
         break;
     default:
-        m_NodeItem = CreatNodeItem00(nodename);
+        m_NodeItem = CreatNodeItemIO(nodename, in, out);
         break;
     }
 
@@ -486,3 +486,34 @@ NodeItem *NodeBlock::CreatNodeItem00(const QString nodename)
     return m_NodeItem;
 }
 
+NodeItem *NodeBlock::CreatNodeItemIO(QString nodename, int in, int out)
+{
+    QWidget *widget = new QWidget;
+    widget->resize(150, 50);
+
+    QLabel *label = new QLabel(tr(u8"算子: ") + nodename, widget);
+    label->resize(100, 20);
+    label->move(50, 15);
+
+    QLabel *labelId = new QLabel("ID: " + QString::number(m_IDCounter), widget);
+    labelId->resize(60, 20);
+    labelId->move(2, 15);
+
+    m_NodeItem = m_NodeView->createNode(widget);
+    m_NodeItem->setTitle(nodename);
+    m_NodeItem->setNodeName(nodename);
+    m_NodeItem->setNodeID(m_IDCounter);
+
+    int x = RandPos();
+    int y = RandPos();
+    m_NodeItem->setPos(x, y);
+
+    for (int i = 0; i < in; ++i) {
+        m_NodeItem->createPortIn(8 + i * 16, QColor(Qt::cyan));
+    }
+    for (int j = 0; j < out; ++j) {
+        m_NodeItem->createPortOut(8 + j *16, QColor(Qt::cyan));
+    }
+
+    return m_NodeItem;
+}
