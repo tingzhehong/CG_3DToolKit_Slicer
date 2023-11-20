@@ -20,6 +20,7 @@
 #include "LogicsCirculate.h"
 #include "LogicsGroup.h"
 #include "LogicsScriptCpp.h"
+#include "LogicsProfile.h"
 #include "Functions2DLocalNodeBlock.h"
 #include "Functions3DLocalNodeBlock.h"
 #include "Functions2DSourceNodeBlock.h"
@@ -162,7 +163,14 @@ void CGNodeView::CreateLogicsNodeItem(const QString toolname)
        m_NodeView->m_IDCounter++;
        connect(cpp, &LogicsScriptCpp::SignalMessage, this, [=](const QString msg){CGConsoleView::getInstance()->ConsoleOut(msg);});
     }
-}
+    if (toolname == u8"轮廓") {
+        LogicsProfile *profile = new LogicsProfile(m_NodeView);
+        m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(profile));
+        m_NodeView->m_IDCounter++;
+        connect(profile, &LogicsProfile::SignalShow2D, this, [&](){emit Signal2DRequest();});
+        connect(profile, &LogicsProfile::SignalShow3D, this, [&](){emit Signal3DRequest();});
+    }
+ }
 
 void CGNodeView::Create2DFuctionNodeItem(const QString toolname)
 {

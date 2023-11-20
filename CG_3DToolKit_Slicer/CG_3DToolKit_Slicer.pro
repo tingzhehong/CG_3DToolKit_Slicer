@@ -30,6 +30,7 @@ SOURCES += \
     src/block/logics/LogicsCirculate.cpp \
     src/block/logics/LogicsCondition.cpp \
     src/block/logics/LogicsGroup.cpp \
+    src/block/logics/LogicsProfile.cpp \
     src/block/logics/LogicsScriptCpp.cpp \
     src/block/maths/MathAddNodeBlock.cpp \
     src/block/maths/MathDivNodeBlock.cpp \
@@ -122,6 +123,7 @@ HEADERS += \
     src/block/logics/LogicsCirculate.h \
     src/block/logics/LogicsCondition.h \
     src/block/logics/LogicsGroup.h \
+    src/block/logics/LogicsProfile.h \
     src/block/logics/LogicsScriptCpp.h \
     src/block/maths/MathAddNodeBlock.h \
     src/block/maths/MathDivNodeBlock.h \
