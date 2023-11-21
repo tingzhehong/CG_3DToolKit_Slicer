@@ -184,7 +184,7 @@ void CGScriptCppEditor::OnColorSet()
 void CGScriptCppEditor::InitTableWidget()
 {
     m_pTableWidget->setShowGrid(true);
-    m_pTableWidget->verticalHeader()->setVisible(true);
+    m_pTableWidget->verticalHeader()->setVisible(false);
     m_pTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_pTableWidget->setColumnCount(3);
     m_pTableWidget->setRowCount(3);
