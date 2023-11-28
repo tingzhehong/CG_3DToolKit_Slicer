@@ -54,6 +54,14 @@ void CGViewRegulator::OnNodeViewRequest(const int type)
         m_CG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CG3DImageView->m_CGVTKWidget->update();
     }
+    if (type == 4) {
+        if (g_Actor == nullptr) return;
+        m_CG3DImageView->CreatCubeAxes();
+        m_CG3DImageView->CreatXYGrids(g_Actor->GetBounds());
+        m_CG3DImageView->m_CGVTKWidget->addActor3D(g_Actor, QColor(25, 50, 75));
+        m_CG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
+        m_CG3DImageView->m_CGVTKWidget->update();
+    }
 }
 
 void CGViewRegulator::OnProfileViewRequest()

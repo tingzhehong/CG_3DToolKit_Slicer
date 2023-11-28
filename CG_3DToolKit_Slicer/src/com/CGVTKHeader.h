@@ -38,5 +38,6 @@ VTK_MODULE_INIT(vtkRenderingOpenGL)
 VTK_MODULE_INIT(vtkInteractionStyle)
 VTK_MODULE_INIT(vtkRenderingFreeType)
 
+extern vtkSmartPointer<vtkActor> g_Actor;
 
 #endif // CGVTKHEADER_H

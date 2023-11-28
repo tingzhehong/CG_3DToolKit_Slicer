@@ -26,6 +26,7 @@ public:
 signals:
     void Signal2DRequest(const int type = 2);
     void Signal3DRequest(const int type = 3);
+    void Signal4DRequest(const int type = 4);
     void SignalAlgorithmPlugin(QPair<QStringList, QStringList> names);
 
 public:

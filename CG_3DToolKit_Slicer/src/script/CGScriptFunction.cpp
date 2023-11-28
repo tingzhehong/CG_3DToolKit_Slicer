@@ -59,6 +59,23 @@ QScriptValue ScriptGaussianFilter(QScriptContext *ctx, QScriptEngine *eng)
     return ret;
 }
 
+QScriptValue ScriptMedianFilter(QScriptContext *ctx, QScriptEngine *eng)
+{
+    cv::Mat imgSrc;
+    cv::Mat imgDst;
+    int ksize = ctx->argument(1).toInt32();
+
+    if (ctx->argument(0).toVariant().canConvert<CG_IMG>())
+        imgSrc = ctx->argument(0).toVariant().value<CG_IMG>().GrayImage.clone();
+    if (ctx->argument(0).toVariant().canConvert<cv::Mat>())
+        imgSrc = ctx->argument(0).toVariant().value<cv::Mat>().clone();
+
+    cv::medianBlur(imgSrc, imgDst, ksize);
+
+    QScriptValue ret = eng->newVariant(QVariant::fromValue(imgDst));
+    return ret;
+}
+
 QScriptValue ScriptVoxelFilter(QScriptContext *ctx, QScriptEngine *eng)
 {
     PointCloudT::Ptr src_cloud(new PointCloudT);
@@ -80,22 +97,5 @@ QScriptValue ScriptVoxelFilter(QScriptContext *ctx, QScriptEngine *eng)
     pcl::fromPCLPointCloud2(*filtered_cloud, *dst_cloud);
 
     QScriptValue ret = eng->newVariant(QVariant::fromValue(dst_cloud));;
-    return ret;
-}
-
-QScriptValue ScriptMedianFilter(QScriptContext *ctx, QScriptEngine *eng)
-{
-    cv::Mat imgSrc;
-    cv::Mat imgDst;
-    int ksize = ctx->argument(1).toInt32();
-
-    if (ctx->argument(0).toVariant().canConvert<CG_IMG>())
-        imgSrc = ctx->argument(0).toVariant().value<CG_IMG>().GrayImage.clone();
-    if (ctx->argument(0).toVariant().canConvert<cv::Mat>())
-        imgSrc = ctx->argument(0).toVariant().value<cv::Mat>().clone();
-
-    cv::medianBlur(imgSrc, imgDst, ksize);
-
-    QScriptValue ret = eng->newVariant(QVariant::fromValue(imgDst));
     return ret;
 }

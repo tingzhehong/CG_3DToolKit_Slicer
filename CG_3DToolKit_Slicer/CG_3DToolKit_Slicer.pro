@@ -40,6 +40,7 @@ SOURCES += \
     src/block/maths/NumberOutputNodeBlock.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
+    src/com/CGVTKHeader.cpp \
     src/node/GroupItem.cpp \
     src/node/NodeItem.cpp \
     src/node/NodeView.cpp \
