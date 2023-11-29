@@ -31,8 +31,11 @@ AlgorithmPlugin_2D_Match_MatchTemplate::AlgorithmPlugin_2D_Match_MatchTemplate(A
     _theNumberArgs.ARG = tr(u8"匹配数量");
     _theNumberArgs.VALUE = 1;
 
-    _theScoreArgs.ARG = tr(u8"匹配分数");
-    _theScoreArgs.VALUE = 0;
+    _theMaxScoreArgs.ARG = tr(u8"匹配分数(max)");
+    _theMaxScoreArgs.VALUE = 0;
+
+    _theMinScoreArgs.ARG = tr(u8"匹配分数(min)");
+    _theMinScoreArgs.VALUE = 0;
 }
 
 CG_NODEBLOCK *AlgorithmPlugin_2D_Match_MatchTemplate::CreatAlgorithmPlugin()
@@ -102,7 +105,7 @@ QVector<QVariant> AlgorithmPlugin_2D_Match_MatchTemplate::GetAlgorithmOutputData
 void AlgorithmPlugin_2D_Match_MatchTemplate::SetAlgorithmArguments(QVector<CG_ARGUMENT> &args)
 {
     int num = args.size();
-    if (num != 2) {
+    if (num != 3) {
         qDebug() << "Algorithm arguments overflow.";
         emit SignalMessage("Algorithm arguments overflow.");
         return;
@@ -110,7 +113,8 @@ void AlgorithmPlugin_2D_Match_MatchTemplate::SetAlgorithmArguments(QVector<CG_AR
 
     _theNumberArgs = args.at(0);
     _theNumber = (int)_theNumberArgs.VALUE;
-    _theScoreArgs.VALUE = (float)_theMaxVal;
+    _theMaxScoreArgs.VALUE = (float)_theMaxVal;
+    _theMinScoreArgs.VALUE = (float)_theMinVal;
 
     _computed = false;
 }
@@ -118,7 +122,7 @@ void AlgorithmPlugin_2D_Match_MatchTemplate::SetAlgorithmArguments(QVector<CG_AR
 QVector<CG_ARGUMENT> AlgorithmPlugin_2D_Match_MatchTemplate::GetAlgorithmArguments()
 {
     QVector<CG_ARGUMENT> args;
-    args << _theNumberArgs << _theScoreArgs;
+    args << _theNumberArgs << _theMaxScoreArgs << _theMinScoreArgs;
 
     return args;
 }
@@ -142,24 +146,28 @@ CG_SHOWDATA AlgorithmPlugin_2D_Match_MatchTemplate::GetAlgorithmShowData()
 void AlgorithmPlugin_2D_Match_MatchTemplate::Compute()
 {
     std::vector<cv::Point> vec;
-    vec = alg::MatchTemplate(_imgSrc, _imgTemplate, _theMaxVal, _theNumber);
+    vec = alg::MatchTemplate(_imgSrc, _imgTemplate, _theMaxVal, _theMinVal, _theNumber);
 
-    QVariantHash hash;
+    for (auto it = _outJson.begin(); it != _outJson.end(); ++it)
+    {
+        _outJson.erase(it);
+    }
+
+    QJsonObject json;
     int i = 1;
     for (auto it = vec.begin(); it != vec.end(); ++it)
     {
-        std::cout << (*it).x << "  " << (*it).y << endl;
+        std::cout << (*it).x << "  " << (*it).y;
         cv::rectangle(_imgDst, cv::Point((*it).x, (*it).y), cv::Point((*it).x + _imgTemplate.cols, (*it).y + _imgTemplate.rows), cv::Scalar(0, 255, 0), 3, 3, 0);
 
-        QVariant varx, vary;
-        varx.setValue((*it).x);
-        vary.setValue((*it).y);
-        hash["pos " + QString::number(i) + " x "] = varx;
-        hash["pos " + QString::number(i) + " y "] = vary;
+        json["pos " + QString::number(i) + " x"] = (*it).x;
+        json["pos " + QString::number(i) + " y"] = (*it).y;
         ++i;
     }
-    _outJson.fromVariantHash(hash);
-    _theScoreArgs.VALUE = (float)_theMaxVal;
+    _outJson = json;
+    _theMaxScoreArgs.VALUE = (float)_theMaxVal;
+    _theMinScoreArgs.VALUE = (float)_theMinVal;
+
     _computed = true;
 
     emit SignalComputed();

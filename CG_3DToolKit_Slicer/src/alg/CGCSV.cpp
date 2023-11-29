@@ -42,7 +42,7 @@ void GetCSVSize(const string &fileCSV, float &X, float &Y, float &XPitch, float 
 				{
 					stringstream ss;
 					ss << str;
-					ss >> Y;;
+                    ss >> Y;
 				}
 				else if (count == 3)
 				{

@@ -96,6 +96,6 @@ QScriptValue ScriptVoxelFilter(QScriptContext *ctx, QScriptEngine *eng)
     VoxeGridlFilter.filter(*filtered_cloud);
     pcl::fromPCLPointCloud2(*filtered_cloud, *dst_cloud);
 
-    QScriptValue ret = eng->newVariant(QVariant::fromValue(dst_cloud));;
+    QScriptValue ret = eng->newVariant(QVariant::fromValue(dst_cloud));
     return ret;
 }

@@ -6,7 +6,7 @@ using namespace cv;
 
 // TODO:
 
-std::vector<cv::Point> alg::MatchTemplate(cv::Mat &imgSrc, cv::Mat &imgTemplate, double &theMaxVal, const int theNumber)
+std::vector<cv::Point> alg::MatchTemplate(cv::Mat &imgSrc, cv::Mat &imgTemplate, double &theMaxVal, double &theMinVal, const int theNumber)
 {
     std::vector<cv::Point> MatchLoc;
 
@@ -34,7 +34,9 @@ std::vector<cv::Point> alg::MatchTemplate(cv::Mat &imgSrc, cv::Mat &imgTemplate,
     {
         cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, cv::Mat());
         std::cout << "maxVal =  " << maxVal << endl;
-        theMaxVal = maxVal;
+        theMinVal = maxVal;
+        if (theMaxVal < maxVal)
+            theMaxVal = maxVal;
 
         cv::Point new_maxLoc;
         new_maxLoc = MatchNextMaxLoc(result, maxLoc, minVal, TemplateWidth, TemplateHeight);

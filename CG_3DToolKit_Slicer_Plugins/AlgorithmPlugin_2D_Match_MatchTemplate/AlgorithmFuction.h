@@ -17,7 +17,7 @@ namespace alg
     * @return
     * @author
     **/
-    std::vector<cv::Point> MatchTemplate(cv::Mat &imgSrc, cv::Mat &imgTemplate, double &theMaxVal, const int theNumber);
+    std::vector<cv::Point> MatchTemplate(cv::Mat &imgSrc, cv::Mat &imgTemplate, double &theMaxVal, double &theMinVal, const int theNumber);
 
     cv::Point MatchNextMinLoc(cv::Mat &result, cv::Point &minLoc, double &maxValue, int templateW, int templateH);
     cv::Point MatchNextMaxLoc(cv::Mat &result, cv::Point &maxLoc, double &minValue, int templateW, int templateH);

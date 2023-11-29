@@ -16,6 +16,7 @@
 #include "MathDivNodeBlock.h"
 #include "MathMulNodeBlock.h"
 #include "MathSubNodeBlock.h"
+#include "ValueTerminalNodeBlock.h"
 #include "LogicsCondition.h"
 #include "LogicsCirculate.h"
 #include "LogicsGroup.h"
@@ -34,6 +35,7 @@
 #include <CGAlgorithmArgumentsDialog.h>
 #include <CGLocalDataFileDialog.h>
 #include <CGScriptCppEditor.h>
+#include <CGValueIndicator.h>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -67,6 +69,7 @@ void CGNodeView::InitUi()
     m_CGAlgorithmArgumentsDialog = new CGAlgorithmArgumentsDialog();
     m_CGLocalDataFileDialog = new CGLocalDataFileDialog();
     m_CGScriptCppEditor = new CGScriptCppEditor();
+    m_CGValueIndicator = new CGValueIndicator();
 
     //Test();
     //Verify();
@@ -83,7 +86,8 @@ void CGNodeView::InitConnections()
     connect(m_NodeView, &NodeView::signalDoubleClick, this, [&](bool b, int id, QString name) {
             if (b) { OnLoadAlgorithmArguments(b, id); m_CGAlgorithmArgumentsDialog->exec(); } 
             else if (name == u8"2D本地图像" || name == u8"3D本地点云") { OnLoadLocalDataFile(b, id); m_CGLocalDataFileDialog->exec(); }
-            else if (name == u8"脚本") { OnLoadScriptCpp(b, id); m_CGScriptCppEditor->exec(); } });
+            else if (name == u8"脚本") { OnLoadScriptCpp(b, id); m_CGScriptCppEditor->exec(); }
+            else if (name == u8"数值终端") { OnShowDataValue(b, id); m_CGValueIndicator->exec(); } });
     connect(m_CGAlgorithmArgumentsDialog, &CGAlgorithmArgumentsDialog::SignalSetArguments, [this](){NodeBlockWidget::getInstance()->OnSendAlgorithmArguments();});
 }
 
@@ -131,6 +135,11 @@ void CGNodeView::CreateMathsNodeItem(const QString toolname)
     else if (toolname == u8"除") {
             MathDivNodeBlock *div = new MathDivNodeBlock(m_NodeView);
             m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(div));
+            m_NodeView->m_IDCounter++;
+         }
+    else if (toolname == u8"数值终端") {
+            ValueTerminalNodeBlock *val = new ValueTerminalNodeBlock(m_NodeView);
+            m_NodeBlockManager->m_NodeBlockList.append(dynamic_cast<NodeBlock*>(val));
             m_NodeView->m_IDCounter++;
          }
     else {
@@ -701,10 +710,9 @@ void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
             break;
         }
     }
-    m_CGScriptCppEditor->SetCurrentNodeBlock(nodeBlock);
+    if (nodeName == NULL) return;
 
-    if (nodeName == NULL) {
-        return;}
+    m_CGScriptCppEditor->SetCurrentNodeBlock(nodeBlock);
 
     QVariant var = nodeBlock->m_NodeItem->m_Parameters.value(u8"代码");
     QString str = var.toString();
@@ -713,6 +721,28 @@ void CGNodeView::OnLoadScriptCpp(bool b, int nodeId)
         m_CGScriptCppEditor->m_pTextEdit->setText("//*******************\n// Script JS Code  //\n//*******************\n\nfunction ScriptMain(input, output, func)\n{\n    str = \"hello script!\";\n\n    return str;\n}");
     else
         m_CGScriptCppEditor->m_pTextEdit->setText(str);
+}
+
+void CGNodeView::OnShowDataValue(bool b, int nodeId)
+{
+    if (b) return;
+
+    QString nodeName = NULL;
+    NodeBlock* nodeBlock;
+    foreach (NodeBlock* block, m_NodeBlockManager->m_NodeBlockList)
+    {
+        if (block->m_NodeItem->m_NodeID == nodeId)
+        {
+            nodeName = block->m_NodeItem->m_NodeName;
+            nodeBlock = block;
+            NodeBlockWidget::getInstance()->SetCurrentNodeBlock(block);
+            break;
+        }
+    }
+    if (nodeName == NULL) return;
+
+    QString JsonValueText = nodeBlock->m_NodeItem->m_Parameters.value(u8"Json").toString();
+    m_CGValueIndicator->LoadJsonValueText(JsonValueText);
 }
 
 void CGNodeView::OnReLoadAlgorithmArguments(int nodeId)

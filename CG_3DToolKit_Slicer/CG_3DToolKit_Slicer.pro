@@ -38,6 +38,7 @@ SOURCES += \
     src/block/maths/MathSubNodeBlock.cpp \
     src/block/maths/NumberInputNodeBlock.cpp \
     src/block/maths/NumberOutputNodeBlock.cpp \
+    src/block/maths/ValueTerminalNodeBlock.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/com/CGVTKHeader.cpp \
@@ -71,6 +72,7 @@ SOURCES += \
     src/ui/CGPropertiesForm2.cpp \
     src/ui/CGScriptCppEditor.cpp \
     src/ui/CGUsersLoginDialog.cpp \
+    src/ui/CGValueIndicator.cpp \
     src/ui/CGWaitingDialog.cpp \
     src/util/CGBaseTreeWidget.cpp \
     src/util/CGBaseWidget.cpp \
@@ -132,6 +134,7 @@ HEADERS += \
     src/block/maths/MathSubNodeBlock.h \
     src/block/maths/NumberInputNodeBlock.h \
     src/block/maths/NumberOutputNodeBlock.h \
+    src/block/maths/ValueTerminalNodeBlock.h \
     src/com/CGMetaType.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
@@ -167,6 +170,7 @@ HEADERS += \
     src/ui/CGPropertiesForm2.h \
     src/ui/CGScriptCppEditor.h \
     src/ui/CGUsersLoginDialog.h \
+    src/ui/CGValueIndicator.h \
     src/ui/CGWaitingDialog.h \
     src/util/CGBaseTreeWidget.h \
     src/util/CGBaseWidget.h \

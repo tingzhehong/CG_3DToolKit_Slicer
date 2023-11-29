@@ -44,7 +44,8 @@ private:
     double _theMaxVal = 0;
     int _theNumber;
     CG_ARGUMENT _theNumberArgs;
-    CG_ARGUMENT _theScoreArgs;
+    CG_ARGUMENT _theMinScoreArgs;
+    CG_ARGUMENT _theMaxScoreArgs;
     QJsonObject _outJson;
     bool _computed;
 };

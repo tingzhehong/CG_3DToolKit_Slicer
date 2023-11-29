@@ -14,6 +14,7 @@ class PluginManager;
 class CGAlgorithmArgumentsDialog;
 class CGLocalDataFileDialog;
 class CGScriptCppEditor;
+class CGValueIndicator;
 
 class CGNodeView : public CGBaseWidget
 {
@@ -54,9 +55,10 @@ public:
 public slots:
     void OnRemoveNodeBlock(int nodeId);
     void OnLoadAlgorithmArguments(bool b, int nodeId);
+    void OnReLoadAlgorithmArguments(int nodeId);
     void OnLoadLocalDataFile(bool b, int nodeId);
     void OnLoadScriptCpp(bool b, int nodeId);
-    void OnReLoadAlgorithmArguments(int nodeId);
+    void OnShowDataValue(bool b, int nodeId);
 
 protected:
     QStringList m_MathsNames{u8"加", u8"减", u8"乘", u8"除", u8"数值/输入", u8"数值/输出", u8"数值终端"};
@@ -74,6 +76,7 @@ public:
     CGAlgorithmArgumentsDialog *m_CGAlgorithmArgumentsDialog;
     CGLocalDataFileDialog *m_CGLocalDataFileDialog;
     CGScriptCppEditor *m_CGScriptCppEditor;
+    CGValueIndicator *m_CGValueIndicator;
 };
 
 #endif // CGNODEVIEW_H
