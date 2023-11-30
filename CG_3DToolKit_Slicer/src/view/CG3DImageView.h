@@ -48,6 +48,8 @@ public:
     void LoadCSV(const std::string filename);
     void LoadTXT(const std::string filename);
     void LoadPLY(const std::string filename);
+    void LoadSTL(const std::string filename);
+    void LoadOBJ(const std::string filename);
     void ClearPointCloud();
 
     vtkCamera* GetCamera();

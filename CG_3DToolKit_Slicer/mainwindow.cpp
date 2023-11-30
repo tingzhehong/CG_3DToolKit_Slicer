@@ -175,7 +175,7 @@ bool MainWindow::HandleDepthImage(const string filename)
 
     if (XPitch == 0 || YPitch == 0) return false;
 
-    //>3200 X 3200 超大图像 点云数大于10000000
+    //>3200 X 3200 超大图像 点云数大于10,000,000
     if (rowNum > 3200 || colNum > 3200)
     {
         int length = rowNum > colNum ? rowNum : colNum;
@@ -540,7 +540,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.ply *.csv *.txt");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.ply *.csv *.txt *.stl *.obj");
 
     if (FileName.isEmpty())
     {
@@ -562,6 +562,10 @@ void MainWindow::on_action_open_PointCloud_triggered()
             m_pCG3DImageView->LoadTXT(filename);
         if (Info.suffix().toLower() == "ply")
             m_pCG3DImageView->LoadPLY(filename);
+        if (Info.suffix().toLower() == "stl")
+            m_pCG3DImageView->LoadSTL(filename);
+        if (Info.suffix().toLower() == "obj")
+            m_pCG3DImageView->LoadOBJ(filename);
 
         m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 

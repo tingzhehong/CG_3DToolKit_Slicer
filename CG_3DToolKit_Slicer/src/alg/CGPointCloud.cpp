@@ -715,4 +715,74 @@ void LoadPLYFile(const string filename, vtkActor *actor)
     actor->GetProperty()->SetPointSize(1);
 }
 
+void LoadSTLFile(const string filename, vtkActor *actor)
+{
+    vtkSmartPointer<vtkSTLReader> reader = vtkSmartPointer<vtkSTLReader>::New();
+    reader->SetFileName(filename.c_str());
+    reader->Update();
+
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(reader->GetOutputPort());
+
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetRepresentationToSurface();
+
+    vtkSmartPointer<vtkPolyData> polydata = reader->GetOutput();
+    vtkSmartPointer<vtkPoints> points = polydata->GetPoints();
+    long long number = points->GetNumberOfPoints();
+
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointXYZRGB TimPoint;
+
+    for (long long i = 1; i < number; ++i)
+    {
+        double* point = points->GetPoint(i);
+
+        TimPoint.x = (float)point[0];
+        TimPoint.y = (float)point[1];
+        TimPoint.z = (float)point[2];
+        TimPoint.r = 255;
+        TimPoint.g = 255;
+        TimPoint.b = 255;
+
+        cloud->push_back(TimPoint);
+    }
+    g_PointCloud = cloud;
+}
+
+void LoadOBJFile(const string filename, vtkActor *actor)
+{
+    vtkSmartPointer<vtkOBJReader> reader = vtkSmartPointer<vtkOBJReader>::New();
+    reader->SetFileName(filename.c_str());
+    reader->Update();
+
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(reader->GetOutputPort());
+
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetRepresentationToSurface();
+
+    vtkSmartPointer<vtkPolyData> polydata = reader->GetOutput();
+    vtkSmartPointer<vtkPoints> points = polydata->GetPoints();
+    long number = points->GetNumberOfPoints();
+
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointXYZRGB TimPoint;
+
+    for (long long i = 1; i < number; ++i)
+    {
+        double* point = points->GetPoint(i);
+
+        TimPoint.x = (float)point[0];
+        TimPoint.y = (float)point[1];
+        TimPoint.z = (float)point[2];
+        TimPoint.r = 255;
+        TimPoint.g = 255;
+        TimPoint.b = 255;
+
+        cloud->push_back(TimPoint);
+    }
+    g_PointCloud = cloud;
+}
+
 }
