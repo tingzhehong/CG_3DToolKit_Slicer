@@ -65,6 +65,7 @@ public:
     void SetRepresentationToPoints();
     void SetRepresentationToWireframe();
     void SetRepresentationToSurface();
+    void SaveMesh(const std::string filename);
     
     bool ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor);
     bool HasMeshStructure(vtkSmartPointer<vtkActor> actor);

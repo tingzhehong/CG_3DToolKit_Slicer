@@ -617,10 +617,18 @@ void MainWindow::on_action_save_PointCloud_triggered()
         }
         if (ext == ".stl")
         {
+            g_Actor = m_pCG3DImageView->m_Actor;
             if (!g_Actor) return;
+            if (!m_pCG3DImageView->HasMeshStructure(g_Actor))
+            {
+                QMessageBox::warning(this, tr(u8"警告"), tr(u8"要保存的3D模型非Mesh结构数据，不能存储为STL文件！"));
+                return;
+            }
             //中文路径
             QTextCodec *code = QTextCodec::codecForName("GB2312");
             std::string fileSTL = code->fromUnicode(FileName).data();
+            m_pCG3DImageView->SaveMesh(fileSTL);
+            CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save mesh succeed."));
         }
     }
 }
@@ -644,6 +652,8 @@ void MainWindow::on_action_Elevation_triggered()
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
     CG::VTKPointCloudElevation(g_PointCloud, actor);
+    m_pCG3DImageView->CreatCubeAxes();
+    m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();
 }
 
@@ -652,6 +662,8 @@ void MainWindow::on_action_Depth_triggered()
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
     CG::VTKPointCloudGray(g_PointCloud, actor);
+    m_pCG3DImageView->CreatCubeAxes();
+    m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();
 }
 
@@ -660,6 +672,8 @@ void MainWindow::on_action_Intensity_triggered()
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
     CG::VTKPointCloudIntensity(g_PointCloud, actor);
+    m_pCG3DImageView->CreatCubeAxes();
+    m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();
 }
 

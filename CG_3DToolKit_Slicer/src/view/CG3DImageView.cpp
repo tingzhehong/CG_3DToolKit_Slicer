@@ -25,6 +25,7 @@
 #include <vtkCubeAxesActor.h>
 #include <vtkAppendPolyData.h>
 #include <vtkFollower.h>
+#include <vtkSTLWriter.h>
 
 static QStack<CG_Point> s_PickPointsStack;
 
@@ -421,6 +422,11 @@ void CG3DImageView::SetRepresentationToSurface()
     }
 }
 
+void CG3DImageView::SaveMesh(const std::string filename)
+{
+
+}
+
 bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor)
 {
     if (!actor) actor = vtkSmartPointer<vtkActor>::New();
@@ -502,6 +508,10 @@ bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> acto
             vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
             mapper->SetInputData(polyData);
             actor->SetMapper(mapper);
+
+            // 创建坐标轴刻度
+            CreatCubeAxes();
+            CreatXYGrids(actor->GetBounds());
 
             return true;
         }
