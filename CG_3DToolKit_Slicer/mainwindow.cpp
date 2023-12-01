@@ -947,3 +947,18 @@ void MainWindow::on_action_open_Flow_triggered()
         m_pStackedWidget->setCurrentWidget(m_pCGNodeView);
     }
 }
+
+void MainWindow::on_action_Points_triggered()
+{
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToPoints();}).detach();
+}
+
+void MainWindow::on_action_Wire_triggered()
+{
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToWireframe();}).detach();
+}
+
+void MainWindow::on_action_Surface_triggered()
+{
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToSurface();}).detach();
+}

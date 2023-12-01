@@ -37,5 +37,8 @@
         <file>res/icon/photo-camera.svg</file>
         <file>res/icon/flowSave.png</file>
         <file>res/icon/flowOpen.png</file>
+        <file>res/icon/LABpoints.png</file>
+        <file>res/icon/LABsmooth.png</file>
+        <file>res/icon/LABwire.png</file>
     </qresource>
 </RCC>

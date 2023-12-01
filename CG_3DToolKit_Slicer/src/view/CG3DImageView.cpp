@@ -291,6 +291,7 @@ void CG3DImageView::LoadSTL(const std::string filename)
     CG::LoadSTLFile(filename, actor);
 
     m_Actor = actor;
+    g_Actor = actor;
     CreatCubeAxes();
     CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
@@ -305,6 +306,7 @@ void CG3DImageView::LoadOBJ(const std::string filename)
     CG::LoadOBJFile(filename, actor);
 
     m_Actor = actor;
+    g_Actor = actor;
     CreatCubeAxes();
     CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
@@ -392,6 +394,70 @@ void CG3DImageView::SetPointPickSize()
         m_PickSphere_2->SetMapper(mapper_2);
         m_PickSphere_2->GetProperty()->SetColor(1, 0 ,0);
     }
+}
+
+void CG3DImageView::SetRepresentationToPoints()
+{
+    if (ReconstructionDepthImage2Mesh(g_Actor))
+    {
+        g_Actor->GetProperty()->SetRepresentationToPoints();
+        m_CGVTKWidget->update();
+    }
+}
+
+void CG3DImageView::SetRepresentationToWireframe()
+{
+    if (ReconstructionDepthImage2Mesh(g_Actor))
+    {
+        g_Actor->GetProperty()->SetRepresentationToWireframe();
+        m_CGVTKWidget->update();
+    }
+}
+
+void CG3DImageView::SetRepresentationToSurface()
+{
+    if (ReconstructionDepthImage2Mesh(g_Actor))
+    {
+        g_Actor->GetProperty()->SetRepresentationToSurface();
+        m_CGVTKWidget->update();
+    }
+}
+
+bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor)
+{
+    if (!actor) actor = vtkSmartPointer<vtkActor>::New();
+    if (!HasMeshStructure(actor))
+    {
+        if (!g_Image.DepthImage.empty())
+        {
+            //!qDebug() << "Reconstruction"
+
+            return true;
+        }
+    }
+    else
+    {
+        return true;
+    }
+    return false;
+}
+
+bool CG3DImageView::HasMeshStructure(vtkSmartPointer<vtkActor> actor)
+{
+    vtkSmartPointer<vtkMapper> mapper = actor->GetMapper();
+    vtkPolyDataMapper* polyDataMapper = vtkPolyDataMapper::SafeDownCast(mapper);
+
+    if (polyDataMapper)
+    {
+        vtkPolyData* polyData = polyDataMapper->GetInput();
+        if (polyData)
+        {
+            vtkCellArray* cells = polyData->GetPolys();
+            if (cells && cells->GetNumberOfCells() > 0)
+                return true;
+        }
+    }
+    return false;
 }
 
 vtkCamera* CG3DImageView::GetCamera()

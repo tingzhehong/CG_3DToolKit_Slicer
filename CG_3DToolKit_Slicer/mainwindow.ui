@@ -103,12 +103,16 @@
    <addaction name="action_save_Flow"/>
    <addaction name="separator"/>
    <addaction name="action_exit"/>
-   <addaction name="separator"/>
    <addaction name="action_ClearAll"/>
    <addaction name="action_FullScreen"/>
+   <addaction name="separator"/>
    <addaction name="action_Elevation"/>
    <addaction name="action_Depth"/>
    <addaction name="action_Intensity"/>
+   <addaction name="separator"/>
+   <addaction name="action_Points"/>
+   <addaction name="action_Wire"/>
+   <addaction name="action_Surface"/>
    <addaction name="separator"/>
    <addaction name="action_trigger"/>
   </widget>
@@ -597,6 +601,42 @@
    </property>
    <property name="toolTip">
     <string>打开流程</string>
+   </property>
+  </action>
+  <action name="action_Points">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/LABpoints.png</normaloff>:/res/icon/LABpoints.png</iconset>
+   </property>
+   <property name="text">
+    <string>点云</string>
+   </property>
+   <property name="toolTip">
+    <string>点云</string>
+   </property>
+  </action>
+  <action name="action_Wire">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/LABwire.png</normaloff>:/res/icon/LABwire.png</iconset>
+   </property>
+   <property name="text">
+    <string>网格</string>
+   </property>
+   <property name="toolTip">
+    <string>网格</string>
+   </property>
+  </action>
+  <action name="action_Surface">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/LABsmooth.png</normaloff>:/res/icon/LABsmooth.png</iconset>
+   </property>
+   <property name="text">
+    <string>面片</string>
+   </property>
+   <property name="toolTip">
+    <string>面片</string>
    </property>
   </action>
  </widget>

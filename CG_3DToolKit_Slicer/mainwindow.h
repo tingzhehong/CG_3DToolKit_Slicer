@@ -80,9 +80,13 @@ private slots:
 
     void on_action_ClearAll_triggered();
     void on_action_FullScreen_triggered();
+
     void on_action_Elevation_triggered();
     void on_action_Depth_triggered();
     void on_action_Intensity_triggered();
+    void on_action_Points_triggered();
+    void on_action_Wire_triggered();
+    void on_action_Surface_triggered();
 
     void on_action_Login_triggered();
     void on_action_about_triggered();

@@ -62,6 +62,11 @@ public:
     void SetCameraParameter(double pos_x, double pos_y, double pos_z,
                             double up_x, double up_y, double up_z);
     void SetPointPickSize();
+    void SetRepresentationToPoints();
+    void SetRepresentationToWireframe();
+    void SetRepresentationToSurface();
+    bool ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor);
+    bool HasMeshStructure(vtkSmartPointer<vtkActor> actor);
 
     void InitActors();
     void InitTools();
