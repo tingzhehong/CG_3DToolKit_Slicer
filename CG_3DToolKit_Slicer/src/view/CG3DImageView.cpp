@@ -291,7 +291,6 @@ void CG3DImageView::LoadSTL(const std::string filename)
     CG::LoadSTLFile(filename, actor);
 
     m_Actor = actor;
-    g_Actor = actor;
     CreatCubeAxes();
     CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
@@ -306,7 +305,6 @@ void CG3DImageView::LoadOBJ(const std::string filename)
     CG::LoadOBJFile(filename, actor);
 
     m_Actor = actor;
-    g_Actor = actor;
     CreatCubeAxes();
     CreatXYGrids(actor->GetBounds());
     m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
@@ -398,27 +396,27 @@ void CG3DImageView::SetPointPickSize()
 
 void CG3DImageView::SetRepresentationToPoints()
 {
-    if (ReconstructionDepthImage2Mesh(g_Actor))
+    if (ReconstructionDepthImage2Mesh(m_Actor))
     {
-        g_Actor->GetProperty()->SetRepresentationToPoints();
+        m_Actor->GetProperty()->SetRepresentationToPoints();
         m_CGVTKWidget->update();
     }
 }
 
 void CG3DImageView::SetRepresentationToWireframe()
 {
-    if (ReconstructionDepthImage2Mesh(g_Actor))
+    if (ReconstructionDepthImage2Mesh(m_Actor))
     {
-        g_Actor->GetProperty()->SetRepresentationToWireframe();
+        m_Actor->GetProperty()->SetRepresentationToWireframe();
         m_CGVTKWidget->update();
     }
 }
 
 void CG3DImageView::SetRepresentationToSurface()
 {
-    if (ReconstructionDepthImage2Mesh(g_Actor))
+    if (ReconstructionDepthImage2Mesh(m_Actor))
     {
-        g_Actor->GetProperty()->SetRepresentationToSurface();
+        m_Actor->GetProperty()->SetRepresentationToSurface();
         m_CGVTKWidget->update();
     }
 }
@@ -430,7 +428,80 @@ bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> acto
     {
         if (!g_Image.DepthImage.empty())
         {
-            //!qDebug() << "Reconstruction"
+            qDebug() << "Reconstruction Mesh";
+
+            // 读入深度图像
+	        cv::Mat ImageDepth = g_Image.DepthImage;
+
+            // 图像预处理
+            double dmin_z = 0, dmax_z = 0;
+            double *pmin_z = &dmin_z;
+            double *pmax_z = &dmax_z;
+            cv::minMaxIdx(ImageDepth, pmin_z, pmax_z);
+            float min_z = (float)dmin_z;
+            float max_z = (float)dmax_z;
+
+            // 稀疏为4线
+            int iSparse = CalcSparse();
+            int iCols = ImageDepth.cols / iSparse;
+            int iRows = ImageDepth.rows / iSparse;
+            float Pitch = g_XPitch < g_YPitch ? g_XPitch : g_YPitch;
+
+            cv::Mat Image(iRows, iCols, CV_32FC1, cv::Scalar(0.0f));
+            cv::Mat ImageDepthFlip;
+            cv::flip(ImageDepth, ImageDepthFlip, 0);
+
+            for (int i = 0; i < iRows; i++)
+            {
+                for (int j = 0; j < iCols; j++)
+                {
+                    if (j * iSparse <= ImageDepth.cols && i * iSparse <= ImageDepth.rows)
+                    {
+                        float f = ImageDepthFlip.at<float>(i * iSparse, j * iSparse);
+                        Image.at<float>(i, j) = f;
+                    }
+                }
+            }
+
+            // 构建mesh
+            vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+            vtkSmartPointer<vtkCellArray> polygons = vtkSmartPointer<vtkCellArray>::New();
+            vtkIdType index = 0;
+
+            for (int m = 0; m < Image.rows - 1; m++)
+            {
+                for (int n = 0; n < Image.cols - 1; n++)
+                {
+                    float x1 = (n + 0) * Pitch * iSparse; float y1 = (m + 0) * Pitch * iSparse; float z1 = Image.at<float>(m + 0, n + 0);
+                    float x2 = (n + 1) * Pitch * iSparse; float y2 = (m + 0) * Pitch * iSparse; float z2 = Image.at<float>(m + 0, n + 1);
+                    float x3 = (n + 1) * Pitch * iSparse; float y3 = (m + 1) * Pitch * iSparse; float z3 = Image.at<float>(m + 1, n + 1);
+                    float x4 = (n + 0) * Pitch * iSparse; float y4 = (m + 1) * Pitch * iSparse; float z4 = Image.at<float>(m + 1, n + 0);
+
+                    if (z1 == min_z && z2 == min_z && z3 == min_z && z4 == min_z) continue;
+
+                    // 创建点数据
+                    points->InsertNextPoint(x1, y1, z1);
+                    points->InsertNextPoint(x2, y2, z2);
+                    points->InsertNextPoint(x3, y3, z3);
+                    points->InsertNextPoint(x4, y4, z4);
+
+                    // 创建多边形数据
+                    vtkIdType polygon[4] = { index + 0, index + 1, index + 2, index + 3 };
+                    polygons->InsertNextCell(4, polygon);
+
+                    index += 4;
+                }
+            }
+
+            // 创建PolyData对象并设置点和多边形数据
+            vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+            polyData->SetPoints(points);
+            polyData->SetPolys(polygons);
+
+            // 创建Mapper和Actor
+            vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+            mapper->SetInputData(polyData);
+            actor->SetMapper(mapper);
 
             return true;
         }
@@ -458,6 +529,18 @@ bool CG3DImageView::HasMeshStructure(vtkSmartPointer<vtkActor> actor)
         }
     }
     return false;
+}
+
+int  CG3DImageView::CalcSparse()
+{
+    int w = g_Image.DepthImage.cols;
+    int h = g_Image.DepthImage.rows;
+    int l = w > h ? w : h;
+
+    int iSparse = int(l / 3200) * 4;
+    if (iSparse < 4) iSparse = 1;
+
+    return iSparse;
 }
 
 vtkCamera* CG3DImageView::GetCamera()

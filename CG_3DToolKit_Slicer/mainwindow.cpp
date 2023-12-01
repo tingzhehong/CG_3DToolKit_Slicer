@@ -595,7 +595,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
 
 void MainWindow::on_action_save_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), ".", "*.pcd");
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), ".", "*.pcd;;*.stl");
 
     if (FileName.isEmpty())
     {
@@ -603,21 +603,25 @@ void MainWindow::on_action_save_PointCloud_triggered()
     }
     else
     {
-        if (FileName.contains(".pcd") || FileName.contains(".PCD"))
-        {
-            ; //Nothing to do
-        }
-        else
-        {
-            FileName.append(".pcd");
-        }
+        QFileInfo file(FileName);
+        const QString ext = file.suffix().toLower();
 
-        if (g_PointCloud->empty()) return;
-        //中文路径
-        QTextCodec *code = QTextCodec::codecForName("GB2312");
-        std::string filePCD = code->fromUnicode(FileName).data();
-        pcl::io::savePCDFileBinaryCompressed(filePCD, *g_PointCloud);
-        CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save point cloud succeed."));
+        if (ext == ".pcd")
+        {
+            if (g_PointCloud->empty()) return;
+            //中文路径
+            QTextCodec *code = QTextCodec::codecForName("GB2312");
+            std::string filePCD = code->fromUnicode(FileName).data();
+            pcl::io::savePCDFileBinaryCompressed(filePCD, *g_PointCloud);
+            CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save point cloud succeed."));
+        }
+        if (ext == ".stl")
+        {
+            if (!g_Actor) return;
+            //中文路径
+            QTextCodec *code = QTextCodec::codecForName("GB2312");
+            std::string fileSTL = code->fromUnicode(FileName).data();
+        }
     }
 }
 
