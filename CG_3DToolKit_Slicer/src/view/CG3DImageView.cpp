@@ -424,7 +424,10 @@ void CG3DImageView::SetRepresentationToSurface()
 
 void CG3DImageView::SaveMesh(const std::string filename)
 {
-
+    vtkSmartPointer<vtkSTLWriter> STLWriter = vtkSmartPointer<vtkSTLWriter>::New();
+    STLWriter->SetFileName(filename.c_str());
+    STLWriter->SetInputData(g_Actor->GetMapper()->GetInput());
+    STLWriter->Write();
 }
 
 bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor)
