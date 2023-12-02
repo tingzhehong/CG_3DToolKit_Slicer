@@ -626,8 +626,8 @@ void MainWindow::on_action_save_PointCloud_triggered()
             }
             //中文路径
             QTextCodec *code = QTextCodec::codecForName("GB2312");
-            std::string fileSTL = code->fromUnicode(FileName).data();
-            m_pCG3DImageView->SaveMesh(fileSTL);
+            std::string fileVTK = code->fromUnicode(FileName).data();
+            m_pCG3DImageView->SaveMesh(fileVTK);
             CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save mesh succeed."));
         }
     }
