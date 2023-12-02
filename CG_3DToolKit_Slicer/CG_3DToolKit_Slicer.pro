@@ -101,7 +101,7 @@ SOURCES += \
     src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGPointPickerInteractorStyle.cpp \
     src/vtk/CGVTKWidget.cpp \
-    src/vtk/CGVTKutils.cpp \
+    src/vtk/CGVTKUtils.cpp \
     src/vtk/CGActorExporter.cpp \
     src/vtk/utils/Point3f.cpp \
     src/vtk/utils/Vector4f.cpp \
