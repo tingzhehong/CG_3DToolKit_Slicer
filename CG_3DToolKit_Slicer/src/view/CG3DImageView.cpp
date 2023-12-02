@@ -25,7 +25,7 @@
 #include <vtkCubeAxesActor.h>
 #include <vtkAppendPolyData.h>
 #include <vtkFollower.h>
-#include <vtkSTLWriter.h>
+#include <vtkPolyDataWriter.h>
 
 static QStack<CG_Point> s_PickPointsStack;
 
@@ -424,10 +424,10 @@ void CG3DImageView::SetRepresentationToSurface()
 
 void CG3DImageView::SaveMesh(const std::string filename)
 {
-    vtkSmartPointer<vtkSTLWriter> STLWriter = vtkSmartPointer<vtkSTLWriter>::New();
-    STLWriter->SetFileName(filename.c_str());
-    STLWriter->SetInputData(g_Actor->GetMapper()->GetInput());
-    STLWriter->Write();
+    vtkSmartPointer<vtkPolyDataWriter> PolyDataWriter = vtkSmartPointer<vtkPolyDataWriter>::New();
+    PolyDataWriter->SetFileName(filename.c_str());
+    PolyDataWriter->SetInputData(g_Actor->GetMapper()->GetInput());
+    PolyDataWriter->Write();
 }
 
 bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor)
@@ -551,7 +551,7 @@ int  CG3DImageView::CalcSparse()
     int l = w > h ? w : h;
 
     int iSparse = int(l / 3200) * 4;
-    if (iSparse < 4) iSparse = 1;
+    if (iSparse < 4) iSparse = 4;
 
     return iSparse;
 }
