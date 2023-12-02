@@ -606,7 +606,7 @@ void MainWindow::on_action_save_PointCloud_triggered()
         QFileInfo file(FileName);
         const QString ext = file.suffix().toLower();
 
-        if (ext == ".pcd")
+        if (ext == "pcd")
         {
             if (g_PointCloud->empty()) return;
             //中文路径
@@ -615,7 +615,7 @@ void MainWindow::on_action_save_PointCloud_triggered()
             pcl::io::savePCDFileBinaryCompressed(filePCD, *g_PointCloud);
             CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save point cloud succeed."));
         }
-        if (ext == ".stl")
+        if (ext == "stl")
         {
             g_Actor = m_pCG3DImageView->m_Actor;
             if (!g_Actor) return;
