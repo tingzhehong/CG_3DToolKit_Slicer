@@ -25,7 +25,7 @@ void CGAboutDialog::InitUi()
     resize(300, 200);
 
     m_pAboutLb = new QLabel(tr(u8"CG_3DToolKit_Slicer"), this);
-    m_pVersion = new QLabel(tr(u8"版本：Ver2400 SE "), this);
+    m_pVersion = new QLabel(tr(u8"版本：Ver2401 SE "), this);
     m_pAuthor = new QLabel(tr(u8"作者：Tim Hong   "), this);
     m_pOKBtn = new QPushButton(tr(u8"确定"), this);
     m_pOKBtn->setIcon(QIcon(":/res/icon/slicer.png"));
