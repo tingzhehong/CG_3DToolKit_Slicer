@@ -40,5 +40,6 @@
         <file>res/icon/LABpoints.png</file>
         <file>res/icon/LABsmooth.png</file>
         <file>res/icon/LABwire.png</file>
+        <file>res/icon/smallRectangleSelect.png</file>
     </qresource>
 </RCC>

@@ -968,15 +968,21 @@ void MainWindow::on_action_open_Flow_triggered()
 
 void MainWindow::on_action_Points_triggered()
 {
-    std::thread([&] {m_pCG3DImageView->SetRepresentationToPoints(); m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);}).detach();
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToPoints();
+                     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+                    }).detach();
 }
 
 void MainWindow::on_action_Wire_triggered()
 {
-    std::thread([&] {m_pCG3DImageView->SetRepresentationToWireframe(); m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);}).detach();
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToWireframe();
+                     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+                    }).detach();
 }
 
 void MainWindow::on_action_Surface_triggered()
 {
-    std::thread([&] {m_pCG3DImageView->SetRepresentationToSurface(); m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);}).detach();
+    std::thread([&] {m_pCG3DImageView->SetRepresentationToSurface();
+                     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+                    }).detach();
 }

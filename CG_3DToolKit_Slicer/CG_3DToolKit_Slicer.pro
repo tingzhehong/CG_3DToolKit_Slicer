@@ -93,6 +93,7 @@ SOURCES += \
     src/view/CGWebView.cpp \
     src/vtk/CGAbstractWidgetObserver.cpp \
     src/vtk/CGAngleWidgetObserver.cpp \
+    src/vtk/CGAreaPickerInteractorStyle.cpp \
     src/vtk/CGBoxWidgetObserver.cpp \
     src/vtk/CGDistanceWidgetObserver.cpp \
     src/vtk/CGMouseEventInteractorStyle.cpp \
@@ -191,6 +192,7 @@ HEADERS += \
     src/view/CGWebView.h \
     src/vtk/CGAbstractWidgetObserver.h \
     src/vtk/CGAngleWidgetObserver.h \
+    src/vtk/CGAreaPickerInteractorStyle.h \
     src/vtk/CGBoxWidgetObserver.h \
     src/vtk/CGDistanceWidgetObserver.h \
     src/vtk/CGMouseEventInteractorStyle.h \

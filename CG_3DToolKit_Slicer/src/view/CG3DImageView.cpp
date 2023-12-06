@@ -26,6 +26,7 @@
 #include <vtkAppendPolyData.h>
 #include <vtkFollower.h>
 #include <vtkPolyDataWriter.h>
+#include <CGAreaPickerInteractorStyle.h>
 
 static QStack<CG_Point> s_PickPointsStack;
 
@@ -35,6 +36,7 @@ CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
     InitActors();
     InitTools();
     InitPointPick();
+    InitInteractorStyle();
     InitConnections();
     GetCamera();
     ShowText2D();
@@ -225,6 +227,25 @@ void CG3DImageView::ShowPointPickInfo(const bool enable)
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_1);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickSphere_2);
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_PickLine);
+    }
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::ChangeInteractorStyle(const int style)
+{
+    switch (style) {
+    case 0:
+        m_CGVTKWidget->GetInteractor()->SetInteractorStyle(m_DefaultStyle);
+        InitPointPick();
+        break;
+    case 1:
+        m_CGVTKWidget->GetInteractor()->SetInteractorStyle(m_AreaPickerStyle);
+        InitAreaPick();
+        break;
+    default:
+        m_CGVTKWidget->GetInteractor()->SetInteractorStyle(m_DefaultStyle);
+        InitPointPick();
+        break;
     }
     m_CGVTKWidget->update();
 }
@@ -852,6 +873,21 @@ void CG3DImageView::InitPointPick()
 
     m_PickLine->GetProperty()->SetColor(1, 0, 0);
     m_PickLine->GetProperty()->SetLineWidth(3);
+}
+
+void CG3DImageView::InitAreaPick()
+{
+    vtkSmartPointer<vtkAreaPicker> AreaPicker = vtkSmartPointer<vtkAreaPicker>::New();
+    m_CGVTKWidget->GetInteractor()->SetPicker(AreaPicker);
+
+    m_AreaPickerStyle->SetPoints(vtkPolyData::SafeDownCast(m_Actor->GetMapper()->GetInput()));
+    m_AreaPickerStyle->SetCurrentMode(1);
+}
+
+void CG3DImageView::InitInteractorStyle()
+{
+    CGVTKUtils::vtkInitOnce(m_DefaultStyle);
+    CGVTKUtils::vtkInitOnce(m_AreaPickerStyle);
 }
 
 void CG3DImageView::RemoveTools()

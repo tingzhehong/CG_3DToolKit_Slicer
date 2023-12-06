@@ -22,6 +22,8 @@ class vtkDistanceRepresentation3D;
 class vtkAngleRepresentation3D;
 class vtkTextActor;
 class vtkLineSource;
+class vtkInteractorStyleTrackballCamera;
+class CGAreaPickerInteractorStyle;
 
 class CG3DImageView : public CGBaseWidget
 {
@@ -74,12 +76,15 @@ public:
     void InitActors();
     void InitTools();
     void InitPointPick();
+    void InitAreaPick();
+    void InitInteractorStyle();
     void RemoveTools();
 
     void ShowText2D();
     void ShowText3D();
     void ShowPCD();
     void ShowPointPickInfo(const bool enable);
+    void ChangeInteractorStyle(const int style);
 
 public:
     enum ToolType
@@ -143,6 +148,9 @@ public:
     vtkSmartPointer<vtkLineSource> m_PickLineSouce;
     vtkSmartPointer<vtkPolyDataMapper> m_PickLineMapper;
     vtkSmartPointer<vtkActor> m_PickLine;
+
+    vtkSmartPointer<vtkInteractorStyleTrackballCamera> m_DefaultStyle;
+    vtkSmartPointer<CGAreaPickerInteractorStyle> m_AreaPickerStyle;
 
 private:
     double *pCameraPosition = nullptr;
