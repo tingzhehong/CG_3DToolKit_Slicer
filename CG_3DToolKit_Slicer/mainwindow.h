@@ -118,6 +118,7 @@ private slots:
 
     void on_action_PickPointCoordinate_triggered(bool checked);
     void on_action_PickPointDistance_triggered(bool checked);
+    void on_action_PickArea_triggered(bool checked);
 
     void on_action_trigger_triggered();
     void on_action_save_Flow_triggered();

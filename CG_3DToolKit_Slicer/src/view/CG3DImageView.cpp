@@ -237,6 +237,7 @@ void CG3DImageView::ChangeInteractorStyle(const int style)
     case 0:
         m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(m_DefaultStyle);
         InitPointPick();
+        InitConnections();
         break;
     case 1:
         m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(m_AreaPickerStyle);
@@ -245,8 +246,10 @@ void CG3DImageView::ChangeInteractorStyle(const int style)
     default:
         m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(m_DefaultStyle);
         InitPointPick();
+        InitConnections();
         break;
     }
+    m_AreaPickerStyle->SetCurrentMode(style);
     m_CGVTKWidget->update();
 }
 
@@ -879,10 +882,9 @@ void CG3DImageView::InitAreaPick()
 {
     vtkSmartPointer<vtkAreaPicker> AreaPicker = vtkSmartPointer<vtkAreaPicker>::New();
     m_CGVTKWidget->GetInteractor()->SetPicker(AreaPicker);
-
-    //m_AreaPickerStyle->SetPoints(vtkPolyData::SafeDownCast(m_Actor->GetMapper()->GetInput()));
+    
     m_AreaPickerStyle->SetPoints(g_PolyData);
-    m_AreaPickerStyle->SetCurrentMode(1);
+    //m_AreaPickerStyle->SetPoints(vtkPolyData::SafeDownCast(m_Actor->GetMapper()->GetInput()));
 }
 
 void CG3DImageView::InitInteractorStyle()

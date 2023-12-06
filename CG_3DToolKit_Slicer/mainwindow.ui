@@ -183,6 +183,7 @@
    <addaction name="separator"/>
    <addaction name="action_PickPointCoordinate"/>
    <addaction name="action_PickPointDistance"/>
+   <addaction name="action_PickArea"/>
    <addaction name="separator"/>
    <addaction name="action_ZoomIn"/>
    <addaction name="action_ZoomOut"/>
@@ -637,6 +638,21 @@
    </property>
    <property name="toolTip">
     <string>面片</string>
+   </property>
+  </action>
+  <action name="action_PickArea">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/smallRectangleSelect.png</normaloff>:/res/icon/smallRectangleSelect.png</iconset>
+   </property>
+   <property name="text">
+    <string>点云区域选择</string>
+   </property>
+   <property name="toolTip">
+    <string>点云区域选择</string>
    </property>
   </action>
  </widget>

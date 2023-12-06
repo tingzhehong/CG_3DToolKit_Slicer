@@ -898,6 +898,16 @@ void MainWindow::on_action_PickPointDistance_triggered(bool checked)
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
+void MainWindow::on_action_PickArea_triggered(bool checked)
+{
+    if (checked)
+        m_pCG3DImageView->ChangeInteractorStyle(1);
+    else
+        m_pCG3DImageView->ChangeInteractorStyle(0);
+
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+}
+
 void MainWindow::on_action_trigger_triggered()
 {
     m_pCGNodeView->Run();
