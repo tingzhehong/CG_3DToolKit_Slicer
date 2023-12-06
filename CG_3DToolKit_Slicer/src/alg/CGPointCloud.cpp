@@ -320,6 +320,7 @@ void LoadPCDFile(const string filename, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);
@@ -385,6 +386,7 @@ void LoadCSVFile(const string filename, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);
@@ -463,6 +465,7 @@ void LoadTXTFile(const string filename, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);
@@ -510,6 +513,7 @@ void VTKPointCloudElevation(PointCloudT::Ptr cloud, vtkActor *actor)
 
      vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
      polyData->SetPoints(points);
+     g_PolyData = polyData;
 
      vtkSmartPointer<vtkVertexGlyphFilter> glyphFilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
      glyphFilter->SetInputData(polyData);
@@ -574,6 +578,7 @@ void VTKPointCloudGray(PointCloudT::Ptr cloud, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);
@@ -629,6 +634,7 @@ void VTKPointCloudIntensity(PointCloudT::Ptr cloud, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);
@@ -697,6 +703,7 @@ void LoadPLYFile(const string filename, vtkActor *actor)
 
     vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
     polyData->SetPoints(points);
+    g_PolyData = polyData;
 
     vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     unstrGrid->Allocate(1, 1);

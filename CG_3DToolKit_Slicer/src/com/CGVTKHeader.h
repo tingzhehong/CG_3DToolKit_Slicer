@@ -42,5 +42,6 @@ VTK_MODULE_INIT(vtkInteractionStyle)
 VTK_MODULE_INIT(vtkRenderingFreeType)
 
 extern vtkSmartPointer<vtkActor> g_Actor;
+extern vtkSmartPointer<vtkPolyData> g_PolyData;
 
 #endif // CGVTKHEADER_H
