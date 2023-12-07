@@ -530,6 +530,7 @@ bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> acto
             vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
             polyData->SetPoints(points);
             polyData->SetPolys(polygons);
+            g_PolyData = polyData;
 
             // 创建Mapper和Actor
             vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();

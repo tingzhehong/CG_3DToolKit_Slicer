@@ -755,6 +755,7 @@ void LoadSTLFile(const string filename, vtkActor *actor)
         cloud->push_back(TimPoint);
     }
     g_PointCloud = cloud;
+    g_PolyData = polydata;
 }
 
 void LoadOBJFile(const string filename, vtkActor *actor)
@@ -790,6 +791,7 @@ void LoadOBJFile(const string filename, vtkActor *actor)
         cloud->push_back(TimPoint);
     }
     g_PointCloud = cloud;
+    g_PolyData = polydata;
 }
 
 }
