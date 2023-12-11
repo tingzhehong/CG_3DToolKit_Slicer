@@ -19,3 +19,13 @@ void CGSubWindowWidget::closeEvent(QCloseEvent *closeEvent)
 {
     closeEvent->ignore();
 }
+
+void CGSubWindowWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    QMdiSubWindow::dragEnterEvent(event);
+}
+
+void CGSubWindowWidget::dropEvent(QDropEvent *event)
+{
+    QMdiSubWindow::dropEvent(event);
+}

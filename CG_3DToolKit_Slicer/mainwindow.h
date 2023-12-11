@@ -64,6 +64,8 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 
 private slots:
     void OnProjectTreeItemSelected(QTreeWidgetItem *item, int column);

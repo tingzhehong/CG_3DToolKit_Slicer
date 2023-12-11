@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     InitConnections();
     InitPlugins();
     showMaximized();
+    setAcceptDrops(true);
 }
 
 MainWindow::~MainWindow()
@@ -381,6 +382,59 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_F11)
         on_action_FullScreen_triggered();
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("text/uri-list"))
+        event->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    QString FileName = urls.first().toLocalFile();
+
+    QTextCodec *code = QTextCodec::codecForName("GB2312");
+    std::string filename = code->fromUnicode(FileName).data();
+
+    QFileInfo Info(FileName);
+    if (Info.suffix().toLower() == "tif" || Info.suffix().toLower() == "tiff")
+    {
+        if (QImage(FileName).format() == QImage::Format_Invalid)
+        {
+            if (HandleDepthImage(filename))
+            {
+                QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                m_pCG2DImageView->LoadImages(qPixmap);
+                m_pCG3DImageView->ShowPCD();
+                m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+            }
+        }
+        else
+        {
+            m_pCG2DImageView->LoadImages(FileName);
+            m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+            std::thread([&] {
+            cv::Mat img = cv::imread(filename);
+                    g_Image.GrayImage = img.clone();
+                    g_Image.ColorImage = img.clone();
+             }).detach();
+        }
+    }
+    else
+    {
+        m_pCG2DImageView->LoadImages(FileName);
+        m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
+        std::thread([&] {
+            cv::Mat img = cv::imread(filename);
+                g_Image.GrayImage = img.clone();
+                g_Image.ColorImage = img.clone();
+         }).detach();
+    }
+    m_pCGPropertiesView->m_Form1->CreateImageProperties();
+    m_pCGPropertiesView->setCurrentIndex(0);
 }
 
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
