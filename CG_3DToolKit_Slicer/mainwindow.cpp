@@ -422,8 +422,10 @@ void MainWindow::dropEvent(QDropEvent *event)
                     g_Image.ColorImage = img.clone();
              }).detach();
         }
+        m_pCGPropertiesView->m_Form1->CreateImageProperties();
+        m_pCGPropertiesView->setCurrentIndex(0);
     }
-    else
+    else if (Info.suffix().toLower() == "bmp" || Info.suffix().toLower() == "png" || Info.suffix().toLower() == "jpg" || Info.suffix().toLower() == "jpeg")
     {
         m_pCG2DImageView->LoadImages(FileName);
         m_pStackedWidget->setCurrentWidget(m_pCG2DImageView);
@@ -432,9 +434,48 @@ void MainWindow::dropEvent(QDropEvent *event)
                 g_Image.GrayImage = img.clone();
                 g_Image.ColorImage = img.clone();
          }).detach();
+        m_pCGPropertiesView->m_Form1->CreateImageProperties();
+        m_pCGPropertiesView->setCurrentIndex(0);
     }
-    m_pCGPropertiesView->m_Form1->CreateImageProperties();
-    m_pCGPropertiesView->setCurrentIndex(0);
+    else
+    {
+        if (Info.suffix().toLower() == "pcd")
+            m_pCG3DImageView->LoadPCD(filename);
+        if (Info.suffix().toLower() == "csv")
+            m_pCG3DImageView->LoadCSV(filename);
+        if (Info.suffix().toLower() == "txt")
+            m_pCG3DImageView->LoadTXT(filename);
+        if (Info.suffix().toLower() == "ply")
+            m_pCG3DImageView->LoadPLY(filename);
+        if (Info.suffix().toLower() == "stl")
+            m_pCG3DImageView->LoadSTL(filename);
+        if (Info.suffix().toLower() == "obj")
+            m_pCG3DImageView->LoadOBJ(filename);
+
+        m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+
+        //有序点云？无序点云？
+        if (CG::IsOrderPointCloud())
+        {
+            if (HandleOrderPointCloud())
+            {
+                QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                m_pCG2DImageView->LoadImages(qPixmap);
+            }
+        }
+        else
+        {
+            if (HandleDisOrderPointCloud())
+            {
+                QImage qColorImage = CG::CVMat2QImage(g_Image.ColorImage);
+                QPixmap qPixmap = QPixmap::fromImage(qColorImage, Qt::AutoColor);
+                m_pCG2DImageView->LoadImages(qPixmap);
+            }
+        }
+        m_pCGPropertiesView->m_Form1->CreatePointCloudProperties();
+        m_pCGPropertiesView->setCurrentIndex(0);
+    }
 }
 
 void MainWindow::OnProjectTreeItemSelected(QTreeWidgetItem *item, int column)
