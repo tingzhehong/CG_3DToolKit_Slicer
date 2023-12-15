@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
+#include <QKeyEvent>
 #include <QIcon>
 #include <QDebug>
 #include <Utils.h>
@@ -43,6 +44,7 @@ CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
     ShowText3D();
     setWindowTitle(tr(u8"3D  图像"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
+    setFocusPolicy(Qt::StrongFocus);
 }
 
 CG3DImageView::~CG3DImageView()
@@ -251,6 +253,24 @@ void CG3DImageView::ChangeInteractorStyle(const int style)
     }
     m_AreaPickerStyle->SetCurrentMode(style);
     m_CGVTKWidget->update();
+}
+
+void CG3DImageView::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_H)
+    {
+        if (IsGrids) {
+            m_CubeAxesActor->SetVisibility(false);
+            m_GridsActor->SetVisibility(false);
+            IsGrids = false;
+        }
+        else {
+            m_CubeAxesActor->SetVisibility(true);
+            m_GridsActor->SetVisibility(true);
+            IsGrids = true;
+        }
+        m_CGVTKWidget->update();
+    }
 }
 
 void CG3DImageView::LoadPCD(const std::string filename)

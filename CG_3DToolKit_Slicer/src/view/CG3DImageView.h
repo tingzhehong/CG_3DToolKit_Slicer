@@ -86,6 +86,9 @@ public:
     void ShowPointPickInfo(const bool enable);
     void ChangeInteractorStyle(const int style);
 
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
 public:
     enum ToolType
     {
@@ -168,7 +171,7 @@ private:
     vtkSmartPointer<vtkAngleRepresentation3D> m_pAngleRep;
 
     bool IsTool = false;
-
+    bool IsGrids = true;
 };
 
 #endif // CG3DIMAGEVIEW_H
