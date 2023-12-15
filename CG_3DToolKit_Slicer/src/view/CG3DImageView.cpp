@@ -27,6 +27,8 @@
 #include <vtkAppendPolyData.h>
 #include <vtkFollower.h>
 #include <vtkPolyDataWriter.h>
+#include <vtkTriangleFilter.h>
+#include <vtkSTLWriter.h>
 #include <CGAreaPickerInteractorStyle.h>
 
 static QStack<CG_Point> s_PickPointsStack;
@@ -44,7 +46,6 @@ CG3DImageView::CG3DImageView(QWidget *parent) : CGBaseWidget(parent)
     ShowText3D();
     setWindowTitle(tr(u8"3D  图像"));
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
-    setFocusPolicy(Qt::StrongFocus);
 }
 
 CG3DImageView::~CG3DImageView()
@@ -468,10 +469,21 @@ void CG3DImageView::SetRepresentationToSurface()
 
 void CG3DImageView::SaveMesh(const std::string filename)
 {
+    vtkSmartPointer<vtkTriangleFilter> stlFilter = vtkSmartPointer<vtkTriangleFilter>::New();
+	stlFilter->SetInputData(g_Actor->GetMapper()->GetInput());
+
+    vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
+	stlWriter->SetFileName(filename.c_str());
+	stlWriter->SetInputConnection(stlFilter->GetOutputPort());
+	stlWriter->Write();
+	stlWriter->Update();
+
+    /*
     vtkSmartPointer<vtkPolyDataWriter> PolyDataWriter = vtkSmartPointer<vtkPolyDataWriter>::New();
     PolyDataWriter->SetFileName(filename.c_str());
     PolyDataWriter->SetInputData(g_Actor->GetMapper()->GetInput());
     PolyDataWriter->Write();
+    */
 }
 
 bool CG3DImageView::ReconstructionDepthImage2Mesh(vtkSmartPointer<vtkActor> actor)

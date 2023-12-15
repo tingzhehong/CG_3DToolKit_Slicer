@@ -690,7 +690,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
 
 void MainWindow::on_action_save_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), ".", "*.pcd;;*.vtk");
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), ".", "*.pcd;;*.stl");
 
     if (FileName.isEmpty())
     {
@@ -710,19 +710,19 @@ void MainWindow::on_action_save_PointCloud_triggered()
             pcl::io::savePCDFileBinaryCompressed(filePCD, *g_PointCloud);
             CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save point cloud succeed."));
         }
-        if (ext == "vtk")
+        if (ext == "stl")
         {
             g_Actor = m_pCG3DImageView->m_Actor;
             if (!g_Actor) return;
             if (!m_pCG3DImageView->HasMeshStructure(g_Actor))
             {
-                QMessageBox::warning(this, tr(u8"警告"), tr(u8"要保存的3D模型非Mesh结构数据，不能存储为VTK文件！"));
+                QMessageBox::warning(this, tr(u8"警告"), tr(u8"要保存的3D模型非Mesh结构数据，不能存储为STL文件！"));
                 return;
             }
             //中文路径
             QTextCodec *code = QTextCodec::codecForName("GB2312");
-            std::string fileVTK = code->fromUnicode(FileName).data();
-            m_pCG3DImageView->SaveMesh(fileVTK);
+            std::string fileSTL = code->fromUnicode(FileName).data();
+            std::thread([&] {m_pCG3DImageView->SaveMesh(fileSTL);}).join();
             CGConsoleView::getInstance()->ConsoleOut(tr(u8"Save mesh succeed."));
         }
     }
