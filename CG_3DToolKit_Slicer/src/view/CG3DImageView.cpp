@@ -474,6 +474,7 @@ void CG3DImageView::SaveMesh(const std::string filename)
 
     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 	stlWriter->SetFileName(filename.c_str());
+    stlWriter->SetFileTypeToBinary();
 	stlWriter->SetInputConnection(stlFilter->GetOutputPort());
 	stlWriter->Write();
 	stlWriter->Update();
