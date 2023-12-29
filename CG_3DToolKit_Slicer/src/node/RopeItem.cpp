@@ -10,8 +10,7 @@ qreal distance(const QPointF &a, const QPointF &b)
     return qSqrt(dx * dx + dy * dy);
 }
 
-RopeItem::RopeItem(PortItem *portOut, PortItem *portIn, QGraphicsItem *parent)
-: QGraphicsObject(parent),
+RopeItem::RopeItem(PortItem *portOut, PortItem *portIn, QGraphicsItem *parent) : QGraphicsObject(parent),
     m_portOut(portOut),
     m_portIn(portIn),
     m_size(QSize(20,20)),
