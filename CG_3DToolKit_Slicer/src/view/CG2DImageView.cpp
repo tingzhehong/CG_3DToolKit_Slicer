@@ -32,6 +32,49 @@ void CG2DImageView::OnDelTool()
     RemoveTools();
 }
 
+void CG2DImageView::OnCoordinate(const QPair<qreal, qreal> Coordinate)
+{
+    int x = (int)Coordinate.first;
+    int y = (int)Coordinate.second;
+
+    QString msg;
+    msg.append(tr(u8"Coordinate   "));
+    msg.append("X: " + QString::number(x) + "  " + "Y: " + QString::number(y));
+
+    try
+    {
+        float z = 0;
+        if (!g_Image.DepthImage.empty())
+        {
+            if (x >= 0 && y >= 0 && x < g_Image.DepthImage.cols && y < g_Image.DepthImage.rows)
+                z = g_Image.DepthImage.at<float>(y, x);
+
+            msg.append("  ");
+            msg.append("Z: " + QString::number(z, 'f', 4));
+        }
+
+        int r = 0, g = 0, b = 0;
+        if (!g_Image.ColorImage.empty())
+        {
+            if (x >= 0 && y >= 0 && x < g_Image.ColorImage.cols && y < g_Image.ColorImage.rows)
+            {
+                b = g_Image.ColorImage.at<cv::Vec3b>(y, x)[0];
+                g = g_Image.ColorImage.at<cv::Vec3b>(y, x)[1];
+                r = g_Image.ColorImage.at<cv::Vec3b>(y, x)[2];
+            }
+
+            msg.append("  ");
+            msg.append("R: " + QString::number(r) + "  " + "G: " + QString::number(g) + "  " + "B: " + QString::number(b));
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+
+    SignalGraphicsItemValue(msg);
+}
+
 void CG2DImageView::OnUseTool()
 {
     if (!bGraphicsScene) return;
@@ -75,7 +118,7 @@ void CG2DImageView::InitUi()
 
 void CG2DImageView::InitConnections()
 {
-
+    connect(m_pGraphicsView, &CGGraphicsView::SignalCoordinate, this, &CG2DImageView::OnCoordinate);
 }
 
 void CG2DImageView::ClearImages()

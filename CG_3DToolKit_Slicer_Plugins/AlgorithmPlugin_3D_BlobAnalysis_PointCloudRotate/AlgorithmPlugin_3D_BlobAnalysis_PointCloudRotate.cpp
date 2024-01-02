@@ -54,7 +54,7 @@ QString AlgorithmPlugin_3D_BlobAnalysis_PointCloudRotate::AlogorithmPlugVersion(
 
 int AlgorithmPlugin_3D_BlobAnalysis_PointCloudRotate::AlgorithmPluginID()
 {
-    return 0x12f;
+    return 0x131;
 }
 
 void AlgorithmPlugin_3D_BlobAnalysis_PointCloudRotate::SetAlgorithmInputData(QVector<QVariant> &datas)

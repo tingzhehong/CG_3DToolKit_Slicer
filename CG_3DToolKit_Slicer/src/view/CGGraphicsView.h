@@ -11,6 +11,9 @@ public:
     explicit CGGraphicsView(QWidget* parent = nullptr);
     ~CGGraphicsView();
 
+signals:
+    void SignalCoordinate(const QPair<qreal, qreal> Coordinate);
+
 public:
     void InintGraphicsView();
     void ResetGraphicsView();
@@ -25,6 +28,7 @@ public:
 protected:
     void _wheelEvent(QWheelEvent *event);
     void _mousePressEvent(QMouseEvent *event);
+    void _mouseReleaseEvent(QMouseEvent *event);
     void _mouseMoveEvent(QMouseEvent *event);
     void _mouseDoubleClickEvent(QMouseEvent *event);
 
@@ -38,6 +42,10 @@ private:
     QPointF m_LastPointF;
     QPointF m_CurrentPointF;
     qreal   m_Scale = 1;
+    bool    m_MousePressed;
+
+    qreal X, Y;
+    QPair<qreal, qreal> m_Coordinate;
 };
 
 #endif // CGGRAPHICSVIEW_H

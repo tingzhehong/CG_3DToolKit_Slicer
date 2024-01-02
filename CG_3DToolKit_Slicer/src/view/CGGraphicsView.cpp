@@ -121,20 +121,38 @@ void CGGraphicsView::_wheelEvent(QWheelEvent *event)
 
 void CGGraphicsView::_mousePressEvent(QMouseEvent *event)
 {
+    m_MousePressed = true;
     m_LastPointF = event->pos() * (1 / m_Scale);
+}
+
+void CGGraphicsView::_mouseReleaseEvent(QMouseEvent *event)
+{
+    m_MousePressed = false;
+    Q_UNUSED(event);
 }
 
 void CGGraphicsView::_mouseMoveEvent(QMouseEvent *event)
 {
-    m_CurrentPointF = event->pos() * (1 / m_Scale) - m_LastPointF;
-    m_LastPointF = event->pos() * (1 / m_Scale);
+    if (m_MousePressed)
+    {
+        setMouseTracking(false);
+        m_CurrentPointF = event->pos() * (1 / m_Scale) - m_LastPointF;
+        m_LastPointF = event->pos() * (1 / m_Scale);
 
-    if (!scene()) return;
-    scene()->setSceneRect(scene()->sceneRect().x() - m_CurrentPointF.x(),
-                          scene()->sceneRect().y() - m_CurrentPointF.y(),
-                          scene()->sceneRect().width(),
-                          scene()->sceneRect().height());
-    scene()->update();
+        if (!scene()) return;
+        scene()->setSceneRect(scene()->sceneRect().x() - m_CurrentPointF.x(),
+                              scene()->sceneRect().y() - m_CurrentPointF.y(),
+                              scene()->sceneRect().width(),
+                              scene()->sceneRect().height());
+        scene()->update();
+    }
+    {
+        setMouseTracking(true);
+        X = mapToScene(event->pos()).x();
+        Y = mapToScene(event->pos()).y();
+        m_Coordinate = qMakePair(X, Y);
+        emit SignalCoordinate(m_Coordinate);
+    }
 }
 
 void CGGraphicsView::_mouseDoubleClickEvent(QMouseEvent *event)
@@ -151,6 +169,10 @@ bool CGGraphicsView::eventFilter(QObject *watched, QEvent *event)
     else if (event->type() == QEvent::MouseButtonPress)
     {
         _mousePressEvent(static_cast<QMouseEvent*>(event));
+    }
+    else if (event->type() == QEvent::MouseButtonRelease)
+    {
+        _mouseReleaseEvent(static_cast<QMouseEvent*>(event));
     }
     else if (event->type() == QEvent::MouseMove)
     {

@@ -19,10 +19,12 @@ public:
     ~CG2DImageView() = default;
 
 signals:
+    void SignalGraphicsItemValue(const QString msg);
 
 public slots:
     void OnUseTool();
     void OnDelTool();
+    void OnCoordinate(const QPair<qreal, qreal> Coordinate);
 
 public:
     void InitUi() override;

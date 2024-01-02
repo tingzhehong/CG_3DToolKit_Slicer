@@ -92,6 +92,8 @@ void MainWindow::InitConnections()
     connect(m_pCGNodeView, &CGNodeView::Signal2DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::Signal3DRequest, m_pCGViewRegulator, &CGViewRegulator::OnNodeViewRequest);
     connect(m_pCGNodeView, &CGNodeView::SignalAlgorithmPlugin, m_pCGDataTreeView, &CGDataTreeView::OnAlgorithmPluginAdd);
+
+    connect(m_pCG2DImageView, &CG2DImageView::SignalGraphicsItemValue, this, &MainWindow::OnGraphicsItemValue);
 }
 
 void MainWindow::InitPlugins()
@@ -555,6 +557,19 @@ void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
     default:
         break;
     }
+}
+
+void MainWindow::OnGraphicsItemValue(const QString msg)
+{
+    QFont font;
+    font.setPointSize(12);
+    QPalette pe;
+    pe.setColor(QPalette::WindowText,Qt::blue);
+
+    ui->statusbar->clearMessage();
+    ui->statusbar->setFont(font);
+    ui->statusbar->setPalette(pe);
+    ui->statusbar->showMessage(msg);
 }
 
 void MainWindow::OnUsersLogin(const QString user)
