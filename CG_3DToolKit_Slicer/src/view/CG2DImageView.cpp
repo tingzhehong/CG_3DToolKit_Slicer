@@ -1,4 +1,5 @@
 ﻿#include "CG2DImageView.h"
+#include "CGOCVHeader.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsItem>

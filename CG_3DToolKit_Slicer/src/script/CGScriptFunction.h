@@ -10,6 +10,8 @@
 #include <QScriptValue>
 #include <QScriptValueList>
 
+typedef std::function<QScriptValue(QScriptContext *ctx, QScriptEngine *eng)>    ScriptFunction; 
+
 //Math script function
 QScriptValue ScriptAdd(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptSub(QScriptContext *ctx, QScriptEngine *eng);
