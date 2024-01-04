@@ -39,7 +39,7 @@ void CG2DImageView::OnCoordinate(const QPair<qreal, qreal> Coordinate)
     int y = (int)Coordinate.second;
 
     QString msg;
-    msg.append(tr(u8"Coordinate   "));
+    msg.append(tr(u8"Image Information   "));
     msg.append("X: " + QString::number(x) + "  " + "Y: " + QString::number(y));
 
     try
@@ -66,6 +66,16 @@ void CG2DImageView::OnCoordinate(const QPair<qreal, qreal> Coordinate)
 
             msg.append("  ");
             msg.append("R: " + QString::number(r) + "  " + "G: " + QString::number(g) + "  " + "B: " + QString::number(b));
+        }
+
+        int w = 0, h = 0;
+        if (!g_Image.ColorImage.empty())
+        {
+            w = g_Image.ColorImage.cols;
+            h = g_Image.ColorImage.rows;
+
+            msg.append("  ");
+            msg.append("W: " + QString::number(w) + "  " + "H: " + QString::number(h));
         }
     }
     catch (const std::exception &e)
