@@ -1,16 +1,22 @@
 ﻿#include "NodeBlockWidget.h"
 #include "NodeBlock.h"
 #include <QLabel>
+#include <QPushButton>
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QHeaderView>
+#include <QStackedWidget>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QGraphicsPixmapItem>
+#include <CGGraphicsView.h>
 #include <CGVTKHeader.h>
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
@@ -20,6 +26,8 @@
 #include <vtkImageActor.h>
 #include <vtkInteractorStyleImage.h>
 #include <vtkInteractorStyleTrackballCamera.h>
+#include "CGShapeLineItem.h"
+#include "CGShapeRectItem.h"
 
 
 NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
@@ -29,6 +37,7 @@ NodeBlockWidget::NodeBlockWidget(QWidget *parent) : QWidget(parent)
     InitUi();
     InitConnections();
     InitTableWidget();
+    InitShapeItems();
 
     _cloud.reset(new PointCloudT);
 }
@@ -67,6 +76,7 @@ void NodeBlockWidget::LoadAlgorithmArguments(QVector<CG_ARGUMENT> &args)
 
 void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
 {
+    /*
     if (data.Type == CG_ALGORITHM_TYPE::ALG2D)
     {
         if (data.Data.canConvert<cv::Mat>())
@@ -93,6 +103,31 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CGVTKWidget->update();
     }
+    */
+
+    if (data.Type == CG_ALGORITHM_TYPE::ALG2D)
+    {
+        if (data.Data.canConvert<cv::Mat>())
+            _image = data.Data.value<cv::Mat>();
+        else
+            return;
+
+        QImage _Image = CG::CVMat2QImage(_image);
+
+        ClearImage();
+        pPixmap->convertFromImage(_Image, Qt::AutoColor);
+        pItem->setPixmap(*pPixmap);
+        pScene->addItem(pItem);
+        m_CGGraphicsView->setScene(pScene);
+        m_CGGraphicsView->ImageWidth = pPixmap->width();
+        m_CGGraphicsView->ImageHeight = pPixmap->height();
+        m_CGGraphicsView->AutoFit();
+        bGraphicsScene = true;
+
+        m_StackedWidget->setCurrentWidget(m_CGGraphicsView);
+        m_2DShapeWidget->setVisible(true);
+        m_3DShapeWidget->setVisible(false);
+    }
 
     if (data.Type == CG_ALGORITHM_TYPE::ALG3D)
     {
@@ -112,6 +147,10 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         m_CGVTKWidget->GetRenderWindow()->GetInteractor()->SetInteractorStyle(style);
         m_CGVTKWidget->defaultRenderer()->ResetCamera();
         m_CGVTKWidget->update();
+
+        m_StackedWidget->setCurrentWidget(m_CGVTKWidget);
+        m_2DShapeWidget->setVisible(false);
+        m_3DShapeWidget->setVisible(true);
     }
 }
 
@@ -156,6 +195,11 @@ void NodeBlockWidget::InitUi()
     m_ArgumentsTable->verticalHeader()->setVisible(false);
     m_ArgumentsTable->setFixedWidth(360);
 
+    pPixmap = new QPixmap();
+    pItem = new QGraphicsPixmapItem();
+    pScene = new QGraphicsScene();
+    m_CGGraphicsView = new CGGraphicsView(this);
+
     m_CGVTKWidget = new CGVTKWidget(this);
 
     double clr[3];
@@ -165,18 +209,113 @@ void NodeBlockWidget::InitUi()
     m_CGVTKWidget->showOrientationMarker();
     m_CGVTKWidget->update();
 
+    m_StackedWidget = new QStackedWidget(this);
+    m_StackedWidget->addWidget(m_CGGraphicsView);
+    m_StackedWidget->addWidget(m_CGVTKWidget);
+
     QHBoxLayout *pArgumentsLayout = new QHBoxLayout();
     pArgumentsLayout->addWidget(m_ArgumentsTable);
-    pArgumentsLayout->addWidget(m_CGVTKWidget);
+    pArgumentsLayout->addWidget(m_StackedWidget);
 
-    QVBoxLayout *pMainLayout = new QVBoxLayout();
+    p2DShapeLineBtn = new QPushButton(this);
+    p2DShapeRectBtn = new QPushButton(this);
+    p2DShapeRotatedRectBtn = new QPushButton(this);
+    p2DShapeCircleBtn = new QPushButton(this);
+    p2DShapePolygonBtn = new QPushButton(this);
+    p2DShapeExecuteBtn = new QPushButton(this);
+    p2DShapeResetBtn = new QPushButton(this);
+    p2DShapeLineBtn->setToolTip(tr(u8"直线"));
+    p2DShapeRectBtn->setToolTip(tr(u8"矩形"));
+    p2DShapeRotatedRectBtn->setToolTip(tr(u8"旋转矩形"));
+    p2DShapeCircleBtn->setToolTip(tr(u8"圆"));
+    p2DShapePolygonBtn->setToolTip(tr(u8"多边形"));
+    p2DShapeExecuteBtn->setToolTip(tr(u8"执行"));
+    p2DShapeResetBtn->setToolTip(tr(u8"清除"));
+    p2DShapeLineBtn->setFixedSize(QSize(50, 50));
+    p2DShapeRectBtn->setFixedSize(QSize(50, 50));
+    p2DShapeRotatedRectBtn->setFixedSize(QSize(50, 50));
+    p2DShapeCircleBtn->setFixedSize(QSize(50, 50));
+    p2DShapePolygonBtn->setFixedSize(QSize(50, 50));
+    p2DShapeExecuteBtn->setFixedSize(QSize(50, 50));
+    p2DShapeResetBtn->setFixedSize(QSize(50, 50));
+
+    p2DShapeLayout = new QVBoxLayout();
+    p2DShapeLayout->addWidget(p2DShapeLineBtn);
+    p2DShapeLayout->addWidget(p2DShapeRectBtn);
+    p2DShapeLayout->addWidget(p2DShapeRotatedRectBtn);
+    p2DShapeLayout->addWidget(p2DShapeCircleBtn);
+    p2DShapeLayout->addWidget(p2DShapePolygonBtn);
+    p2DShapeLayout->addStretch();
+    p2DShapeLayout->addWidget(p2DShapeExecuteBtn);
+    p2DShapeLayout->addWidget(p2DShapeResetBtn);
+
+    p3DShapeBoxBtn = new QPushButton(this);
+    p3DShapeSphereBtn = new QPushButton(this);
+    p3DShapePlaneBtn = new QPushButton(this);
+    p3DShapeExecuteBtn = new QPushButton(this);
+    p3DShapeResetBtn = new QPushButton(this);
+    p3DShapeBoxBtn->setToolTip(tr(u8"包围盒"));
+    p3DShapeSphereBtn->setToolTip(tr(u8"包围球"));
+    p3DShapePlaneBtn->setToolTip(tr(u8"平面"));
+    p3DShapeExecuteBtn->setToolTip(tr(u8"执行"));
+    p3DShapeResetBtn->setToolTip(tr(u8"清除"));
+    p3DShapeBoxBtn->setFixedSize(QSize(50, 50));
+    p3DShapeSphereBtn->setFixedSize(QSize(50, 50));
+    p3DShapePlaneBtn->setFixedSize(QSize(50, 50));
+    p3DShapeExecuteBtn->setFixedSize(QSize(50, 50));
+    p3DShapeResetBtn->setFixedSize(QSize(50, 50));
+
+    p3DShapeLayout = new QVBoxLayout();
+    p3DShapeLayout->addWidget(p3DShapeBoxBtn);
+    p3DShapeLayout->addWidget(p3DShapeSphereBtn);
+    p3DShapeLayout->addWidget(p3DShapePlaneBtn);
+    p3DShapeLayout->addStretch();
+    p3DShapeLayout->addWidget(p3DShapeExecuteBtn);
+    p3DShapeLayout->addWidget(p3DShapeResetBtn);
+
+    m_2DShapeWidget = new QWidget(this);
+    m_3DShapeWidget = new QWidget(this);
+    m_2DShapeWidget->setLayout(p2DShapeLayout);
+    m_3DShapeWidget->setLayout(p3DShapeLayout);
+
+    QHBoxLayout *pMainLayout = new QHBoxLayout();
     pMainLayout->addLayout(pArgumentsLayout);
+    pMainLayout->addWidget(m_2DShapeWidget);
+    pMainLayout->addWidget(m_3DShapeWidget);
     setLayout(pMainLayout);
 }
 
 void NodeBlockWidget::InitConnections()
 {
     connect(m_ArgumentsTable, &QTableWidget::itemChanged, this, &NodeBlockWidget::OnTableWidgetItemChanged);
+
+    connect(p2DShapeLineBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_LineItem);
+            pScene->update();
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::Line;
+            IsShapeItem = true;
+    });
+    connect(p2DShapeRectBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_RectItem);
+            pScene->update();
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::Rectangle;
+            IsShapeItem = true;
+    });
+
+    connect(p2DShapeExecuteBtn, &QPushButton::clicked, this, [&]{
+            QString msg = ShapeItemValue();
+            emit SignalShapeItemValue(msg);
+    });
+    connect(p2DShapeResetBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            m_CGGraphicsView->InstallFilter();
+            IsShapeItem = false;
+            emit SignalShapeItemValue("");
+    });
 }
 
 void NodeBlockWidget::InitTableWidget()
@@ -191,6 +330,18 @@ void NodeBlockWidget::InitTableWidget()
                                                               << QString::fromLocal8Bit("数值"));
 }
 
+void NodeBlockWidget::InitShapeItems()
+{
+    m_LineItem = new CGShapeLineItem(64, 64, 512, 512);
+    m_RectItem = new CGShapeRectItem(64, 64, 512, 512);
+}
+
+void NodeBlockWidget::ClearImage()
+{
+    if (bGraphicsScene)
+        m_CGGraphicsView->RemoveALLItems();
+}
+
 void NodeBlockWidget::ClearPointCloud()
 {
     int num = m_CGVTKWidget->actors().count();
@@ -198,6 +349,53 @@ void NodeBlockWidget::ClearPointCloud()
     {
         m_CGVTKWidget->defaultRenderer()->RemoveActor(m_CGVTKWidget->actors()[i]);
     }
+}
+
+void NodeBlockWidget::RemoveShapeItem()
+{
+    if (IsShapeItem)
+    {
+        switch (m_CurrentShapeType)
+        {
+        case ItemType::Line:
+            pScene->removeItem(m_LineItem);
+            break;
+        case ItemType::Rectangle:
+            pScene->removeItem(m_RectItem);
+            break;
+        default:
+            break;
+        }
+        pScene->update();
+        m_CGGraphicsView->InstallFilter();
+
+        IsShapeItem = false;
+    }
+}
+
+QString NodeBlockWidget::ShapeItemValue()
+{
+    QString value;
+    CGShapeLine line;
+    CGShapeRectangle rect;
+
+    if (IsShapeItem)
+    {
+        switch (m_CurrentShapeType)
+        {
+        case ItemType::Line:
+            m_LineItem->GetLine(line);
+            value = QString("Line  X1:%1  Y1:%2  X2:%3  Y2:%4").arg(line.p1_x).arg(line.p1_y).arg(line.p2_x).arg(line.p2_y);
+            break;
+        case ItemType::Rectangle:
+            m_RectItem->GetRect(rect);
+            value = QString("Rectangle  X:%1  Y:%2  W:%3  H:%4").arg(rect.col).arg(rect.row).arg(rect.width).arg(rect.height);
+            break;
+        default:
+            break;
+        }
+    }
+    return value;
 }
 
 void NodeBlockWidget::PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *actor)

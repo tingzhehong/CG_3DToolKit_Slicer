@@ -6,8 +6,16 @@
 #include <CGPropertiesRegulator.h>
 
 class QLabel;
+class QPushButton;
+class QVBoxLayout;
 class QTableWidget;
 class QTableWidgetItem;
+class QStackedWidget;
+class QGraphicsPixmapItem;
+class QGraphicsScene;
+class CGGraphicsView;
+class CGShapeLineItem;
+class CGShapeRectItem;
 class CGVTKWidget;
 class vtkActor;
 class NodeBlock;
@@ -26,15 +34,22 @@ public:
     void SetCurrentAlgorithmPlugin(AlgorithmInterface *plugin);
     void SetCurrentNodeBlock(NodeBlock *block);
     void ShowAlgorithmPluginInfomation();
+    void RemoveShapeItem();
 
 private:
     void InitUi();
     void InitConnections();
     void InitTableWidget();
+    void InitShapeItems();
+    void ClearImage();
     void ClearPointCloud();
+    QString ShapeItemValue();
 
 protected:
     void PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *actor);
+
+signals:
+    void SignalShapeItemValue(const QString msg);
 
 public slots:
     void OnTableWidgetItemChanged(QTableWidgetItem *current);
@@ -42,6 +57,8 @@ public slots:
 
 private:
     QTableWidget *m_ArgumentsTable;
+    QStackedWidget *m_StackedWidget;
+    CGGraphicsView *m_CGGraphicsView;
     CGVTKWidget *m_CGVTKWidget;
 
     cv::Mat _image;
@@ -50,6 +67,52 @@ private:
     AlgorithmInterface *m_plugin;
     QVector<CG_ARGUMENT> m_args;
     NodeBlock *m_block;
+
+private:
+    QPixmap *pPixmap;
+    QGraphicsPixmapItem *pItem;
+    QGraphicsScene *pScene;
+    bool bGraphicsScene = false;
+
+    QPushButton *p2DShapeLineBtn;
+    QPushButton *p2DShapeRectBtn;
+    QPushButton *p2DShapeRotatedRectBtn;
+    QPushButton *p2DShapeCircleBtn;
+    QPushButton *p2DShapePolygonBtn;
+    QPushButton *p2DShapeExecuteBtn;
+    QPushButton *p2DShapeResetBtn;
+
+    QPushButton *p3DShapeBoxBtn;
+    QPushButton *p3DShapeSphereBtn;
+    QPushButton *p3DShapePlaneBtn;
+    QPushButton *p3DShapeExecuteBtn;
+    QPushButton *p3DShapeResetBtn;
+
+    QVBoxLayout *p2DShapeLayout;
+    QVBoxLayout *p3DShapeLayout;
+
+    QWidget *m_2DShapeWidget;
+    QWidget *m_3DShapeWidget;
+
+protected:
+    enum ItemType
+    {
+        Line,                // 直线
+        Rectangle,           // 矩形
+        RotateRectangle,     // 旋转矩形
+        Circle,              // 圆
+        ConcentricCircle,    // 同心圆
+        Polygon,             // 多边形
+
+        BoundingBox,         // 包围盒
+        BoundingSphere,      // 包围球
+        Plane,               // 平面
+    };
+    ItemType m_CurrentShapeType;
+
+    CGShapeLineItem *m_LineItem;
+    CGShapeRectItem *m_RectItem;
+    bool IsShapeItem = false;
 
 private:
     static NodeBlockWidget *m_NodeBlockWidget;

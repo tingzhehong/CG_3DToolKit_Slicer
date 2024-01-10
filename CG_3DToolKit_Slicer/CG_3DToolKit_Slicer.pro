@@ -39,6 +39,7 @@ SOURCES += \
     src/block/maths/NumberInputNodeBlock.cpp \
     src/block/maths/NumberOutputNodeBlock.cpp \
     src/block/maths/ValueTerminalNodeBlock.cpp \
+    src/com/CGGlobalVariable.cpp \
     src/com/CGOCVHeader.cpp \
     src/com/CGPCLHeader.cpp \
     src/com/CGVTKHeader.cpp \
@@ -61,6 +62,10 @@ SOURCES += \
     src/tool/CGImage3DSectionItemHorizontal.cpp \
     src/tool/CGImage3DSectionItemVertical.cpp \
     src/tool/CGImage3DSectionLineItem.cpp \
+    src/tool/CGShapeBaseItem.cpp \
+    src/tool/CGShapeControlItem.cpp \
+    src/tool/CGShapeLineItem.cpp \
+    src/tool/CGShapeRectItem.cpp \
     src/ui/CGAboutDialog.cpp \
     src/ui/CGAlgorithmArgumentsDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
@@ -136,6 +141,7 @@ HEADERS += \
     src/block/maths/NumberInputNodeBlock.h \
     src/block/maths/NumberOutputNodeBlock.h \
     src/block/maths/ValueTerminalNodeBlock.h \
+    src/com/CGGlobalVariable.h \
     src/com/CGMetaType.h \
     src/com/CGOCVHeader.h \
     src/com/CGPCLHeader.h \
@@ -160,6 +166,10 @@ HEADERS += \
     src/tool/CGImage3DSectionItemHorizontal.h \
     src/tool/CGImage3DSectionItemVertical.h \
     src/tool/CGImage3DSectionLineItem.h \
+    src/tool/CGShapeBaseItem.h \
+    src/tool/CGShapeControlItem.h \
+    src/tool/CGShapeLineItem.h \
+    src/tool/CGShapeRectItem.h \
     src/ui/CGAboutDialog.h \
     src/ui/CGAlgorithmArgumentsDialog.h \
     src/ui/CGDepthImageDialog.h \

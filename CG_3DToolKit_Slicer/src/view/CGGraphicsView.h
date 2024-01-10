@@ -21,6 +21,7 @@ public:
     void RemoveToolItems();
     void ZoomIn();
     void ZoomOut();
+    void AutoFit();
 
     void InstallFilter();
     void RemoveFilter();

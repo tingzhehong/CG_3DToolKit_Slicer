@@ -24,13 +24,18 @@ signals:
 public slots:
     void OnOK();
     void OnCancel();
+    void OnShapeItemValue(const QString msg);
 
 protected:
     void closeEvent(QCloseEvent *closeEvent);
 
 private:
+    QLabel *m_StatusLb;
     QPushButton *m_pOKBtn;
     QPushButton *m_pCancelBtn;
+
+    QFont font;
+    QPalette pe;
 };
 
 #endif // CGALGORITHMARGUMENTSDIALOG_H

@@ -34,7 +34,6 @@ void NodeBlockManager::run()
             if (block->IsValid() && !block->IsRuned())
             {
                 block->Run();
-                //qDebug() << block->m_NodeItem->m_OutPortItem.at(0)->value();
                 ++k;
             }
             ++j;

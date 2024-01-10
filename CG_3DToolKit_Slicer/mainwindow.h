@@ -136,6 +136,9 @@ private:
         UbuntuStyle
     };
 
+    QFont font;
+    QPalette pe;
+
 private:
     Ui::MainWindow *ui;
 };

@@ -20,6 +20,7 @@ CGGraphicsView::~CGGraphicsView()
 
 void CGGraphicsView::InintGraphicsView()
 {
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setCursor(Qt::PointingHandCursor);
@@ -85,6 +86,25 @@ void CGGraphicsView::ZoomOut()
     m_Scale *= 0.9;
     scale(0.9,0.9);
 
+    scene()->setSceneRect(mapToScene(rect()).boundingRect());
+    scene()->update();
+}
+
+void CGGraphicsView::AutoFit()
+{
+    if (ImageWidth == 0) return;
+    if (ImageHeight == 0) return;
+
+    qreal ViewWidth = width();
+    qreal ViewHeight = height();
+    qreal ScaleWidth = ViewWidth / (ImageWidth / 2);
+    qreal ScaleHeight = ViewHeight / (ImageHeight / 2);
+    qreal s = ScaleWidth > ScaleHeight ? ScaleWidth : ScaleHeight;
+
+    m_Scale *= s;
+    scale(s,s);
+
+    if (!scene()) return;
     scene()->setSceneRect(mapToScene(rect()).boundingRect());
     scene()->update();
 }

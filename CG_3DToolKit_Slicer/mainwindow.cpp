@@ -38,6 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->dock_data->setWidget(m_pCGDataTreeView);
     ui->action_console->setChecked(true);
 
+    font.setPointSize(12);
+    pe.setColor(QPalette::WindowText,Qt::blue);
+    ui->statusbar->setFont(font);
+    ui->statusbar->setPalette(pe);
+
     vtkObject::GlobalWarningDisplayOff();
 
     InitUi();
@@ -561,14 +566,7 @@ void MainWindow::OnDataTreeItemSelected(QTreeWidgetItem *item, int column)
 
 void MainWindow::OnGraphicsItemValue(const QString msg)
 {
-    QFont font;
-    font.setPointSize(12);
-    QPalette pe;
-    pe.setColor(QPalette::WindowText,Qt::blue);
-
     ui->statusbar->clearMessage();
-    ui->statusbar->setFont(font);
-    ui->statusbar->setPalette(pe);
     ui->statusbar->showMessage(msg);
 }
 

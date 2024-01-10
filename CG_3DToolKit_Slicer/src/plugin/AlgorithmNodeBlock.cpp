@@ -1,4 +1,5 @@
 ﻿#include "AlgorithmNodeBlock.h"
+#include "CGGlobalVariable.h"
 #include <QDebug>
 
 AlgorithmNodeBlock::AlgorithmNodeBlock(NodeView *nodeview, QWidget *parent) : NodeBlock(nodeview, parent)
@@ -18,6 +19,9 @@ void AlgorithmNodeBlock::Run()
         QString key = parameter.ARG;
         float value = m_NodeItem->m_Parameters.value(key).toFloat();
         parameter.VALUE = value;
+
+        if (key == "XPitch") *g_pXPITCH = value;
+        if (key == "YPitch") *g_pYPITCH = value;
     }
     if (args.count() > 0)
         m_plugin->SetAlgorithmArguments(args);

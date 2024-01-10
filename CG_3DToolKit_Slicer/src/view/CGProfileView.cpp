@@ -216,7 +216,7 @@ void CGProfileView::Apply()
 
         if (!m_Form2D->bGraphicsScene)
         {
-            m_Form2D->m_pGraphicsView->ResetGraphicsView();
+            m_Form2D->m_pGraphicsView->AutoFit();
             m_Form2D->bGraphicsScene = true;
         }
     }

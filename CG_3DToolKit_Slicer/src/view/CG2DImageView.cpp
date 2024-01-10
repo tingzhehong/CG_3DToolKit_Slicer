@@ -39,7 +39,7 @@ void CG2DImageView::OnCoordinate(const QPair<qreal, qreal> Coordinate)
     int y = (int)Coordinate.second;
 
     QString msg;
-    msg.append(tr(u8"Image Information   "));
+    msg.append("  ");
     msg.append("X: " + QString::number(x) + "  " + "Y: " + QString::number(y));
 
     try
