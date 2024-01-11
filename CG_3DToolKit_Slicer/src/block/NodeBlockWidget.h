@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <AlgorithmInterface.h>
 #include <CGPropertiesRegulator.h>
+#include <CGVTKUtils.h>
+#include <CGBoxWidgetObserver.h>
+#include <CGPlaneWidgetObserver.h>
 
 class QLabel;
 class QPushButton;
@@ -22,6 +25,8 @@ class CGShapeConcentricCircleItem;
 class CGShapePolygonItem;
 class CGVTKWidget;
 class vtkActor;
+class vtkBoxWidget;
+class vtkPlaneWidget;
 class NodeBlock;
 class NodeBlockWidget : public QWidget
 {
@@ -45,9 +50,10 @@ private:
     void InitConnections();
     void InitTableWidget();
     void InitShapeItems();
+    void InitBoxWidgetTools();
+    void InitPlaneWidgetTools();
     void ClearImage();
     void ClearPointCloud();
-    QString ShapeItemValue();
 
 protected:
     void PointCloud2VTKActor(PointCloudT::Ptr cloud, vtkActor *actor);
@@ -59,14 +65,21 @@ public slots:
     void OnTableWidgetItemChanged(QTableWidgetItem *current);
     void OnSendAlgorithmArguments();
 
+    QString ShapeItemValue();
+    QString ToolBoxWidgetValue(vtkPlanes *planes);
+    QString ToolPlaneWidgetValue(vtkPlane* plane);
+
 private:
     QTableWidget *m_ArgumentsTable;
     QStackedWidget *m_StackedWidget;
     CGGraphicsView *m_CGGraphicsView;
     CGVTKWidget *m_CGVTKWidget;
+    CGVTKUtils::CGBoxWidgetObserver *m_CGBoxWidgeter;
+    CGVTKUtils::CGPlaneWidgetObserver *m_CGPlaneWidgeter;
 
     cv::Mat _image;
     PointCloudT::Ptr _cloud;
+    vtkSmartPointer<vtkActor> _Actor;
 
     AlgorithmInterface *m_plugin;
     QVector<CG_ARGUMENT> m_args;
@@ -120,7 +133,13 @@ protected:
     CGShapeCircleItem *m_CircleItem;
     CGShapeConcentricCircleItem *m_ConcentricCircleItem;
     CGShapePolygonItem *m_PolygonItem;
+
+    vtkSmartPointer<vtkBoxWidget> m_pBoxWidgetTool;
+    vtkSmartPointer<vtkPlaneWidget> m_pPlaneWidgetTool;
+
     bool IsShapeItem = false;
+    QString StrToolBoxWidgetValue;
+    QString StrToolPlaneWidgetValue;
 
 private:
     static NodeBlockWidget *m_NodeBlockWidget;

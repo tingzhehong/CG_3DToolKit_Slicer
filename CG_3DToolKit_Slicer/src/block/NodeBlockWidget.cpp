@@ -26,6 +26,8 @@
 #include <vtkImageActor.h>
 #include <vtkInteractorStyleImage.h>
 #include <vtkInteractorStyleTrackballCamera.h>
+#include <vtkBoxWidget.h>
+#include <vtkPlaneWidget.h>
 #include "CGShapeLineItem.h"
 #include "CGShapeRectItem.h"
 #include "CGShapeRotateRectangleItem.h"
@@ -144,6 +146,7 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         vtkSmartPointer<vtkActor> _actor = vtkSmartPointer<vtkActor>::New();
         PointCloud2VTKActor(_cloud, _actor);
         m_CGVTKWidget->addActor(_actor, QColor(25, 50, 75));
+        _Actor = _actor;
 
         vtkSmartPointer<vtkInteractorStyleTrackballCamera> style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
         style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
@@ -354,6 +357,30 @@ void NodeBlockWidget::InitConnections()
             IsShapeItem = false;
             emit SignalShapeItemValue("");
     });
+
+
+    connect(p3DShapeBoxBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            InitBoxWidgetTools();
+            m_CurrentShapeType = ItemType::BoundingBox;
+            IsShapeItem = true;
+    });
+    connect(p3DShapePlaneBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            InitPlaneWidgetTools();
+            m_CurrentShapeType = ItemType::Plane;
+            IsShapeItem = true;
+    });
+
+    connect(p3DShapeExecuteBtn, &QPushButton::clicked, this, [&]{
+            QString msg = ShapeItemValue();
+            emit SignalShapeItemValue(msg);
+    });
+    connect(p3DShapeResetBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            IsShapeItem = false;
+            emit SignalShapeItemValue("");
+    });
 }
 
 void NodeBlockWidget::InitTableWidget()
@@ -376,6 +403,41 @@ void NodeBlockWidget::InitShapeItems()
     m_CircleItem = new CGShapeCircleItem(512, 512, 256);
     m_ConcentricCircleItem = new CGShapeConcentricCircleItem(512, 512, 128, 256);
     m_PolygonItem = new CGShapePolygonItem();
+}
+
+void NodeBlockWidget::InitPlaneWidgetTools()
+{
+    CGVTKUtils::vtkInitOnce(m_pPlaneWidgetTool);
+    m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
+    connect(m_CGPlaneWidgeter, &CGVTKUtils::CGPlaneWidgetObserver::planesChanged, this, &NodeBlockWidget::ToolPlaneWidgetValue);
+
+    m_pPlaneWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGPlaneWidgeter);
+    m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
+    m_pPlaneWidgetTool->SetProp3D(_Actor);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(1, 0, 1);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetOpacity(0.7);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetLineWidth(3);
+    m_pPlaneWidgetTool->SetRepresentationToSurface();
+    m_pPlaneWidgetTool->NormalToZAxisOn();
+    m_pPlaneWidgetTool->PlaceWidget();
+    m_pPlaneWidgetTool->On();
+}
+
+void NodeBlockWidget::InitBoxWidgetTools()
+{
+    CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
+    m_CGBoxWidgeter = new CGVTKUtils::CGBoxWidgetObserver();
+    connect(m_CGBoxWidgeter, &CGVTKUtils::CGBoxWidgetObserver::planesChanged, this, &NodeBlockWidget::ToolBoxWidgetValue);
+
+    m_pBoxWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGBoxWidgeter);
+    m_pBoxWidgetTool->SetPlaceFactor(1.0);
+    m_pBoxWidgetTool->SetRotationEnabled(0);
+    m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pBoxWidgetTool->SetProp3D(_Actor);
+    m_pBoxWidgetTool->GetSelectedFaceProperty()->SetColor(1, 0, 1);
+    m_pBoxWidgetTool->GetSelectedFaceProperty()->SetOpacity(0.7);
+    m_pBoxWidgetTool->PlaceWidget();
+    m_pBoxWidgetTool->On();
 }
 
 void NodeBlockWidget::ClearImage()
@@ -417,6 +479,14 @@ void NodeBlockWidget::RemoveShapeItem()
         case ItemType::Polygon:
             pScene->removeItem(m_PolygonItem);
             disconnect(pScene, &CGGraphicsScene::updatePoint, m_PolygonItem, &CGShapePolygonItem::pushPoint);
+            break;
+        case ItemType::BoundingBox:
+            m_pBoxWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGBoxWidgeter);
+            break;
+        case ItemType::Plane:
+            m_pPlaneWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGPlaneWidgeter);
             break;
         default:
             break;
@@ -464,10 +534,44 @@ QString NodeBlockWidget::ShapeItemValue()
         case ItemType::Polygon:
             value = QString("Polygon  ");
             break;
+        case ItemType::BoundingBox:
+            value = QString("Box  ").append(StrToolBoxWidgetValue);
+            break;
+        case ItemType::Plane:
+            value = QString("Plane  ").append(StrToolPlaneWidgetValue);
+            break;
         default:
             break;
         }
     }
+    return value;
+}
+
+QString NodeBlockWidget::ToolBoxWidgetValue(vtkPlanes *planes)
+{
+    double bounds[6];
+    planes->GetPoints()->GetBounds(bounds);
+    double Xmin = bounds[0]; double Xmax = bounds[1];
+    double Ymin = bounds[2]; double Ymax = bounds[3];
+    double Zmin = bounds[4]; double Zmax = bounds[5];
+
+    QString value;
+    value = QString("Xmin:%1  Xmax:%2  Ymin:%3  Ymax:%4  Zmin:%5  Zmax:%6").arg(Xmin).arg(Xmax).arg(Ymin).arg(Ymax).arg(Zmin).arg(Zmax);
+    StrToolBoxWidgetValue = value;
+    return value;
+}
+
+QString NodeBlockWidget::ToolPlaneWidgetValue(vtkPlane *plane)
+{
+    double normal[3]; double origin[3];
+    plane->GetNormal(normal);
+    plane->GetOrigin(origin);
+    double A = normal[0]; double B = normal[1]; double C = normal[2];
+    double X = origin[0]; double Y = origin[1]; double Z = origin[2];
+
+    QString value;
+    value = QString("A:%1  B:%2  C:%3  X:%4  Y:%5  Z:%6").arg(A).arg(B).arg(C).arg(X).arg(Y).arg(Z);
+    StrToolPlaneWidgetValue = value;
     return value;
 }
 

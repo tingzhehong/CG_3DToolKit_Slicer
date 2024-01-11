@@ -21,7 +21,7 @@ void CGAlgorithmArgumentsDialog::InitUi()
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
     resize(1060, 600);
 
-    font.setPointSize(12);
+    font.setPointSize(10);
     pe.setColor(QPalette::WindowText,Qt::blue);
 
     m_StatusLb = new QLabel("", this);
