@@ -1,10 +1,25 @@
 #include "CGGraphicsLineItemVertical.h"
 #include <QDebug>
 #include <QCursor>
+#include <QPainter>
 
 CGGraphicsLineItemVertical::CGGraphicsLineItemVertical()
 {
 
+}
+
+void CGGraphicsLineItemVertical::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QGraphicsLineItem::paint(painter, option, widget);
+
+    painter->setBrush(QBrush(QColor(0, 255, 127)));
+    painter->setPen(Qt::NoPen);
+
+    QLineF line = this->line();
+    QPointF center1(line.x1(), line.y1());
+    QPointF center2(line.x2(), line.y2());
+    painter->drawEllipse(center1, m_HitRange / 3, m_HitRange / 3);
+    painter->drawEllipse(center2, m_HitRange / 3, m_HitRange / 3);
 }
 
 void CGGraphicsLineItemVertical::wheelEvent(QGraphicsSceneWheelEvent *event)

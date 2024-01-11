@@ -15,6 +15,7 @@ public:
     explicit CGGraphicsLineItem();
 
 protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void wheelEvent(QGraphicsSceneWheelEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -32,7 +33,7 @@ private:
     int  iPointHit = 0;
 
 public:
-    int m_HitRange = 100;
+    int m_HitRange = 80;
 };
 
 #endif // CGGRAPHICSLINEITEM_H

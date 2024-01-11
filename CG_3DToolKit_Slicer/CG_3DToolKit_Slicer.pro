@@ -63,9 +63,13 @@ SOURCES += \
     src/tool/CGImage3DSectionItemVertical.cpp \
     src/tool/CGImage3DSectionLineItem.cpp \
     src/tool/CGShapeBaseItem.cpp \
+    src/tool/CGShapeCircleItem.cpp \
+    src/tool/CGShapeConcentricCircleItem.cpp \
     src/tool/CGShapeControlItem.cpp \
     src/tool/CGShapeLineItem.cpp \
+    src/tool/CGShapePolygonItem.cpp \
     src/tool/CGShapeRectItem.cpp \
+    src/tool/CGShapeRotateRectangleItem.cpp \
     src/ui/CGAboutDialog.cpp \
     src/ui/CGAlgorithmArgumentsDialog.cpp \
     src/ui/CGDepthImageDialog.cpp \
@@ -90,6 +94,7 @@ SOURCES += \
     src/view/CGConsoleView.cpp \
     src/view/CGDataTreeView.cpp \
     src/view/CGFullScreenView.cpp \
+    src/view/CGGraphicsScene.cpp \
     src/view/CGGraphicsView.cpp \
     src/view/CGNodeView.cpp \
     src/view/CGProfileView.cpp \
@@ -167,9 +172,13 @@ HEADERS += \
     src/tool/CGImage3DSectionItemVertical.h \
     src/tool/CGImage3DSectionLineItem.h \
     src/tool/CGShapeBaseItem.h \
+    src/tool/CGShapeCircleItem.h \
+    src/tool/CGShapeConcentricCircleItem.h \
     src/tool/CGShapeControlItem.h \
     src/tool/CGShapeLineItem.h \
+    src/tool/CGShapePolygonItem.h \
     src/tool/CGShapeRectItem.h \
+    src/tool/CGShapeRotateRectangleItem.h \
     src/ui/CGAboutDialog.h \
     src/ui/CGAlgorithmArgumentsDialog.h \
     src/ui/CGDepthImageDialog.h \
@@ -194,6 +203,7 @@ HEADERS += \
     src/view/CGConsoleView.h \
     src/view/CGDataTreeView.h \
     src/view/CGFullScreenView.h \
+    src/view/CGGraphicsScene.h \
     src/view/CGGraphicsView.h \
     src/view/CGNodeView.h \
     src/view/CGProfileView.h \

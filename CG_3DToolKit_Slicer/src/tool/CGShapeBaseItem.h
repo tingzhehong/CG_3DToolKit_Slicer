@@ -47,13 +47,13 @@ struct CGShapeRectangle
 };
 
 ///旋转矩形
-struct CGShapeRotatedRect
+struct CGShapeRotateRectangle
 {
-    CGShapeRotatedRect()
+    CGShapeRotateRectangle()
     {
     }
 
-    CGShapeRotatedRect(float x, float y, float Phi, float Lenth1, float Lenth2)
+    CGShapeRotateRectangle(float x, float y, float Phi, float Lenth1, float Lenth2)
     {
         row = y;
         col = x;

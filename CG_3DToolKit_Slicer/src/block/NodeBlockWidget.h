@@ -12,10 +12,14 @@ class QTableWidget;
 class QTableWidgetItem;
 class QStackedWidget;
 class QGraphicsPixmapItem;
-class QGraphicsScene;
+class CGGraphicsScene;
 class CGGraphicsView;
 class CGShapeLineItem;
 class CGShapeRectItem;
+class CGShapeRotateRectangleItem;
+class CGShapeCircleItem;
+class CGShapeConcentricCircleItem;
+class CGShapePolygonItem;
 class CGVTKWidget;
 class vtkActor;
 class NodeBlock;
@@ -71,13 +75,14 @@ private:
 private:
     QPixmap *pPixmap;
     QGraphicsPixmapItem *pItem;
-    QGraphicsScene *pScene;
+    CGGraphicsScene *pScene;
     bool bGraphicsScene = false;
 
     QPushButton *p2DShapeLineBtn;
     QPushButton *p2DShapeRectBtn;
     QPushButton *p2DShapeRotatedRectBtn;
     QPushButton *p2DShapeCircleBtn;
+    QPushButton *p2DShapeConcentricCircleBtn;
     QPushButton *p2DShapePolygonBtn;
     QPushButton *p2DShapeExecuteBtn;
     QPushButton *p2DShapeResetBtn;
@@ -103,7 +108,6 @@ protected:
         Circle,              // 圆
         ConcentricCircle,    // 同心圆
         Polygon,             // 多边形
-
         BoundingBox,         // 包围盒
         BoundingSphere,      // 包围球
         Plane,               // 平面
@@ -112,6 +116,10 @@ protected:
 
     CGShapeLineItem *m_LineItem;
     CGShapeRectItem *m_RectItem;
+    CGShapeRotateRectangleItem *m_RotateRectangleItem;
+    CGShapeCircleItem *m_CircleItem;
+    CGShapeConcentricCircleItem *m_ConcentricCircleItem;
+    CGShapePolygonItem *m_PolygonItem;
     bool IsShapeItem = false;
 
 private:

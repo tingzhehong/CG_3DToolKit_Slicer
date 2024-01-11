@@ -13,7 +13,7 @@
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QDebug>
-#include <QGraphicsScene>
+#include <CGGraphicsScene.h>
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 #include <CGGraphicsView.h>
@@ -28,6 +28,10 @@
 #include <vtkInteractorStyleTrackballCamera.h>
 #include "CGShapeLineItem.h"
 #include "CGShapeRectItem.h"
+#include "CGShapeRotateRectangleItem.h"
+#include "CGShapeCircleItem.h"
+#include "CGShapeConcentricCircleItem.h"
+#include "CGShapePolygonItem.h"
 
 
 NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
@@ -35,9 +39,9 @@ NodeBlockWidget *NodeBlockWidget::m_NodeBlockWidget = nullptr;
 NodeBlockWidget::NodeBlockWidget(QWidget *parent) : QWidget(parent)
 {
     InitUi();
-    InitConnections();
     InitTableWidget();
     InitShapeItems();
+    InitConnections();
 
     _cloud.reset(new PointCloudT);
 }
@@ -197,7 +201,7 @@ void NodeBlockWidget::InitUi()
 
     pPixmap = new QPixmap();
     pItem = new QGraphicsPixmapItem();
-    pScene = new QGraphicsScene();
+    pScene = new CGGraphicsScene();
     m_CGGraphicsView = new CGGraphicsView(this);
 
     m_CGVTKWidget = new CGVTKWidget(this);
@@ -221,13 +225,16 @@ void NodeBlockWidget::InitUi()
     p2DShapeRectBtn = new QPushButton(this);
     p2DShapeRotatedRectBtn = new QPushButton(this);
     p2DShapeCircleBtn = new QPushButton(this);
+    p2DShapeConcentricCircleBtn = new QPushButton(this);
     p2DShapePolygonBtn = new QPushButton(this);
+    p2DShapePolygonBtn->setVisible(false);
     p2DShapeExecuteBtn = new QPushButton(this);
     p2DShapeResetBtn = new QPushButton(this);
     p2DShapeLineBtn->setToolTip(tr(u8"直线"));
     p2DShapeRectBtn->setToolTip(tr(u8"矩形"));
     p2DShapeRotatedRectBtn->setToolTip(tr(u8"旋转矩形"));
     p2DShapeCircleBtn->setToolTip(tr(u8"圆"));
+    p2DShapeConcentricCircleBtn->setToolTip(tr(u8"同心圆"));
     p2DShapePolygonBtn->setToolTip(tr(u8"多边形"));
     p2DShapeExecuteBtn->setToolTip(tr(u8"执行"));
     p2DShapeResetBtn->setToolTip(tr(u8"清除"));
@@ -235,6 +242,7 @@ void NodeBlockWidget::InitUi()
     p2DShapeRectBtn->setFixedSize(QSize(50, 50));
     p2DShapeRotatedRectBtn->setFixedSize(QSize(50, 50));
     p2DShapeCircleBtn->setFixedSize(QSize(50, 50));
+    p2DShapeConcentricCircleBtn->setFixedSize(QSize(50, 50));
     p2DShapePolygonBtn->setFixedSize(QSize(50, 50));
     p2DShapeExecuteBtn->setFixedSize(QSize(50, 50));
     p2DShapeResetBtn->setFixedSize(QSize(50, 50));
@@ -244,6 +252,7 @@ void NodeBlockWidget::InitUi()
     p2DShapeLayout->addWidget(p2DShapeRectBtn);
     p2DShapeLayout->addWidget(p2DShapeRotatedRectBtn);
     p2DShapeLayout->addWidget(p2DShapeCircleBtn);
+    p2DShapeLayout->addWidget(p2DShapeConcentricCircleBtn);
     p2DShapeLayout->addWidget(p2DShapePolygonBtn);
     p2DShapeLayout->addStretch();
     p2DShapeLayout->addWidget(p2DShapeExecuteBtn);
@@ -305,6 +314,35 @@ void NodeBlockWidget::InitConnections()
             m_CurrentShapeType = ItemType::Rectangle;
             IsShapeItem = true;
     });
+    connect(p2DShapeRotatedRectBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_RotateRectangleItem);
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::RotateRectangle;
+            IsShapeItem = true;
+    });
+    connect(p2DShapeCircleBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_CircleItem);
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::Circle;
+            IsShapeItem = true;
+    });
+    connect(p2DShapeConcentricCircleBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_ConcentricCircleItem);
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::ConcentricCircle;
+            IsShapeItem = true;
+    });
+    connect(p2DShapePolygonBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            pScene->addItem(m_PolygonItem);
+            m_CGGraphicsView->RemoveFilter();
+            m_CurrentShapeType = ItemType::Polygon;
+            connect(pScene, &CGGraphicsScene::updatePoint, m_PolygonItem, &CGShapePolygonItem::pushPoint);
+            IsShapeItem = true;
+    });
 
     connect(p2DShapeExecuteBtn, &QPushButton::clicked, this, [&]{
             QString msg = ShapeItemValue();
@@ -334,6 +372,10 @@ void NodeBlockWidget::InitShapeItems()
 {
     m_LineItem = new CGShapeLineItem(64, 64, 512, 512);
     m_RectItem = new CGShapeRectItem(64, 64, 512, 512);
+    m_RotateRectangleItem = new CGShapeRotateRectangleItem(128, 128, 512, 512, 0);
+    m_CircleItem = new CGShapeCircleItem(512, 512, 256);
+    m_ConcentricCircleItem = new CGShapeConcentricCircleItem(512, 512, 128, 256);
+    m_PolygonItem = new CGShapePolygonItem();
 }
 
 void NodeBlockWidget::ClearImage()
@@ -363,6 +405,19 @@ void NodeBlockWidget::RemoveShapeItem()
         case ItemType::Rectangle:
             pScene->removeItem(m_RectItem);
             break;
+        case ItemType::RotateRectangle:
+            pScene->removeItem(m_RotateRectangleItem);
+            break;
+        case ItemType::Circle:
+            pScene->removeItem(m_CircleItem);
+            break;
+        case ItemType::ConcentricCircle:
+            pScene->removeItem(m_ConcentricCircleItem);
+            break;
+        case ItemType::Polygon:
+            pScene->removeItem(m_PolygonItem);
+            disconnect(pScene, &CGGraphicsScene::updatePoint, m_PolygonItem, &CGShapePolygonItem::pushPoint);
+            break;
         default:
             break;
         }
@@ -378,6 +433,9 @@ QString NodeBlockWidget::ShapeItemValue()
     QString value;
     CGShapeLine line;
     CGShapeRectangle rect;
+    CGShapeRotateRectangle rrect;
+    CGShapeCircle circle;
+    CGShapeConcentricCircle ccircle;
 
     if (IsShapeItem)
     {
@@ -390,6 +448,21 @@ QString NodeBlockWidget::ShapeItemValue()
         case ItemType::Rectangle:
             m_RectItem->GetRect(rect);
             value = QString("Rectangle  X:%1  Y:%2  W:%3  H:%4").arg(rect.col).arg(rect.row).arg(rect.width).arg(rect.height);
+            break;
+        case ItemType::RotateRectangle:
+            m_RotateRectangleItem->GetRotateRect(rrect);
+            value = QString("RotateRectangle  X:%1  Y:%2  Phi:%3  W:%4  H:%5").arg(rrect.col).arg(rrect.row).arg(rrect.phi).arg(rrect.lenth1).arg(rrect.lenth2);
+            break;
+        case ItemType::Circle:
+            m_CircleItem->GetCircle(circle);
+            value = QString("Circle  X:%1  Y:%2  R:%3").arg(circle.col).arg(circle.row).arg(circle.radius);
+            break;
+        case ItemType::ConcentricCircle:
+            m_ConcentricCircleItem->GetConcentricCircle(ccircle);
+            value = QString("ConcentricCircle  X:%1  Y:%2  Rmin:%3  Rmax:%4").arg(ccircle.col).arg(ccircle.row).arg(ccircle.small_radius).arg(ccircle.big_radius);
+            break;
+        case ItemType::Polygon:
+            value = QString("Polygon  ");
             break;
         default:
             break;

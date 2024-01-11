@@ -15,6 +15,7 @@ public:
     explicit CGGraphicsLineItemHorizontal();
 
 protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     void wheelEvent(QGraphicsSceneWheelEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

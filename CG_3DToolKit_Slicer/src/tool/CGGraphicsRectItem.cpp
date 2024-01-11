@@ -1,10 +1,29 @@
 #include "CGGraphicsRectItem.h"
 #include <QDebug>
 #include <QCursor>
+#include <QPainter>
 
 CGGraphicsRectItem::CGGraphicsRectItem()
 {
 
+}
+
+void CGGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QGraphicsRectItem::paint(painter, option, widget);
+
+    painter->setBrush(QBrush(QColor(0, 255, 127)));
+    painter->setPen(Qt::NoPen);
+
+    QRectF rect = this->rect();
+    QPointF center1(rect.x(), rect.y());
+    QPointF center2(rect.x() + rect.width(), rect.y());
+    QPointF center3(rect.x(), rect.y() + rect.height());
+    QPointF center4(rect.x() + rect.width(), rect.y() + rect.height());
+    painter->drawEllipse(center1, m_HitRange / 3, m_HitRange / 3);
+    painter->drawEllipse(center2, m_HitRange / 3, m_HitRange / 3);
+    painter->drawEllipse(center3, m_HitRange / 3, m_HitRange / 3);
+    painter->drawEllipse(center4, m_HitRange / 3, m_HitRange / 3);
 }
 
 void CGGraphicsRectItem::wheelEvent(QGraphicsSceneWheelEvent *event)
