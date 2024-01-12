@@ -234,7 +234,7 @@ void CGScriptCppEditor::InitFucntionstTree()
     filter << "ScriptGaussianFilter(img, size)"
            << "ScriptMeanFilter(img, size, size)"
            << "ScriptMedianFilter(img, size, size)"
-           << "ScriptVoxelFilter(img, size)";
+           << "ScriptVoxelFilter(cloud, size)";
     for (int j = 0; j < maths.count(); ++j) {
         QTreeWidgetItem *pFilterChildItem = new QTreeWidgetItem(QStringList() << filter.at(j));
         pFilterItem->addChild(pFilterChildItem);
