@@ -6,6 +6,7 @@
 #include <CGPropertiesRegulator.h>
 #include <CGVTKUtils.h>
 #include <CGBoxWidgetObserver.h>
+#include <CGSphereWidgetObserver.h>
 #include <CGPlaneWidgetObserver.h>
 
 class QLabel;
@@ -26,6 +27,7 @@ class CGShapePolygonItem;
 class CGVTKWidget;
 class vtkActor;
 class vtkBoxWidget;
+class vtkSphereWidget;
 class vtkPlaneWidget;
 class NodeBlock;
 class NodeBlockWidget : public QWidget
@@ -51,6 +53,7 @@ private:
     void InitTableWidget();
     void InitShapeItems();
     void InitBoxWidgetTools();
+    void InitSphereWidgetTools();
     void InitPlaneWidgetTools();
     void ClearImage();
     void ClearPointCloud();
@@ -67,6 +70,7 @@ public slots:
 
     QString ShapeItemValue();
     QString ToolBoxWidgetValue(vtkPlanes *planes);
+    QString ToolSphereWidgetValue(double *sphere);
     QString ToolPlaneWidgetValue(vtkPlane* plane);
 
 private:
@@ -75,6 +79,7 @@ private:
     CGGraphicsView *m_CGGraphicsView;
     CGVTKWidget *m_CGVTKWidget;
     CGVTKUtils::CGBoxWidgetObserver *m_CGBoxWidgeter;
+    CGVTKUtils::CGSphereWidgetObserver *m_CGSphereWidgeter;
     CGVTKUtils::CGPlaneWidgetObserver *m_CGPlaneWidgeter;
 
     cv::Mat _image;
@@ -135,10 +140,12 @@ protected:
     CGShapePolygonItem *m_PolygonItem;
 
     vtkSmartPointer<vtkBoxWidget> m_pBoxWidgetTool;
+    vtkSmartPointer<vtkSphereWidget> m_pSphereWidgetTool;
     vtkSmartPointer<vtkPlaneWidget> m_pPlaneWidgetTool;
 
     bool IsShapeItem = false;
     QString StrToolBoxWidgetValue;
+    QString StrToolSphereWidgetValue;
     QString StrToolPlaneWidgetValue;
 
 private:

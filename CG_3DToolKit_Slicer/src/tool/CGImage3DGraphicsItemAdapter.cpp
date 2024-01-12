@@ -25,6 +25,11 @@ void CGImage3DGraphicsItemAdapter::SendPlane(vtkPlane *plane)
     CGPropertiesRegulator::getInstance()->ShowPropertiesVTKPlane(plane);
 }
 
+void CGImage3DGraphicsItemAdapter::SendSphere(double* sphere)
+{
+    CGPropertiesRegulator::getInstance()->ShowPropertiesVTKSphere(sphere);
+}
+
 void CGImage3DGraphicsItemAdapter::SendPlanes(vtkPlanes *planes)
 {
     m_planes = planes;

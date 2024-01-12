@@ -27,6 +27,7 @@
 #include <vtkInteractorStyleImage.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <vtkBoxWidget.h>
+#include <vtkSphereWidget.h>
 #include <vtkPlaneWidget.h>
 #include "CGShapeLineItem.h"
 #include "CGShapeRectItem.h"
@@ -365,6 +366,12 @@ void NodeBlockWidget::InitConnections()
             m_CurrentShapeType = ItemType::BoundingBox;
             IsShapeItem = true;
     });
+    connect(p3DShapeSphereBtn, &QPushButton::clicked, this, [&]{
+            RemoveShapeItem();
+            InitSphereWidgetTools();
+            m_CurrentShapeType = ItemType::BoundingSphere;
+            IsShapeItem = true;
+    });
     connect(p3DShapePlaneBtn, &QPushButton::clicked, this, [&]{
             RemoveShapeItem();
             InitPlaneWidgetTools();
@@ -440,6 +447,27 @@ void NodeBlockWidget::InitBoxWidgetTools()
     m_pBoxWidgetTool->On();
 }
 
+void NodeBlockWidget::InitSphereWidgetTools()
+{
+    CGVTKUtils::vtkInitOnce(m_pSphereWidgetTool);
+    m_CGSphereWidgeter = new CGVTKUtils::CGSphereWidgetObserver();
+    connect(m_CGSphereWidgeter, &CGVTKUtils::CGSphereWidgetObserver::sphereChanged, this, &NodeBlockWidget::ToolSphereWidgetValue);
+
+    m_pSphereWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGSphereWidgeter);
+    m_pSphereWidgetTool->SetPlaceFactor(1.0);
+    m_pSphereWidgetTool->SetThetaResolution(36);
+    m_pSphereWidgetTool->SetPhiResolution(36);
+    m_pSphereWidgetTool->GetSphereProperty()->SetColor(1, 0, 0.7);
+    m_pSphereWidgetTool->GetSphereProperty()->SetOpacity(0.3);
+    m_pSphereWidgetTool->SetRepresentationToSurface();
+    m_pSphereWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pSphereWidgetTool->SetProp3D(_Actor);
+    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetColor(0, 1, 0);
+    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetOpacity(0.7);
+    m_pSphereWidgetTool->PlaceWidget();
+    m_pSphereWidgetTool->On();
+}
+
 void NodeBlockWidget::ClearImage()
 {
     if (bGraphicsScene)
@@ -483,6 +511,10 @@ void NodeBlockWidget::RemoveShapeItem()
         case ItemType::BoundingBox:
             m_pBoxWidgetTool->Off();
             m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGBoxWidgeter);
+            break;
+        case ItemType::BoundingSphere:
+            m_pSphereWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGSphereWidgeter);
             break;
         case ItemType::Plane:
             m_pPlaneWidgetTool->Off();
@@ -537,6 +569,9 @@ QString NodeBlockWidget::ShapeItemValue()
         case ItemType::BoundingBox:
             value = QString("Box  ").append(StrToolBoxWidgetValue);
             break;
+        case ItemType::BoundingSphere:
+            value = QString("Sphere  ").append(StrToolSphereWidgetValue);
+            break;
         case ItemType::Plane:
             value = QString("Plane  ").append(StrToolPlaneWidgetValue);
             break;
@@ -558,6 +593,15 @@ QString NodeBlockWidget::ToolBoxWidgetValue(vtkPlanes *planes)
     QString value;
     value = QString("Xmin:%1  Xmax:%2  Ymin:%3  Ymax:%4  Zmin:%5  Zmax:%6").arg(Xmin).arg(Xmax).arg(Ymin).arg(Ymax).arg(Zmin).arg(Zmax);
     StrToolBoxWidgetValue = value;
+    return value;
+}
+
+QString NodeBlockWidget::ToolSphereWidgetValue(double *sphere)
+{
+    double X = sphere[0]; double Y = sphere[1]; double Z = sphere[2]; double R = sphere[3];
+    QString value;
+    value = QString("X:%1  Y:%2  Z:%3  Radius:%4").arg(X).arg(Y).arg(Z).arg(R);
+    StrToolSphereWidgetValue = value;
     return value;
 }
 

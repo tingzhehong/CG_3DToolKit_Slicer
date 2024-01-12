@@ -19,6 +19,7 @@ public:
 
 public slots:
     void SendPlane(vtkPlane *plane);
+    void SendSphere(double* sphere);
     void SendPlanes(vtkPlanes *planes);
     vtkPlane* GetPlane() const;
     vtkPlanes* GetPlanes() const;

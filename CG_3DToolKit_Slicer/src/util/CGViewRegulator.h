@@ -7,7 +7,6 @@ class CG2DImageView;
 class CG3DImageView;
 class CGNodeView;
 class CGProfileView;
-class vtkActor;
 
 class CGViewRegulator : public QObject
 {

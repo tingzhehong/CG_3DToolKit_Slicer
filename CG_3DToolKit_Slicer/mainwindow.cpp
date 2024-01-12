@@ -313,6 +313,9 @@ void MainWindow::Create3DTool(const QString toolname)
     case CG3DImageView::ToolType::BoxTool:
         m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::BoxTool;
         break;
+    case CG3DImageView::ToolType::SphereTool:
+        m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::SphereTool;
+        break;
     case CG3DImageView::ToolType::PlaneTool:
         m_pCG3DImageView->m_CurrentToolType = CG3DImageView::ToolType::PlaneTool;
         break;

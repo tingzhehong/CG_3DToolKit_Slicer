@@ -111,6 +111,7 @@ SOURCES += \
     src/vtk/CGPlaneWidgetObserver.cpp \
     src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGPointPickerInteractorStyle.cpp \
+    src/vtk/CGSphereWidgetObserver.cpp \
     src/vtk/CGVTKWidget.cpp \
     src/vtk/CGVTKUtils.cpp \
     src/vtk/CGActorExporter.cpp \
@@ -220,6 +221,7 @@ HEADERS += \
     src/vtk/CGPlaneWidgetObserver.h \
     src/vtk/CGPointPickObserver.h \
     src/vtk/CGPointPickerInteractorStyle.h \
+    src/vtk/CGSphereWidgetObserver.h \
     src/vtk/CGVTKUtils.h \
     src/vtk/CGVTKWidget.h \
     src/vtk/CGActorExporter.h \

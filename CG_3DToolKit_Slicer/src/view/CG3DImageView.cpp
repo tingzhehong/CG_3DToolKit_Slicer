@@ -17,6 +17,7 @@
 #include <vtkAngleWidget.h>
 #include <vtkAngleRepresentation3D.h>
 #include <vtkBoxWidget.h>
+#include <vtkSphereWidget.h>
 #include <vtkPlaneWidget.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
@@ -73,6 +74,10 @@ void CG3DImageView::OnUseTool()
         InitBoxTool();
         break;
 
+    case SphereTool:
+        InitSphereTool();
+        break;
+
     case PlaneTool:
         InitPlaneTool();
         break;
@@ -122,6 +127,11 @@ void CG3DImageView::OnUpdatePoint(float x, float y, float z)
 void CG3DImageView::OnBoxWidgetPlaneChanged(vtkPlanes *planes)
 {
     CGImage3DGraphicsItemAdapter::getInstance()->SendPlanes(planes);
+}
+
+void CG3DImageView::OnSphereWidgetChange(double *sphere)
+{
+    CGImage3DGraphicsItemAdapter::getInstance()->SendSphere(sphere);
 }
 
 void CG3DImageView::OnPlaneWidgetPlaneChanged(vtkPlane *plane)
@@ -687,6 +697,20 @@ void CG3DImageView::InitBoxTool()
     m_pBoxWidgetTool->On();
 }
 
+void CG3DImageView::InitSphereTool()
+{
+    m_CGSphereWidgeter = new CGVTKUtils::CGSphereWidgetObserver();
+    m_pSphereWidgetTool->AddObserver(vtkCommand::EndInteractionEvent, m_CGSphereWidgeter);
+    connect(m_CGSphereWidgeter, &CGVTKUtils::CGSphereWidgetObserver::sphereChanged, this, &CG3DImageView::OnSphereWidgetChange);
+
+    m_pSphereWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
+    m_pSphereWidgetTool->SetProp3D(m_Actor);
+    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetColor(0, 1, 0);
+    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetOpacity(0.7);
+    m_pSphereWidgetTool->PlaceWidget();
+    m_pSphereWidgetTool->On();
+}
+
 void CG3DImageView::InitPlaneTool()
 {
     m_CGPlaneWidgeter = new CGVTKUtils::CGPlaneWidgetObserver();
@@ -861,6 +885,7 @@ void CG3DImageView::InitTools()
     CGVTKUtils::vtkInitOnce(m_pAngleWidgetTool);
     CGVTKUtils::vtkInitOnce(m_pAngleRep);
     CGVTKUtils::vtkInitOnce(m_pBoxWidgetTool);
+    CGVTKUtils::vtkInitOnce(m_pSphereWidgetTool);
     CGVTKUtils::vtkInitOnce(m_pPlaneWidgetTool);
 
     m_pDistanceRep->GetLineProperty()->SetColor(1, 0, 0);
@@ -875,6 +900,13 @@ void CG3DImageView::InitTools()
 
     m_pBoxWidgetTool->SetPlaceFactor(1.0);
     m_pBoxWidgetTool->SetRotationEnabled(0);
+
+    m_pSphereWidgetTool->SetPlaceFactor(1.0);
+    m_pSphereWidgetTool->SetThetaResolution(36);
+    m_pSphereWidgetTool->SetPhiResolution(36);
+    m_pSphereWidgetTool->GetSphereProperty()->SetColor(1, 0, 0.7);
+    m_pSphereWidgetTool->GetSphereProperty()->SetOpacity(0.3);
+    m_pSphereWidgetTool->SetRepresentationToSurface();
 }
 
 void CG3DImageView::InitPointPick()
@@ -944,6 +976,11 @@ void CG3DImageView::RemoveTools()
         case BoxTool:
             m_pBoxWidgetTool->Off();
             m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGBoxWidgeter);
+            break;
+
+        case SphereTool:
+            m_pSphereWidgetTool->Off();
+            m_CGVTKWidget->GetInteractor()->RemoveObserver(m_CGSphereWidgeter);
             break;
 
         case PlaneTool:

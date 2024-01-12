@@ -26,6 +26,7 @@ public:
     void ShowPropertiesRect(QRectF rect);
     void ShowPropertiesAngle(qreal angle);
     void ShowPropertiesVTKPlane(vtkPlane *plane);
+    void ShowPropertiesVTKSphere(double *sphere);
     void ShowPropertiesVTKPlanes(vtkPlanes *planes);
 
 public:

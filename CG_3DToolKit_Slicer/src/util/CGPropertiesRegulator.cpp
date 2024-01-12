@@ -98,6 +98,31 @@ void CGPropertiesRegulator::ShowPropertiesAngle(qreal angle)
     CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
 }
 
+void CGPropertiesRegulator::ShowPropertiesVTKSphere(double *sphere)
+{
+    m_Form1->m_PropertiesTree->clear();
+
+    QTreeWidgetItem *pToolItem = new QTreeWidgetItem(QStringList{tr(u8"工具属性")});
+    QStringList propertiesList;
+    QString X = QString::number(sphere[0]);
+    QString Y = QString::number(sphere[1]);
+    QString Z = QString::number(sphere[2]);
+    QString R = QString::number(sphere[3]);
+    propertiesList.append(tr(u8"SPHERE "));
+    propertiesList.append("X = " + X);
+    propertiesList.append("Y = " + Y);
+    propertiesList.append("Z = " + Z);
+    propertiesList.append("Radius = " + R);
+
+    for (int i = 0; i < propertiesList.size(); ++i) {
+        QTreeWidgetItem *pItem = new QTreeWidgetItem(QStringList() << propertiesList.at(i));
+        pItem->setFlags(pItem->flags() | Qt::ItemFlag::ItemIsEditable);
+        pToolItem->addChild(pItem);
+    }
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->addTopLevelItem(pToolItem);
+    CGPropertiesRegulator::getInstance()->m_Form1->m_PropertiesTree->expandAll();
+}
+
 void CGPropertiesRegulator::ShowPropertiesVTKPlane(vtkPlane *plane)
 {
     m_Form1->m_PropertiesTree->clear();

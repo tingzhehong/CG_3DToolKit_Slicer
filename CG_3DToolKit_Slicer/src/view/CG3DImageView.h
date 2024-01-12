@@ -6,6 +6,7 @@
 #include <CGVTKWidget.h>
 #include <CGPointPickObserver.h>
 #include <CGBoxWidgetObserver.h>
+#include <CGSphereWidgetObserver.h>
 #include <CGPlaneWidgetObserver.h>
 #include <CGImage3DGraphicsItemAdapter.h>
 #include <CGPropertiesRegulator.h>
@@ -17,6 +18,7 @@ class vtkMatrix4x4;
 class vtkDistanceWidget;
 class vtkAngleWidget;
 class vtkBoxWidget;
+class vtkSphereWidget;
 class vtkPlaneWidget;
 class vtkDistanceRepresentation3D;
 class vtkAngleRepresentation3D;
@@ -40,6 +42,7 @@ public slots:
     void OnDelTool();
     void OnUpdatePoint(float x, float y, float z);
     void OnBoxWidgetPlaneChanged(vtkPlanes* planes);
+    void OnSphereWidgetChange(double* sphere);
     void OnPlaneWidgetPlaneChanged(vtkPlane* plane);
 
 public:
@@ -95,6 +98,7 @@ public:
         DistanceTool,
         AngleTool,
         BoxTool,
+        SphereTool,
         PlaneTool
     };
 
@@ -119,6 +123,7 @@ private:
     void InitDistanceTool();
     void InitAngleTool();
     void InitBoxTool();
+    void InitSphereTool();
     void InitPlaneTool();
 
     void HandlePickPointCoordinate(float x, float y, float z);
@@ -135,6 +140,7 @@ public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
     CGVTKUtils::CGBoxWidgetObserver *m_CGBoxWidgeter = nullptr;
+    CGVTKUtils::CGSphereWidgetObserver *m_CGSphereWidgeter = nullptr;
     CGVTKUtils::CGPlaneWidgetObserver *m_CGPlaneWidgeter = nullptr;
 
     vtkSmartPointer<vtkCamera> m_CGVTKCamera;
@@ -165,6 +171,7 @@ private:
     vtkSmartPointer<vtkDistanceWidget> m_pDistanceWidgetTool;
     vtkSmartPointer<vtkAngleWidget> m_pAngleWidgetTool;
     vtkSmartPointer<vtkBoxWidget> m_pBoxWidgetTool;
+    vtkSmartPointer<vtkSphereWidget> m_pSphereWidgetTool;
     vtkSmartPointer<vtkPlaneWidget> m_pPlaneWidgetTool;
 
     vtkSmartPointer<vtkDistanceRepresentation3D> m_pDistanceRep;
