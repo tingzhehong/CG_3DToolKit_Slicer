@@ -7,6 +7,8 @@
 #include <QComboBox>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <QHeaderView>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -20,8 +22,9 @@
 CGScriptCppEditor::CGScriptCppEditor(QWidget *parent): QDialog(parent), m_IOColors(6)
 {
     InitUi();
-    InitConnections();
     InitTableWidget();
+    InitFucntionstTree();
+    InitConnections();
 }
 
 void CGScriptCppEditor::InitUi()
@@ -29,11 +32,15 @@ void CGScriptCppEditor::InitUi()
     setWindowTitle(tr(u8"脚本编辑器"));
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
     setWindowIcon(QIcon(":/res/icon/slicer.png"));
-    resize(800, 600);
+    resize(1080, 600);
 
     m_pTableWidget = new QTableWidget();
     m_pTextEdit = new QTextEdit();
     m_pTextEdit->setLineWrapMode(QTextEdit::NoWrap);
+
+    m_pFucntionsTree = new QTreeWidget(this);
+    m_pFucntionsTree->setHeaderLabel(tr(u8"脚本函数"));
+    m_pFucntionsTree->setFixedWidth(280);
 
     m_Input_1 = new QComboBox();
     m_Input_1->addItems(QStringList() << tr("null") << tr(u8"2D 图像") << tr(u8"3D 点云") << tr(u8"numeric 数值"));
@@ -73,22 +80,27 @@ void CGScriptCppEditor::InitUi()
     pFirstLayout->addWidget(m_pTableWidget);
     pFirstLayout->addLayout(pFirstItemSetLayout);
 
+    QHBoxLayout *pScriptLayout = new QHBoxLayout();
+    pScriptLayout->addWidget(m_pTextEdit);
+    pScriptLayout->addWidget(m_pFucntionsTree);
+
     QHBoxLayout *pSecondScriptSetLayout = new QHBoxLayout();
     pSecondScriptSetLayout->addStretch(2);
     pSecondScriptSetLayout->addWidget(m_pScriptSetBtn);
     pSecondScriptSetLayout->addStretch(1);
     pSecondScriptSetLayout->addWidget(m_pFontSetBtn);
     pSecondScriptSetLayout->addWidget(m_pColorSetBtn);
+    pSecondScriptSetLayout->addSpacing(285);
 
     QVBoxLayout *pSecondLayout = new QVBoxLayout();
-    pSecondLayout->addWidget(m_pTextEdit);
+    pSecondLayout->addLayout(pScriptLayout);
     pSecondLayout->addLayout(pSecondScriptSetLayout);
 
     QGridLayout *pMainLayout = new QGridLayout();
     pMainLayout->addLayout(pFirstLayout, 0, 0);
     pMainLayout->addLayout(pSecondLayout, 0, 1);
-    pMainLayout->setColumnStretch(0, 4);
-    pMainLayout->setColumnStretch(1, 6);
+    pMainLayout->setColumnStretch(0, 3);
+    pMainLayout->setColumnStretch(1, 7);
     setLayout(pMainLayout);
 }
 
@@ -200,6 +212,38 @@ void CGScriptCppEditor::InitTableWidget()
     m_pTableWidget->setCellWidget(0, 1, m_Input_1);  m_pTableWidget->setCellWidget(0, 2, m_Output_1);
     m_pTableWidget->setCellWidget(1, 1, m_Input_2);  m_pTableWidget->setCellWidget(1, 2, m_Output_2);
     m_pTableWidget->setCellWidget(2, 1, m_Input_3);  m_pTableWidget->setCellWidget(2, 2, m_Output_3);
+}
+
+void CGScriptCppEditor::InitFucntionstTree()
+{
+    QTreeWidgetItem *pScriptTopItem = new QTreeWidgetItem(QStringList{tr(u8"函数方法")});
+
+    QTreeWidgetItem *pMathsItem = new QTreeWidgetItem(QStringList{tr(u8"算术")});
+    QStringList maths;
+    maths << "ScriptAdd(a, b)"
+          << "ScriptSub(a, b)"
+          << "ScriptMul(a, b)"
+          << "ScriptDiv(a, b)";
+    for (int i = 0; i < maths.count(); ++i) {
+        QTreeWidgetItem *pMathsChildItem = new QTreeWidgetItem(QStringList() << maths.at(i));
+        pMathsItem->addChild(pMathsChildItem);
+    }
+
+    QTreeWidgetItem *pFilterItem = new QTreeWidgetItem(QStringList{tr(u8"滤波")});
+    QStringList filter;
+    filter << "ScriptGaussianFilter(img, size)"
+           << "ScriptMeanFilter(img, size, size)"
+           << "ScriptMedianFilter(img, size, size)"
+           << "ScriptVoxelFilter(img, size)";
+    for (int j = 0; j < maths.count(); ++j) {
+        QTreeWidgetItem *pFilterChildItem = new QTreeWidgetItem(QStringList() << filter.at(j));
+        pFilterItem->addChild(pFilterChildItem);
+    }
+
+    pScriptTopItem->addChild(pMathsItem);
+    pScriptTopItem->addChild(pFilterItem);
+    m_pFucntionsTree->addTopLevelItem(pScriptTopItem);
+    m_pFucntionsTree->expandItem(pScriptTopItem);
 }
 
 void CGScriptCppEditor::ClearItemPort()

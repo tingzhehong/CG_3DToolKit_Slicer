@@ -10,6 +10,8 @@ class QTextEdit;
 class QPushButton;
 class QComboBox;
 class QTableWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
 class NodeBlock;
 class CGScriptCppEditor : public QDialog
 {
@@ -34,11 +36,13 @@ public slots:
     
 private:
     void InitTableWidget();
+    void InitFucntionstTree();
     void ClearItemPort();
     QColor CheckItemIOColor(QComboBox *combox);
 
 public:
     QTextEdit *m_pTextEdit;
+    QTreeWidget *m_pFucntionsTree;
 
 private:
     NodeBlock *m_pNodeBlock;
