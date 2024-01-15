@@ -234,6 +234,7 @@ void NodeBlockWidget::InitUi()
     p2DShapePolygonBtn->setVisible(false);
     p2DShapeExecuteBtn = new QPushButton(this);
     p2DShapeResetBtn = new QPushButton(this);
+
     p2DShapeLineBtn->setToolTip(tr(u8"直线"));
     p2DShapeRectBtn->setToolTip(tr(u8"矩形"));
     p2DShapeRotatedRectBtn->setToolTip(tr(u8"旋转矩形"));
@@ -250,6 +251,22 @@ void NodeBlockWidget::InitUi()
     p2DShapePolygonBtn->setFixedSize(QSize(50, 50));
     p2DShapeExecuteBtn->setFixedSize(QSize(50, 50));
     p2DShapeResetBtn->setFixedSize(QSize(50, 50));
+    p2DShapeLineBtn->setIcon(QIcon(":/res/icon/ShapeLine.png"));
+    p2DShapeRectBtn->setIcon(QIcon(":/res/icon/ShapeRectangle.png"));
+    p2DShapeRotatedRectBtn->setIcon(QIcon(":/res/icon/ShapeRotateRectangle.png"));
+    p2DShapeCircleBtn->setIcon(QIcon(":/res/icon/ShapeCircle.png"));
+    p2DShapeConcentricCircleBtn->setIcon(QIcon(":/res/icon/ShapeConcentricCircle.png"));
+    p2DShapePolygonBtn->setIcon(QIcon(":/res/icon/ShapePolygon.png"));
+    p2DShapeExecuteBtn->setIcon(QIcon(":/res/icon/ShapeExecute.png"));
+    p2DShapeResetBtn->setIcon(QIcon(":/res/icon/ShapeClear.png"));
+    p2DShapeLineBtn->setIconSize(QSize(30, 30));
+    p2DShapeRectBtn->setIconSize(QSize(30, 30));
+    p2DShapeRotatedRectBtn->setIconSize(QSize(30, 30));
+    p2DShapeCircleBtn->setIconSize(QSize(30, 30));
+    p2DShapeConcentricCircleBtn->setIconSize(QSize(30, 30));
+    p2DShapePolygonBtn->setIconSize(QSize(30, 30));
+    p2DShapeExecuteBtn->setIconSize(QSize(30, 30));
+    p2DShapeResetBtn->setIconSize(QSize(30, 30));
 
     p2DShapeLayout = new QVBoxLayout();
     p2DShapeLayout->addWidget(p2DShapeLineBtn);
@@ -267,6 +284,7 @@ void NodeBlockWidget::InitUi()
     p3DShapePlaneBtn = new QPushButton(this);
     p3DShapeExecuteBtn = new QPushButton(this);
     p3DShapeResetBtn = new QPushButton(this);
+
     p3DShapeBoxBtn->setToolTip(tr(u8"包围盒"));
     p3DShapeSphereBtn->setToolTip(tr(u8"包围球"));
     p3DShapePlaneBtn->setToolTip(tr(u8"平面"));
@@ -277,6 +295,16 @@ void NodeBlockWidget::InitUi()
     p3DShapePlaneBtn->setFixedSize(QSize(50, 50));
     p3DShapeExecuteBtn->setFixedSize(QSize(50, 50));
     p3DShapeResetBtn->setFixedSize(QSize(50, 50));
+    p3DShapeBoxBtn->setIcon(QIcon(":/res/icon/ShapeBoundingBox.png"));
+    p3DShapeSphereBtn->setIcon(QIcon(":/res/icon/ShapeBoundingSphere.png"));
+    p3DShapePlaneBtn->setIcon(QIcon(":/res/icon/ShapePlane.png"));
+    p3DShapeExecuteBtn->setIcon(QIcon(":/res/icon/ShapeExecute.png"));
+    p3DShapeResetBtn->setIcon(QIcon(":/res/icon/ShapeClear.png"));
+    p3DShapeBoxBtn->setIconSize(QSize(30, 30));
+    p3DShapeSphereBtn->setIconSize(QSize(30, 30));
+    p3DShapePlaneBtn->setIconSize(QSize(30, 30));
+    p3DShapeExecuteBtn->setIconSize(QSize(30, 30));
+    p3DShapeResetBtn->setIconSize(QSize(30, 30));
 
     p3DShapeLayout = new QVBoxLayout();
     p3DShapeLayout->addWidget(p3DShapeBoxBtn);

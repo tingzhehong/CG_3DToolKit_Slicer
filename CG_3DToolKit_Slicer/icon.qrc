@@ -41,5 +41,16 @@
         <file>res/icon/LABsmooth.png</file>
         <file>res/icon/LABwire.png</file>
         <file>res/icon/smallRectangleSelect.png</file>
+        <file>res/icon/ShapeBoundingBox.png</file>
+        <file>res/icon/ShapeBoundingSphere.png</file>
+        <file>res/icon/ShapeCircle.png</file>
+        <file>res/icon/ShapeClear.png</file>
+        <file>res/icon/ShapeConcentricCircle.png</file>
+        <file>res/icon/ShapeExecute.png</file>
+        <file>res/icon/ShapeLine.png</file>
+        <file>res/icon/ShapePlane.png</file>
+        <file>res/icon/ShapePolygon.png</file>
+        <file>res/icon/ShapeRectangle.png</file>
+        <file>res/icon/ShapeRotateRectangle.png</file>
     </qresource>
 </RCC>

@@ -18,6 +18,7 @@
 #include <QColor>
 #include <QColorDialog>
 #include <QFontDialog>
+#include <QDebug>
 
 CGScriptCppEditor::CGScriptCppEditor(QWidget *parent): QDialog(parent), m_IOColors(6)
 {
@@ -110,6 +111,8 @@ void CGScriptCppEditor::InitConnections()
     connect(m_pScriptSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnScriptSet);
     connect(m_pFontSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnFontSet);
     connect(m_pColorSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnColorSet);
+
+    connect(m_pFucntionsTree, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int column){m_pTextEdit->insertPlainText(item->text(column) + ";");});
 }
 
 void CGScriptCppEditor::SetCurrentNodeBlock(NodeBlock *nodeblock)
