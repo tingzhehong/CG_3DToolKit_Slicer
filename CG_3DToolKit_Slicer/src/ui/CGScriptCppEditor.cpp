@@ -38,6 +38,7 @@ void CGScriptCppEditor::InitUi()
     m_pTableWidget = new QTableWidget();
     m_pTextEdit = new QTextEdit();
     m_pTextEdit->setLineWrapMode(QTextEdit::NoWrap);
+    m_pTextEdit->setFontPointSize(11);
 
     m_pFucntionsTree = new QTreeWidget(this);
     m_pFucntionsTree->setHeaderLabel(tr(u8"脚本函数"));
@@ -112,7 +113,7 @@ void CGScriptCppEditor::InitConnections()
     connect(m_pFontSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnFontSet);
     connect(m_pColorSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnColorSet);
 
-    connect(m_pFucntionsTree, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int column){m_pTextEdit->insertPlainText(item->text(column) + ";");});
+    connect(m_pFucntionsTree, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int column){m_pTextEdit->insertPlainText("func" +item->text(column) + ";");});
 }
 
 void CGScriptCppEditor::SetCurrentNodeBlock(NodeBlock *nodeblock)
@@ -223,10 +224,10 @@ void CGScriptCppEditor::InitFucntionstTree()
 
     QTreeWidgetItem *pMathsItem = new QTreeWidgetItem(QStringList{tr(u8"算术")});
     QStringList maths;
-    maths << "ScriptAdd(a, b)"
-          << "ScriptSub(a, b)"
-          << "ScriptMul(a, b)"
-          << "ScriptDiv(a, b)";
+    maths << "[\"ScriptAdd\"](a, b)"
+          << "[\"ScriptSub\"](a, b)"
+          << "[\"ScriptMul\"](a, b)"
+          << "[\"ScriptDiv\"](a, b)";
     for (int i = 0; i < maths.count(); ++i) {
         QTreeWidgetItem *pMathsChildItem = new QTreeWidgetItem(QStringList() << maths.at(i));
         pMathsItem->addChild(pMathsChildItem);
@@ -234,10 +235,10 @@ void CGScriptCppEditor::InitFucntionstTree()
 
     QTreeWidgetItem *pFilterItem = new QTreeWidgetItem(QStringList{tr(u8"滤波")});
     QStringList filter;
-    filter << "ScriptGaussianFilter(img, size)"
-           << "ScriptMeanFilter(img, size, size)"
-           << "ScriptMedianFilter(img, size, size)"
-           << "ScriptVoxelFilter(cloud, size)";
+    filter << "[\"ScriptGaussianFilter\"](img, size)"
+           << "[\"ScriptMeanFilter\"](img, size, size)"
+           << "[\"ScriptMedianFilter\"](img, size, size)"
+           << "[\"ScriptVoxelFilter\"](cloud, size)";
     for (int j = 0; j < maths.count(); ++j) {
         QTreeWidgetItem *pFilterChildItem = new QTreeWidgetItem(QStringList() << filter.at(j));
         pFilterItem->addChild(pFilterChildItem);
