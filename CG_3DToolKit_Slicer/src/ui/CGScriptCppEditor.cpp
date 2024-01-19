@@ -38,7 +38,6 @@ void CGScriptCppEditor::InitUi()
     m_pTableWidget = new QTableWidget();
     m_pTextEdit = new QTextEdit();
     m_pTextEdit->setLineWrapMode(QTextEdit::NoWrap);
-    m_pTextEdit->setFontPointSize(11);
 
     m_pFucntionsTree = new QTreeWidget(this);
     m_pFucntionsTree->setHeaderLabel(tr(u8"脚本函数"));
