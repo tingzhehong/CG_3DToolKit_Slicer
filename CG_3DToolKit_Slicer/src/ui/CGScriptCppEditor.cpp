@@ -113,7 +113,7 @@ void CGScriptCppEditor::InitConnections()
     connect(m_pFontSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnFontSet);
     connect(m_pColorSetBtn, &QPushButton::clicked, this, &CGScriptCppEditor::OnColorSet);
 
-    connect(m_pFucntionsTree, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int column){m_pTextEdit->insertPlainText("func" +item->text(column) + ";");});
+    connect(m_pFucntionsTree, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int column){m_pTextEdit->insertPlainText("func" + item->text(column) + ";");});
 }
 
 void CGScriptCppEditor::SetCurrentNodeBlock(NodeBlock *nodeblock)

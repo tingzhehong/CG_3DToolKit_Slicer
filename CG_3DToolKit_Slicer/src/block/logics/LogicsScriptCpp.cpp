@@ -62,6 +62,7 @@ void LogicsScriptCpp::Run()
             output.setProperty(n, val);
     }
 
+    //注册脚本函数
     QScriptValue function = eng.newObject();
     function.setProperty("ScriptAdd", eng.newFunction(ScriptAdd));
     function.setProperty("ScriptSub", eng.newFunction(ScriptSub));
