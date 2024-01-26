@@ -5,7 +5,7 @@
 
  Description
 -------
-CG_ 3DToolKit_ Slicer is a platform that integrates 2D and 3D universal machine vision algorithms.  Programming in the form of process graphics and drag and drop node blocks.  It has the characteristics of being intuitive, simple, and easy to operate.  Making machine vision programming less complex and highly popular among users.  Integrate 2D, 3D display, interaction, contour, algorithm, and other functions.  Develop using C++11 and Qt5.
+CG_ 3DToolKit_ Slicer is a platform that integrates 2D and 3D universal machine vision algorithms.  Programming in the form of flow graphics and drag and drop node blocks.  It has the characteristics of being intuitive, simple, and easy to operate.  Making machine vision programming less complex and highly popular among users.  Integrate 2D, 3D display, interaction, contour, algorithm, and other functions.  Develop using C++11 and Qt5.
 
 Interface Image
 -------
