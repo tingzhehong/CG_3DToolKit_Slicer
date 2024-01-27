@@ -253,6 +253,8 @@ void CGProfileView::TwoPointLineProfileHandle()
                 float x = m_Form2D->m_Line.x1();
                 float y = g_Image.DepthImage.at<float>(i, x);
 
+                if (y == BackGroundValue) continue;
+
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_YPitch, y);
             }
@@ -264,6 +266,8 @@ void CGProfileView::TwoPointLineProfileHandle()
             {
                 float x = m_Form2D->m_Line.x1();
                 float y = g_Image.DepthImage.at<float>(i, x);
+
+                if (y == BackGroundValue) continue;
 
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_YPitch, y);
@@ -292,6 +296,8 @@ void CGProfileView::TwoPointLineProfileHandle()
                 float x = fabs(k * i + b);
                 float y = g_Image.DepthImage.at<float>(x, i);
 
+                if (y == BackGroundValue) continue;
+
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_XPitch, y);
             }
@@ -303,6 +309,8 @@ void CGProfileView::TwoPointLineProfileHandle()
             {
                 float x = fabs(k * i + b);
                 float y = g_Image.DepthImage.at<float>(x, i);
+
+                if (y == BackGroundValue) continue;
 
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_XPitch, y);
@@ -320,6 +328,8 @@ void CGProfileView::TwoPointLineProfileHandle()
                 float x = fabs((i - b) / k);
                 float y = g_Image.DepthImage.at<float>(i, x);
 
+                if (y == BackGroundValue) continue;
+
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_YPitch, y);
             }
@@ -331,6 +341,8 @@ void CGProfileView::TwoPointLineProfileHandle()
             {
                 float x = fabs((i - b) / k);
                 float y = g_Image.DepthImage.at<float>(i, x);
+
+                if (y == BackGroundValue) continue;
 
                 ProfileVec.push_back(y);
                 ProfileSeries->append(i * g_YPitch, y);
@@ -372,6 +384,8 @@ void CGProfileView::CircleProfileHandle()
 
         float V = g_Image.DepthImage.at<float>(Y, X);
 
+        if (V == BackGroundValue) continue;
+
         ProfileVec.push_back(V);
         ProfileSeries->append((x + i * c) * g_XPitch, V);
     }
@@ -392,6 +406,8 @@ void CGProfileView::HorizontalLineProfileHandle()
     {
         float x = m_Form2D->m_Line.y1();
         float y = g_Image.DepthImage.at<float>(x, i);
+
+        if (y == BackGroundValue) continue;
 
         ProfileVec.push_back(y);
         ProfileSeries->append(i * g_XPitch, y);
@@ -415,6 +431,8 @@ void CGProfileView::VerticalLineProfileHandle()
         float x = m_Form2D->m_Line.x1();
         float y = g_Image.DepthImage.at<float>(i, x);
 
+        if (y == BackGroundValue) continue;
+
         ProfileVec.push_back(y);
         ProfileSeries->append(i * g_YPitch, y);
     }
@@ -435,6 +453,8 @@ void CGProfileView::PlotLineProfileHandle()
 
     if (m_Form2D->m_Line.x1() < 0 || m_Form2D->m_Line.x2() < 0 || m_Form2D->m_Line.x1() > g_Image.DepthImage.cols || m_Form2D->m_Line.x2() > g_Image.DepthImage.cols) return;
     if (m_Form2D->m_Line.y1() < 0 || m_Form2D->m_Line.y2() < 0 || m_Form2D->m_Line.y1() > g_Image.DepthImage.rows || m_Form2D->m_Line.y2() > g_Image.DepthImage.rows) return;
+
+    BackGroundValue = DepthImageBackGround(g_Image.DepthImage);
 
     switch (m_Form2D->m_CurrentToolType)
     {
@@ -465,6 +485,8 @@ void CGProfileView::PlotRectProfileHandle()
     if (m_Form2D->m_Rect.x() < 0 || m_Form2D->m_Rect.x() + m_Form2D->m_Rect.width() > g_Image.DepthImage.cols) return;
     if (m_Form2D->m_Rect.y() < 0 || m_Form2D->m_Rect.y() + m_Form2D->m_Rect.height() > g_Image.DepthImage.rows) return;
 
+    BackGroundValue = DepthImageBackGround(g_Image.DepthImage);
+
     switch (m_Form2D->m_CurrentToolType)
     {
     case CGProfileForm2D::ToolType::RectTool:
@@ -483,4 +505,14 @@ void CGProfileView::PlotRectProfileHandle()
 void CGProfileView::PlotArcProfileHandle()
 {
 
+}
+
+float CGProfileView::DepthImageBackGround(cv::Mat &ImageDepth)
+{
+    double dminValue = 0;
+	double dmaxValue = 0;
+	cv::minMaxIdx(ImageDepth, &dminValue, &dmaxValue);
+	float fBackGroundThres = (float)dminValue;
+
+	return fBackGroundThres;
 }

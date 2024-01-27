@@ -59,6 +59,8 @@ private:
     void PlotRectProfileHandle();
     void PlotArcProfileHandle();
 
+    float DepthImageBackGround(cv::Mat &ImageDepth);
+
 public:
     CGProfileForm2D *m_Form2D;
     CGProfileForm3D *m_Form3D;
@@ -76,6 +78,8 @@ private:
     bool bSectionItemVertical = false;
     bool bSectionItemHorizontal = false;
     bool bSectionLineItem = false;
+
+    float BackGroundValue = FLT_MIN;
 };
 
 #endif // CGPROFILEVIEW_H

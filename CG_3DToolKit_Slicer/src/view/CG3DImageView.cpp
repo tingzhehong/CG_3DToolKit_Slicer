@@ -180,7 +180,7 @@ void CG3DImageView::ShowText2D()
     m_TextActor_Z->GetTextProperty()->SetFontSize(18);
     m_TextActor_Z->GetTextProperty()->SetColor(1, 1, 0);
 
-    m_TextActor_Distance->SetPosition(50, 640);
+    m_TextActor_Distance->SetPosition(50, 580);
     m_TextActor_Distance->GetTextProperty()->SetFontSize(18);
     m_TextActor_Distance->GetTextProperty()->SetColor(1, 1, 1);
 
@@ -756,12 +756,24 @@ void CG3DImageView::HandlePickPointDistance(float x, float y, float z)
 
         m_CGVTKWidget->defaultRenderer()->AddActor(m_PickLine);
 
+        float DeltaX = s_PickPointsStack.at(1).x - s_PickPointsStack.at(0).x;
+        float DeltaY = s_PickPointsStack.at(1).y - s_PickPointsStack.at(0).y;
+        float DeltaZ = s_PickPointsStack.at(1).z - s_PickPointsStack.at(0).z;
         float Dist = LineDistance(s_PickPointsStack.at(0).x, s_PickPointsStack.at(0).y, s_PickPointsStack.at(0).z,
                                   s_PickPointsStack.at(1).x, s_PickPointsStack.at(1).y, s_PickPointsStack.at(1).z);
+
+        QString strX = "dX: "; strX.append(QString::asprintf("%.4f\n", DeltaX));
+        QString strY = "dY: "; strY.append(QString::asprintf("%.4f\n", DeltaY));
+        QString strZ = "dZ: "; strZ.append(QString::asprintf("%.4f\n", DeltaZ));
         char chrDist[16];
         sprintf(chrDist, "%.4f", Dist);
+
         std::string strDist;
-        strDist = "D: "; strDist.append(chrDist);
+        strDist.append(strX.toStdString().c_str());
+        strDist.append(strY.toStdString().c_str());
+        strDist.append(strZ.toStdString().c_str());
+        strDist.append("Distance: ");
+        strDist.append(chrDist);
         m_TextActor_Distance->SetInput(strDist.c_str());
 
         s_PickPointsStack.clear();
