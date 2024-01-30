@@ -49,6 +49,8 @@ CGChartView::CGChartView(QWidget *parent): QChartView(parent)
     Line2H->setFlag(QGraphicsItem::ItemIsMovable, true);
     Line2H->setFlag(QGraphicsItem::ItemIsFocusable, true);
     Line2H->setPen(QPen(Qt::red, 1, Qt::DashLine));
+
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 }
 
 void CGChartView::wheelEvent(QWheelEvent *event)

@@ -33,7 +33,7 @@ void CGDepthImageDialog::InitUi()
     m_yPitchLE->setFixedSize(QSize(80, 20));
     m_UpLimitLE = new QLineEdit("99", this);
     m_UpLimitLE->setFixedSize(QSize(80, 20));
-    m_DownLimitLE = new QLineEdit("-99", this);
+    m_DownLimitLE = new QLineEdit("-10", this);
     m_DownLimitLE->setFixedSize(QSize(80, 20));
 
     m_OKBtn = new QPushButton(tr(u8"确定"), this);
