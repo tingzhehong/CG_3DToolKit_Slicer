@@ -459,6 +459,8 @@ void MainWindow::dropEvent(QDropEvent *event)
             m_pCG3DImageView->LoadPLY(filename);
         if (Info.suffix().toLower() == "stl")
             m_pCG3DImageView->LoadSTL(filename);
+        if (Info.suffix().toLower() == "stp" || Info.suffix().toLower() == "step")
+            m_pCG3DImageView->LoadSTP(filename);
         if (Info.suffix().toLower() == "obj")
             m_pCG3DImageView->LoadOBJ(filename);
 
@@ -652,7 +654,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp;; *.step");
 
     if (FileName.isEmpty())
     {
@@ -677,6 +679,8 @@ void MainWindow::on_action_open_PointCloud_triggered()
             m_pCG3DImageView->LoadPLY(filename);
         if (Info.suffix().toLower() == "stl")
             m_pCG3DImageView->LoadSTL(filename);
+        if (Info.suffix().toLower() == "stp" || Info.suffix().toLower() == "step")
+            m_pCG3DImageView->LoadSTP(filename);
         if (Info.suffix().toLower() == "obj")
             m_pCG3DImageView->LoadOBJ(filename);
 

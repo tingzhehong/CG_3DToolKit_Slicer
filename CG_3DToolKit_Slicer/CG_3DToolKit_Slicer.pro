@@ -16,6 +16,7 @@ SOURCES += \
     src/alg/CGCSV.cpp \
     src/alg/CGImage.cpp \
     src/alg/CGImageFormatConvert.cpp \
+    src/alg/CGModeling.cpp \
     src/alg/CGPointCloud.cpp \
     src/block/NodeBlock.cpp \
     src/block/NodeBlockFactory.cpp \
@@ -124,6 +125,7 @@ HEADERS += \
     src/alg/CGCSV.h \
     src/alg/CGImage.h \
     src/alg/CGImageFormatConvert.h \
+    src/alg/CGModeling.h \
     src/alg/CGPointCloud.h \
     src/block/NodeBlock.h \
     src/block/NodeBlockFactory.h \
@@ -255,6 +257,9 @@ INCLUDEPATH += \
 RESOURCES += \
     icon.qrc \
     qss.qrc
+
+# OCCT
+include($$PWD\src\occ\occt.pri)
 
 # OpenCV
 include($$PWD\src\ocv\opencv.pri)

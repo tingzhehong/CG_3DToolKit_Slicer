@@ -12,6 +12,7 @@
 #include <CGPCLHeader.h>
 #include <CGOCVHeader.h>
 #include <CGPointCloud.h>
+#include <CGModeling.h>
 #include <vtkDistanceWidget.h>
 #include <vtkDistanceRepresentation3D.h>
 #include <vtkAngleWidget.h>
@@ -345,6 +346,20 @@ void CG3DImageView::LoadSTL(const std::string filename)
     //!qDebug() << "LoadSTL " << QString::fromStdString(filename);
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     CG::LoadSTLFile(filename, actor);
+
+    m_Actor = actor;
+    CreatCubeAxes();
+    CreatXYGrids(actor->GetBounds());
+    m_CGVTKWidget->addActor3D(actor, QColor(25, 50, 75));
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::LoadSTP(const std::string filename)
+{
+    //!qDebug() << "LoadSTP " << QString::fromStdString(filename);
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    CG::LoadSTPFile(filename, actor);
 
     m_Actor = actor;
     CreatCubeAxes();
