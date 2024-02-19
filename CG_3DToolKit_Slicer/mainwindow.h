@@ -138,6 +138,7 @@ private:
 
     QFont font;
     QPalette pe;
+    QString dirPath;
 
 private:
     Ui::MainWindow *ui;

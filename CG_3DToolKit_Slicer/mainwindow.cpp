@@ -595,7 +595,7 @@ void MainWindow::on_action_exit_triggered()
 
 void MainWindow::on_action_open_Image_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开图像文件"), ".", "*.bmp *.png *.jpg *.jpeg *.tif *.tiff");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开图像文件"), dirPath, "*.bmp *.png *.jpg *.jpeg *.tif *.tiff");
 
     if (FileName.isEmpty())
     {
@@ -604,6 +604,7 @@ void MainWindow::on_action_open_Image_triggered()
     else
     {
         QFileInfo Info(FileName);
+        dirPath = Info.path();
         //中文路径
         QTextCodec *code = QTextCodec::codecForName("GB2312");
         std::string filename = code->fromUnicode(FileName).data();
@@ -651,7 +652,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), ".", "*.pcd *.ply *.csv *.txt *.stl *.obj");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp");
 
     if (FileName.isEmpty())
     {
@@ -660,6 +661,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
     else
     {
         QFileInfo Info(FileName);
+        dirPath = Info.path();
         //中文路径
         QTextCodec *code = QTextCodec::codecForName("GB2312");
         std::string filename = code->fromUnicode(FileName).data();
@@ -706,7 +708,7 @@ void MainWindow::on_action_open_PointCloud_triggered()
 
 void MainWindow::on_action_save_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), ".", "*.pcd;;*.stl");
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存点云文件"), dirPath, "*.pcd;;*.stl");
 
     if (FileName.isEmpty())
     {
@@ -715,6 +717,7 @@ void MainWindow::on_action_save_PointCloud_triggered()
     else
     {
         QFileInfo file(FileName);
+        dirPath = file.path();
         const QString ext = file.suffix().toLower();
 
         if (ext == "pcd")
@@ -1034,7 +1037,7 @@ void MainWindow::on_action_GlobalZoom_triggered()
 
 void MainWindow::on_action_SnapShot_triggered()
 {
-    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存快照图片"), ".", "png(*.png);;jpg(*.jpg);;bmp(*.bmp)");
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存快照图片"), dirPath, "png(*.png);;jpg(*.jpg);;bmp(*.bmp)");
 
     if (FileName.isEmpty())
     {
@@ -1043,6 +1046,7 @@ void MainWindow::on_action_SnapShot_triggered()
     else
     {
         QFileInfo file(FileName);
+        dirPath = file.path();
         const QString ext = file.suffix().toLower();
         QImage image = CGVTKUtils::vtkImageDataToQImage(m_pCG3DImageView->m_CGVTKWidget->cachedImage());
         image.save(FileName, ext.toUtf8().data());
@@ -1051,7 +1055,7 @@ void MainWindow::on_action_SnapShot_triggered()
 
 void MainWindow::on_action_save_Flow_triggered()
 {
-    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存流程文件"), ".", "*.flow");
+    QString FileName = QFileDialog::getSaveFileName(this, tr(u8"保存流程文件"), dirPath, "*.flow");
 
     if (FileName.isEmpty())
     {
@@ -1074,8 +1078,10 @@ void MainWindow::on_action_save_Flow_triggered()
 
 void MainWindow::on_action_open_Flow_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开流程文件"), ".", "*.flow");
-
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开流程文件"), dirPath, "*.flow");
+    QFileInfo Info(FileName);
+    dirPath = Info.path();
+    
     if (FileName.isEmpty())
     {
         QMessageBox::information(this, tr(u8"信息"), tr(u8"请选择流程文件！"));
