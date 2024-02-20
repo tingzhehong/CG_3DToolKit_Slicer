@@ -31,6 +31,9 @@ The 3rd party library:
 Qt5 
 >\>=5.12.12
 
+OpenCASCADE
+>\>=7.3.0
+
 OpenCV
 >\>=3.4.1
 

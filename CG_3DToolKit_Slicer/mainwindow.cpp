@@ -654,7 +654,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp;; *.step");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp *.step");
 
     if (FileName.isEmpty())
     {
