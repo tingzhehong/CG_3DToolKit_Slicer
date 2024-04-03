@@ -67,10 +67,10 @@ void LoadSTPFile(const string filename, vtkActor *actor)
     aReader_Step.ReadFile(STEPfile); //读取STEP文件
     aReader_Step.PrintCheckLoad(Standard_False, IFSelect_ItemsByEntity); //检查文件加载状态
 
-    Standard_Integer NbRoots = aReader_Step.NbRootsForTransfer();// 获取可转移根的数量
-    Standard_Integer num = aReader_Step.TransferRoots();//翻译所有可转换的根，并返回//成功翻译的次数
+    Standard_Integer NbRoots = aReader_Step.NbRootsForTransfer(); // 获取可转移根的数量
+    Standard_Integer num = aReader_Step.TransferRoots(); //翻译所有可转换的根，并返回//成功翻译的次数
 
-    TopoDS_Shape aShape = aReader_Step.OneShape();//读取到TopoDS_Shape结构中
+    TopoDS_Shape aShape = aReader_Step.OneShape(); //读取到TopoDS_Shape结构中
 
     //获取模型顶点
     std::vector<gp_Pnt> aVertexArray;

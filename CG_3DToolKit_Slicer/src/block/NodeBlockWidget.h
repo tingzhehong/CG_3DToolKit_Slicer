@@ -67,6 +67,7 @@ signals:
 public slots:
     void OnTableWidgetItemChanged(QTableWidgetItem *current);
     void OnSendAlgorithmArguments();
+    void OnSetAlgorithmArguments(const QString value);
 
     QString ShapeItemValue();
     QString ToolBoxWidgetValue(vtkPlanes *planes);

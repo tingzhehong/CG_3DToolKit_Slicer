@@ -606,6 +606,7 @@ QString NodeBlockWidget::ShapeItemValue()
         default:
             break;
         }
+        OnSetAlgorithmArguments(value);
     }
     return value;
 }
@@ -716,5 +717,142 @@ void NodeBlockWidget::OnSendAlgorithmArguments()
     for (auto it = m_args.begin(); it != m_args.end(); ++it)
     {
         m_block->m_NodeItem->m_Parameters[it->ARG] = it->VALUE;
+    }
+}
+
+void NodeBlockWidget::OnSetAlgorithmArguments(const QString value)
+{
+    QStringList strList = value.split(QRegExp("  "));
+    QStringList strListValue;
+    for (int i = 1; i < strList.size(); ++i)
+    {
+        QString strCell = strList.at(i);
+        QStringList strValue = strCell.split(QRegExp(":")); 
+        strListValue << strValue.at(1);
+    }
+    //qDebug() << strListValue;
+
+
+    switch (m_CurrentShapeType)
+    {
+        case ItemType::Line:
+            for (int i = 1; i < m_args.size(); i++)
+            {
+                QString arg = m_ArgumentsTable->item(i, 1)->text();
+                //qDebug() << arg;
+                if (arg == NULL) continue;
+                if (arg.contains("X1")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+                if (arg.contains("Y1")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+                if (arg.contains("X2")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+                if (arg.contains("Y2")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+            }
+        break;
+
+        case ItemType::Rectangle:
+            for (int i = 0; i < m_args.size(); i++)
+            {
+                QString arg = m_ArgumentsTable->item(i, 1)->text();
+                //qDebug() << arg;
+                if (arg == NULL) continue;
+                if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+                if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+                if (arg.contains("Width")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+                if (arg.contains("Height")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+            }
+        break;
+
+        case ItemType::RotateRectangle:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("Phi")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+            if (arg.contains("Width")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+            if (arg.contains("Height")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(4)); }
+        }
+        break;
+
+        case ItemType::Circle:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("Radius")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+        }
+        break;
+
+        case ItemType::ConcentricCircle:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("Rmin")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+            if (arg.contains("Rmax")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+        }
+        break;
+
+        case ItemType::Polygon:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+        }
+        break;
+
+        case ItemType::BoundingBox:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("Xmin")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("Xmax")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("Ymin")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+            if (arg.contains("Ymax")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+            if (arg.contains("Zmin")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(4)); }
+            if (arg.contains("Zmax")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(5)); }
+        }
+        break;
+
+        case ItemType::BoundingSphere:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("Z")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+            if (arg.contains("R")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+        }
+        break;
+
+        case ItemType::Plane:
+        for (int i = 0; i < m_args.size(); i++)
+        {
+            QString arg = m_ArgumentsTable->item(i, 1)->text();
+            //qDebug() << arg;
+            if (arg == NULL) continue;
+            if (arg.contains("A")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(0)); }
+            if (arg.contains("B")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(1)); }
+            if (arg.contains("C")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(2)); }
+            if (arg.contains("X")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(3)); }
+            if (arg.contains("Y")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(4)); }
+            if (arg.contains("Z")) { m_ArgumentsTable->item(i, 2)->setText(strListValue.at(5)); }
+        }
+        break;
+
+        default:
+        break;
     }
 }
