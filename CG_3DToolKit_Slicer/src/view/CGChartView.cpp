@@ -24,7 +24,7 @@ CGChartView::CGChartView(QWidget *parent): QChartView(parent)
     LineH->setFlag(QGraphicsItem::ItemIsSelectable, true);
     LineH->setFlag(QGraphicsItem::ItemIsMovable, true);
     LineH->setFlag(QGraphicsItem::ItemIsFocusable, true);
-    LineH->setPen(QPen(Qt::blue, 2, Qt::DashLine));
+    LineH->setPen(QPen(Qt::gray, 2, Qt::DashLine));
 
     Line1V = new QGraphicsLineItem();
     Line1V->setFlag(QGraphicsItem::ItemIsSelectable, true);
