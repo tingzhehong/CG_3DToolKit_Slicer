@@ -23,7 +23,7 @@ Interface Image
 ![image6](CG_3DToolKit_Slicer/src/doc/3.png)
 * Script edit
 ![image7](CG_3DToolKit_Slicer/src/doc/7.png)
-* CAD Modleing
+* CAD modleing
 ![image8](CG_3DToolKit_Slicer/src/doc/8.png)
 
 Depend
