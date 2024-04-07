@@ -21,8 +21,10 @@ Interface Image
 ![image5](CG_3DToolKit_Slicer/src/doc/2.png)
 * Profile chart
 ![image6](CG_3DToolKit_Slicer/src/doc/3.png)
-* Node block edit
+* Script edit
 ![image7](CG_3DToolKit_Slicer/src/doc/7.png)
+* CAD Modleing
+![image7](CG_3DToolKit_Slicer/src/doc/8.png)
 
 Depend
 -------
