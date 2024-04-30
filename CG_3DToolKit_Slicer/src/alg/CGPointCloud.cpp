@@ -794,4 +794,111 @@ void LoadOBJFile(const string filename, vtkActor *actor)
     g_PolyData = polydata;
 }
 
+unsigned char FloatToChar(float value)
+{
+    int intValue = std::floor(value * 255.0f + 0.5f);
+
+    if (intValue < 0) intValue = 0;
+    if (intValue > 255) intValue = 255;
+
+    return static_cast<unsigned char>(intValue);
+}
+
+void VTKMeshElevation(vtkActor *actor)
+{
+    vtkSmartPointer<vtkMapper> mapper = actor->GetMapper();
+    vtkPolyDataMapper* polyDataMapper = vtkPolyDataMapper::SafeDownCast(mapper);
+
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData = polyDataMapper->GetInput();
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    points = polyData->GetPoints();
+
+    vtkIdType num = points->GetNumberOfPoints();
+    vtkSmartPointer<vtkUnsignedCharArray> colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+
+    double bounds[6];
+    actor->GetBounds(bounds);
+
+    int   indexcolor = 0;
+    float ramp = (bounds[5] - bounds[4]) / 50;
+
+    for (vtkIdType i = 0; i < num; ++i)
+    {
+        double *point = points->GetPoint(i);
+        indexcolor = ceil((point[2] - bounds[4]) / ramp);
+        if (indexcolor < 1) { indexcolor = 1; }
+        if (indexcolor > 50) { indexcolor = 50; }
+
+        float r = colorLUT[50 - indexcolor].R;
+        float g = colorLUT[50 - indexcolor].G;
+        float b = colorLUT[50 - indexcolor].B;
+
+        unsigned char color[] = { FloatToChar(r), FloatToChar(g), FloatToChar(b) };
+        colors->InsertNextTypedTuple(color);
+    }
+    polyData->GetPointData()->SetScalars(colors);
+}
+
+void VTKMeshDepth(vtkActor *actor)
+{
+    vtkSmartPointer<vtkMapper> mapper = actor->GetMapper();
+    vtkPolyDataMapper* polyDataMapper = vtkPolyDataMapper::SafeDownCast(mapper);
+
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData = polyDataMapper->GetInput();
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    points = polyData->GetPoints();
+
+    vtkIdType num = points->GetNumberOfPoints();
+    vtkSmartPointer<vtkUnsignedCharArray> colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+
+    double bounds[6];
+    actor->GetBounds(bounds);
+
+    int   indexcolor = 0;
+    float ramp = (bounds[5] - bounds[4]) / 255;
+
+    for (vtkIdType i = 0; i < num; ++i)
+    {
+        double *point = points->GetPoint(i);
+        indexcolor = ceil((point[2] - bounds[4]) / ramp);
+        if (indexcolor < 0) { indexcolor = 0; }
+        if (indexcolor > 255) { indexcolor = 255; }
+
+        float gray = (float)indexcolor / 255;
+
+        unsigned char color[] = { FloatToChar(gray), FloatToChar(gray), FloatToChar(gray) };
+        colors->InsertNextTypedTuple(color);
+    }
+    polyData->GetPointData()->SetScalars(colors);
+}
+
+void VTKMeshIntensity(vtkActor *actor)
+{
+    vtkSmartPointer<vtkMapper> mapper = actor->GetMapper();
+    vtkPolyDataMapper* polyDataMapper = vtkPolyDataMapper::SafeDownCast(mapper);
+
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData = polyDataMapper->GetInput();
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    points = polyData->GetPoints();
+
+    vtkIdType num = points->GetNumberOfPoints();
+    vtkSmartPointer<vtkUnsignedCharArray> colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+
+    for (vtkIdType i = 0; i < num; ++i)
+    {
+        unsigned char color[] = { FloatToChar(1), FloatToChar(1), FloatToChar(1) };
+        colors->InsertNextTypedTuple(color);
+    }
+    polyData->GetPointData()->SetScalars(colors);
+}
+
 }

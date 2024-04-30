@@ -769,7 +769,8 @@ void MainWindow::on_action_Elevation_triggered()
 {
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
-    CG::VTKPointCloudElevation(g_PointCloud, actor);
+    if (m_pCG3DImageView->HasMeshStructure(actor)) CG::VTKMeshElevation(actor);
+    else CG::VTKPointCloudElevation(g_PointCloud, actor);
     m_pCG3DImageView->CreatCubeAxes();
     m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();
@@ -779,7 +780,8 @@ void MainWindow::on_action_Depth_triggered()
 {
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
-    CG::VTKPointCloudGray(g_PointCloud, actor);
+    if (m_pCG3DImageView->HasMeshStructure(actor)) CG::VTKMeshDepth(actor);
+    else CG::VTKPointCloudGray(g_PointCloud, actor);
     m_pCG3DImageView->CreatCubeAxes();
     m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();
@@ -789,7 +791,8 @@ void MainWindow::on_action_Intensity_triggered()
 {
     if (m_pCG3DImageView->m_CGVTKWidget->actors3d().isEmpty()) return;
     auto actor = m_pCG3DImageView->m_CGVTKWidget->actors3d().back();
-    CG::VTKPointCloudIntensity(g_PointCloud, actor);
+    if (m_pCG3DImageView->HasMeshStructure(actor)) CG::VTKMeshIntensity(actor);
+    else CG::VTKPointCloudIntensity(g_PointCloud, actor);
     m_pCG3DImageView->CreatCubeAxes();
     m_pCG3DImageView->CreatXYGrids(actor->GetBounds());
     m_pCG3DImageView->m_CGVTKWidget->update();

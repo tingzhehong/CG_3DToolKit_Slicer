@@ -38,7 +38,12 @@ void VTKPointCloudElevation(PointCloudT::Ptr cloud, vtkActor *actor);
 void VTKPointCloudGray(PointCloudT::Ptr cloud, vtkActor *actor);
 void VTKPointCloudIntensity(PointCloudT::Ptr cloud, vtkActor *actor);
 
+void VTKMeshElevation(vtkActor *actor);
+void VTKMeshDepth(vtkActor *actor);
+void VTKMeshIntensity(vtkActor *actor);
+
 bool IsOrderPointCloud();
+unsigned char FloatToChar(float value);
 
 }
 
