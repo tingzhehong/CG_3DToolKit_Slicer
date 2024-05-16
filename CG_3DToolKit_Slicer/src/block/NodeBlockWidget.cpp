@@ -96,9 +96,9 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
         ClearPointCloud();
         vtkSmartPointer<vtkImageData> _data = vtkSmartPointer<vtkImageData>::New();
         CGVTKUtils::qImageToVtkImage(_Image, _data);
-        vtkSmartPointer<vtkImageActor> _actor = vtkSmartPointer<vtkImageActor>::New();
-        _actor->SetInputData(_data);
-        m_CGVTKWidget->addActor(_actor, QColor(25, 50, 75));
+        _Actor = vtkSmartPointer<vtkImageActor>::New();
+        _Actor->SetInputData(_data);
+        m_CGVTKWidget->addActor(_Actor, QColor(25, 50, 75));
 
         vtkSmartPointer<vtkInteractorStyleImage> style = vtkSmartPointer<vtkInteractorStyleImage>::New();
         style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());
@@ -144,10 +144,9 @@ void NodeBlockWidget::LoadAlgorithmShowData(CG_SHOWDATA &data)
             return;
 
         ClearPointCloud();
-        vtkSmartPointer<vtkActor> _actor = vtkSmartPointer<vtkActor>::New();
-        PointCloud2VTKActor(_cloud, _actor);
-        m_CGVTKWidget->addActor(_actor, QColor(25, 50, 75));
-        _Actor = _actor;
+        _Actor = vtkSmartPointer<vtkActor>::New();
+        PointCloud2VTKActor(_cloud, _Actor);
+        m_CGVTKWidget->addActor(_Actor, QColor(25, 50, 75));
 
         vtkSmartPointer<vtkInteractorStyleTrackballCamera> style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
         style->SetDefaultRenderer(m_CGVTKWidget->defaultRenderer());

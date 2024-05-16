@@ -8,7 +8,7 @@ using namespace std;
 namespace alg
 {
 
-void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_icp)
+void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_icp, const int iterations)
 {
     std::cout << "ICP registration..." << endl;
     std::cout << "Loaded Size: " << cloud_source->size() << " data points from source" << std::endl;
@@ -17,7 +17,7 @@ void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointClou
     pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB> icp;
     icp.setInputSource(cloud_source);
     icp.setInputTarget(cloud_target);
-    icp.setMaximumIterations(100);
+    icp.setMaximumIterations(iterations);
     icp.align(*cloud_result);
 
     M_icp = icp.getFinalTransformation();
@@ -25,7 +25,7 @@ void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointClou
     std::cout << M_icp << std::endl;
 }
 
-void NDT(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_ndt)
+void NDT(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_ndt, const int iterations)
 {
     std::cout << "NDT registration..." << endl;
     std::cout << "Loaded Size: " << cloud_source->size() << " data points from source" << std::endl;
@@ -37,7 +37,7 @@ void NDT(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointClou
     ndt.setResolution(1.0);
     ndt.setInputSource(cloud_source);
     ndt.setInputTarget(cloud_target);
-    ndt.setMaximumIterations(100);
+    ndt.setMaximumIterations(iterations);
     ndt.align(*cloud_result);
 
     M_ndt = ndt.getFinalTransformation();

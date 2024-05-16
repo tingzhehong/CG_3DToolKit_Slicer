@@ -16,7 +16,7 @@ namespace alg
     * @return
     * @author
     **/
-    void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_icp);
+    void ICP(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_icp, const int iterations);
 
     /**
     * @brief        Normal Distributions Transform -- NDT
@@ -25,7 +25,7 @@ namespace alg
     * @return
     * @author
     **/
-    void NDT(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_ndt);
+    void NDT(PointCloudT::Ptr cloud_source, PointCloudT::Ptr cloud_target, PointCloudT::Ptr cloud_result, Eigen::Matrix4f &M_ndt, const int iterations);
 }
 
 #endif // ALGORITHMFUCTION_H

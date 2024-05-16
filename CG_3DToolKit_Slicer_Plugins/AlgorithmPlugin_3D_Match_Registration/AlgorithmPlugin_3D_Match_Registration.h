@@ -41,6 +41,9 @@ private:
     PointCloudT::Ptr _cloudResult;
     QJsonObject _outJson;
     bool _computed;
+
+    int _iterations;
+    CG_ARGUMENT _iterationsArg;
 };
 
 #endif // ALGORITHMPLUGIN_3D_Match_Registration_H

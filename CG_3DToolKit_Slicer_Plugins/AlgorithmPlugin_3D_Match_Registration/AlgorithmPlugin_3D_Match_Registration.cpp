@@ -28,6 +28,10 @@ AlgorithmPlugin_3D_Match_Registration::AlgorithmPlugin_3D_Match_Registration(Alg
     m_NodeBlock.Input << in_0 << in_1;
     m_NodeBlock.Output << out_0 << out_1;
 
+    _iterationsArg.ARG = tr(u8"Maximum Iterations");
+    _iterationsArg.VALUE = 100;
+    _iterations = 100;
+
     _cloudSource.reset(new PointCloudT);
     _cloudTarget.reset(new PointCloudT);
     _cloudResult.reset(new PointCloudT);
@@ -87,23 +91,25 @@ QVector<QVariant> AlgorithmPlugin_3D_Match_Registration::GetAlgorithmOutputData(
 void AlgorithmPlugin_3D_Match_Registration::SetAlgorithmArguments(QVector<CG_ARGUMENT> &args)
 {
     int num = args.size();
-    if (num != 0) {
+    if (num != 1) {
         qDebug() << "Algorithm arguments overflow.";
         emit SignalMessage("Algorithm arguments overflow.");
         return;
     }
 
+    _iterationsArg = args.at(0);
+    _iterations = _iterationsArg.VALUE;
     _computed = false;
 }
 
 QVector<CG_ARGUMENT> AlgorithmPlugin_3D_Match_Registration::GetAlgorithmArguments()
 {
-    CG_ARGUMENT arg;
-    arg.ARG = "Maximum Iterations";
-    arg.VALUE= 100;
+    //CG_ARGUMENT arg;
+    //arg.ARG = "Maximum Iterations";
+    //arg.VALUE= 100;
 
     QVector<CG_ARGUMENT> args;
-    args << arg;
+    args << _iterationsArg;
 
     return args;
 }
@@ -127,7 +133,7 @@ CG_SHOWDATA AlgorithmPlugin_3D_Match_Registration::GetAlgorithmShowData()
 void AlgorithmPlugin_3D_Match_Registration::Compute()
 {
     Eigen::Matrix4f M = Eigen::Matrix4f::Identity();
-    alg::ICP(_cloudSource, _cloudTarget, _cloudResult, M);
+    alg::ICP(_cloudSource, _cloudTarget, _cloudResult, M, _iterations);
 
     QJsonObject json;
     json["Matrix 0"] = QString::number(M(0, 0), 'f', 6) + ", " + QString::number(M(0, 1), 'f', 6) + ", " + QString::number(M(0, 2), 'f', 6) + ", " + QString::number(M(0, 3), 'f', 6);
