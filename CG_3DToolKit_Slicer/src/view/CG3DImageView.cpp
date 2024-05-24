@@ -706,6 +706,8 @@ void CG3DImageView::InitBoxTool()
 
     m_pBoxWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
     m_pBoxWidgetTool->SetProp3D(m_Actor);
+    m_pBoxWidgetTool->GetFaceProperty()->SetColor(0, 1, 0);
+    m_pBoxWidgetTool->GetFaceProperty()->SetOpacity(0.7);
     m_pBoxWidgetTool->GetSelectedFaceProperty()->SetColor(1, 0, 1);
     m_pBoxWidgetTool->GetSelectedFaceProperty()->SetOpacity(0.7);
     m_pBoxWidgetTool->PlaceWidget();
@@ -720,7 +722,7 @@ void CG3DImageView::InitSphereTool()
 
     m_pSphereWidgetTool->SetInteractor(m_CGVTKWidget->GetInteractor());
     m_pSphereWidgetTool->SetProp3D(m_Actor);
-    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetColor(0, 1, 0);
+    m_pSphereWidgetTool->GetSelectedSphereProperty()->SetColor(1, 0, 0.7);
     m_pSphereWidgetTool->GetSelectedSphereProperty()->SetOpacity(0.7);
     m_pSphereWidgetTool->PlaceWidget();
     m_pSphereWidgetTool->On();
@@ -734,8 +736,10 @@ void CG3DImageView::InitPlaneTool()
 
     m_pPlaneWidgetTool->SetInteractor((m_CGVTKWidget->GetInteractor()));
     m_pPlaneWidgetTool->SetProp3D(m_Actor);
-    m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(1, 0, 1);
+    m_pPlaneWidgetTool->GetPlaneProperty()->SetColor(0, 1, 0);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetOpacity(0.7);
+    m_pPlaneWidgetTool->GetSelectedPlaneProperty()->SetColor(1, 0, 0.7);
+    m_pPlaneWidgetTool->GetSelectedPlaneProperty()->SetOpacity(0.7);
     m_pPlaneWidgetTool->GetPlaneProperty()->SetLineWidth(3);
     m_pPlaneWidgetTool->SetRepresentationToSurface();
     m_pPlaneWidgetTool->NormalToZAxisOn();
@@ -931,8 +935,8 @@ void CG3DImageView::InitTools()
     m_pSphereWidgetTool->SetPlaceFactor(1.0);
     m_pSphereWidgetTool->SetThetaResolution(36);
     m_pSphereWidgetTool->SetPhiResolution(36);
-    m_pSphereWidgetTool->GetSphereProperty()->SetColor(1, 0, 0.7);
-    m_pSphereWidgetTool->GetSphereProperty()->SetOpacity(0.3);
+    m_pSphereWidgetTool->GetSphereProperty()->SetColor(0, 1, 0);
+    m_pSphereWidgetTool->GetSphereProperty()->SetOpacity(0.7);
     m_pSphereWidgetTool->SetRepresentationToSurface();
 }
 
