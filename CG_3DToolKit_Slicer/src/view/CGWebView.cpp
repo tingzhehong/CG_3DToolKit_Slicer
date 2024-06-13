@@ -1,10 +1,14 @@
 ﻿#include "CGWebView.h"
+#include "Windows.h"
+#include <QWindow>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QIcon>
 #include <QDebug>
+#include <QProcess>
+#include <QThread>
 
 
 CGWebView::CGWebView(QWidget *parent) : CGBaseWidget(parent), m_pBrowser(new QWidget)
@@ -23,7 +27,23 @@ CGWebView::~CGWebView()
 
 void CGWebView::InitUi()
 {
-    m_pBrowser->setStyleSheet("background-color:rgb(99, 99, 99)");
+	m_pBrowser->setStyleSheet("background-color:rgb(99, 99, 99)");
+	
+    /*
+    QProcess *process = new QProcess(this);
+    process->start("./Browser/CG_3DToolKit_Browser.exe");
+
+    if (!process->waitForStarted()) { qDebug() << u8"无法启动浏览器程序"; return; }
+
+    WId winid = process->processId(); Q_UNUSED(winid);
+    WId winId = (WId)FindWindow(L"Qt5152QWindowIcon", L"Browser");
+    QWindow *window = QWindow::fromWinId(winId);
+    window->setFlags(window->flags() | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+
+    m_pBrowser = QWidget::createWindowContainer(window, this, Qt::Widget);
+    m_pBrowser->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    m_pBrowser->adjustSize();
+    */
 
     QGridLayout *pMainLayout = new QGridLayout();
     pMainLayout->addWidget(m_pBrowser);

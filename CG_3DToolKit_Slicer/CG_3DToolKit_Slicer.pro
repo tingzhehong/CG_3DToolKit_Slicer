@@ -258,6 +258,8 @@ RESOURCES += \
     icon.qrc \
     qss.qrc
 
+LIBS += -luser32
+
 # OCCT
 include($$PWD\src\occ\occt.pri)
 
