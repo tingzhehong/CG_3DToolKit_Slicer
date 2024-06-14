@@ -40,9 +40,12 @@ void CGWebView::InitUi()
     QWindow *window = QWindow::fromWinId(winId);
     window->setFlags(window->flags() | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 
-    m_pBrowser = QWidget::createWindowContainer(window, this, Qt::Widget);
-    m_pBrowser->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-    m_pBrowser->adjustSize();
+    QWidget *widget;
+    widget = QWidget::createWindowContainer(window, m_pBrowser, Qt::Widget);
+    widget->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    widget->adjustSize();
+    widget->setMinimumSize(800, 600);
+    widget->show();
     */
 
     QGridLayout *pMainLayout = new QGridLayout();
