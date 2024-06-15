@@ -10,10 +10,11 @@ CG_ 3DToolKit_ Slicer is a platform that integrates 2D and 3D universal machine 
  Issue
 -------
 There are still have a few unresolved issues:
-1. Implementation of the 2D image arc interactive tool for images.
-2. Implementation of the browser embedding in the previous interface window.
-3. Add more functional algorithm plugins. (We need everyone's joint assistance and contribution)
-4. Perhaps I need to upgrade to MSVC2019 or above, and upgrade the third-party library to latest.
+1. Implementation of the arc tool for 2D image.
+2. Implementation of the browser embedding in the interface window.
+3. Upgrade to MSVC2019 or above and the third-party library to latest.
+4. Add more functional algorithm plugins.
+5. We need everyone's joint assistance and contribution.
 
 Interface Image
 -------
