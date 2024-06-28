@@ -299,6 +299,22 @@ void CG3DImageView::LoadPCD(const std::string filename)
     m_CGVTKWidget->update();
 }
 
+void CG3DImageView::LoadPWD(const std::string filename)
+{
+    std::vector<CG_Triangle> _Triangles;
+    std::vector<std::pair<std::size_t, double>> _minmaxValue;
+
+    //! qDebug() << "LoadPWD " << QString::fromStdString(filename);
+    vtkActor *actor = vtkActor::New();
+    CG::LoadPWDFile(filename, _Triangles, _minmaxValue);
+    CG::TriangleMesh(_Triangles, actor);
+
+    m_Actor = actor;
+    m_CGVTKWidget->addActor(actor, QColor(25, 50, 75));
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
 void CG3DImageView::LoadCSV(const std::string filename)
 {
     //! qDebug() << "LoadCSV " << QString::fromStdString(filename);

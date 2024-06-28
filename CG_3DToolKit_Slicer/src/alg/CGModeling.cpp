@@ -113,4 +113,290 @@ void LoadSTPFile(const string filename, vtkActor *actor)
     actor->SetMapper(mapper);
 }
 
+int LoadPWDFile(const std::string filename, std::vector<CG_Triangle> &triangles, std::vector<std::pair<size_t, double> > &minmax)
+{
+    std::cout << "Read PWD File: " << filename << std::endl << std::endl;
+
+    triangles.clear();
+
+    ifstream inputFile(filename);
+    if (!inputFile) return -1;
+    string oneLine;
+    int rowCount = 0;
+
+    while (getline(inputFile, oneLine))
+    {
+        ++rowCount;
+        if (rowCount < 7)
+            continue;
+
+        istringstream isOneLine(oneLine);
+        string str;
+        int colCount = 0;
+        float v1_x, v1_y, v1_z, v2_x, v2_y, v2_z, v3_x, v3_y, v3_z;
+        float r, g, b, d;
+
+        if (rowCount == 7)
+        {
+            std::pair<std::size_t, double> value;
+            while (getline(isOneLine, str, ','))
+            {
+                ++colCount;
+                if (colCount % 2 == 1)
+                {
+                    value.first = static_cast<size_t>(atoi(str.c_str()));
+                }
+                if (colCount % 2 == 0)
+                {
+                    value.second = static_cast<double>(atof(str.c_str()));
+                    minmax.push_back(value);
+                }
+            }
+            colCount = 0;
+        }
+
+        if (rowCount < 9)
+            continue;
+
+        while (getline(isOneLine, str, ','))
+        {
+            ++colCount;
+            if (colCount > 13)
+                break;
+
+            float f = atof(str.c_str());
+
+            switch (colCount)
+            {
+            case 1:
+                v1_x = f;
+                break;
+            case 2:
+                v1_y = f;
+                break;
+            case 3:
+                v1_z = f;
+                break;
+            case 4:
+                v2_x = f;
+                break;
+            case 5:
+                v2_y = f;
+                break;
+            case 6:
+                v2_z = f;
+                break;
+            case 7:
+                v3_x = f;
+                break;
+            case 8:
+                v3_y = f;
+                break;
+            case 9:
+                v3_z = f;
+                break;
+            case 10:
+                r = f;
+                break;
+            case 11:
+                g = f;
+                break;
+            case 12:
+                b = f;
+                break;
+            case 13:
+                d = f;
+                break;
+            }
+        }
+
+        //Triangle
+        CG_Triangle myTriangle;
+        myTriangle.vertx1 = CG_Point_3(v1_x, v1_y, v1_z);
+        myTriangle.vertx2 = CG_Point_3(v2_x, v2_y, v2_z);
+        myTriangle.vertx3 = CG_Point_3(v3_x, v3_y, v3_z);
+
+        myTriangle.centroid = CG::TriangleCentroid(myTriangle);
+
+        myTriangle.r = r;
+        myTriangle.g = g;
+        myTriangle.b = b;
+        myTriangle.d = d;
+
+        triangles.push_back(myTriangle);
+    }
+    inputFile.close();
+
+    return 0;
+}
+
+int SavePWDFile(const std:: string filename, std::vector<CG_Triangle> &triangles, std::vector<std::pair<size_t, double> > &minmax)
+{
+    std::cout << "Write PWD File: " << filename << std::endl << std::endl;
+
+    time_t NowTime;
+    tm *pNowTime;
+    time(&NowTime);
+    pNowTime = localtime(&NowTime);
+
+    std::string ThisTime = std::to_string(pNowTime->tm_year + 1900) + "-" + std::to_string(pNowTime->tm_mon + 1) + "-" + std::to_string(pNowTime->tm_mday) + "  " +
+                           std::to_string(pNowTime->tm_hour) + ":" + std::to_string(pNowTime->tm_min) + ":" + std::to_string(pNowTime->tm_sec);
+
+    ofstream outputFile(filename);
+
+    outputFile << "Machine: CGMACHINE" << std::endl;
+    outputFile << "Created By: CGSOFT//USER PolyWroks" << std::endl;
+    outputFile << "Created On: " << ThisTime << std::endl;
+    outputFile << "CGMesh: Triangle" << std::endl;
+    outputFile << "Vertx,RGB,Distance" << std::endl;
+    outputFile << std::endl;
+
+    for (size_t j = 0; j < minmax.size(); ++j)
+    {
+        outputFile << minmax.at(j).first << "," << minmax.at(j).second << ",";
+    }
+    outputFile << std::endl << std::endl;
+
+    for (size_t i = 0; i < triangles.size(); ++i)
+    {
+        double v1_x = triangles[i].vertx1.x; double v1_y = triangles[i].vertx1.y; double v1_z = triangles[i].vertx1.z;
+        double v2_x = triangles[i].vertx2.x; double v2_y = triangles[i].vertx2.y; double v2_z = triangles[i].vertx2.z;
+        double v3_x = triangles[i].vertx3.x; double v3_y = triangles[i].vertx3.y; double v3_z = triangles[i].vertx3.z;
+
+        float r = triangles[i].r; float g = triangles[i].g; float b = triangles[i].b; float d = triangles[i].d;
+
+        outputFile  << v1_x << "," << v1_y << "," << v1_z << ","
+                    << v2_x << "," << v2_y << "," << v2_z << ","
+                    << v3_x << "," << v3_y << "," << v3_z << ","
+                    << r << "," << g << "," << b << "," << d << ","
+                    << std::endl;
+    }
+    outputFile.close();
+
+    return 0;
+}
+
+CG_Point_3 TriangleCentroid(CG_Triangle tri)
+{
+    double x = (tri.vertx1.x + tri.vertx2.x + tri.vertx3.x) / 3;
+    double y = (tri.vertx1.y + tri.vertx2.y + tri.vertx3.y) / 3;
+    double z = (tri.vertx1.z + tri.vertx2.z + tri.vertx3.z) / 3;
+
+    CG_Point_3 centroid(x, y, z);
+
+    return centroid;
+}
+
+CG_Vector_3 Normal(CG_Point_3 V1, CG_Point_3 V2, CG_Point_3 V3)
+{
+    //AB=(a1,a2,a3) AC=(b1,b2,b3) 法向量为AB×AC=(a2b3-a3b2,a3b1-a1b3,a1b2-a2b1)
+
+    double a1 = (V2.x - V1.x);
+    double a2 = (V2.y - V1.y);
+    double a3 = (V2.z - V1.z);
+
+    double b1 = (V3.x - V1.x);
+    double b2 = (V3.y - V1.y);
+    double b3 = (V3.z - V1.z);
+
+    double A = (a2 * b3) - (a3 * b2);
+    double B = (a3 * b1) - (a1 * b3);
+    double C = (a1 * b2) - (a2 * b1);
+    CG_Vector_3 N(A, B, C);
+
+    return N;
+}
+
+void TriangleMesh(std::vector<CG_Triangle> &triangles, vtkActor *actor)
+{
+    // 构建mesh
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    vtkSmartPointer<vtkCellArray> polygons = vtkSmartPointer<vtkCellArray>::New();
+    vtkIdType index = 0;
+
+    // 创建颜色数组
+    vtkSmartPointer<vtkUnsignedCharArray> colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    colors->SetNumberOfComponents(3);
+    colors->SetName("colors");
+
+    for (size_t i = 0; i < triangles.size(); i++)
+    {
+        // 顶点数据
+        double v1x = triangles[i].vertx1.x;
+        double v1y = triangles[i].vertx1.y;
+        double v1z = triangles[i].vertx1.z;
+
+        double v2x = triangles[i].vertx2.x;
+        double v2y = triangles[i].vertx2.y;
+        double v2z = triangles[i].vertx2.z;
+
+        double v3x = triangles[i].vertx3.x;
+        double v3y = triangles[i].vertx3.y;
+        double v3z = triangles[i].vertx3.z;
+
+        // 创建点数据
+        points->InsertNextPoint(v1x, v1y, v1z);
+        points->InsertNextPoint(v2x, v2y, v2z);
+        points->InsertNextPoint(v3x, v3y, v3z);
+
+
+        // 创建多边形数据
+        vtkIdType polygon[3] = { (long long)i * 3 + 0, (long long)i * 3 + 1, (long long)i * 3 + 2 };
+        polygons->InsertNextCell(3, polygon);
+
+        // 创建颜色数据
+        unsigned char r = FloatToChar(triangles[i].r);
+        unsigned char g = FloatToChar(triangles[i].g);
+        unsigned char b = FloatToChar(triangles[i].b);
+        unsigned char triangleColor[3]{ r, g, b };
+        colors->InsertNextTypedTuple(triangleColor);
+        colors->InsertNextTypedTuple(triangleColor);
+        colors->InsertNextTypedTuple(triangleColor);
+    }
+
+    // 创建PolyData对象并设置点和多边形数据
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData->SetPoints(points);
+    polyData->SetPolys(polygons);
+    polyData->GetPointData()->SetScalars(colors);
+
+    // 创建Mapper和Actor
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputData(polyData);
+
+    actor->SetMapper(mapper);
+}
+
+void TrianglePoints(std::vector<CG_Triangle> &triangles, vtkActor *actor)
+{
+    // 构建points
+    long long number = (long long)triangles.size();
+    vtkSmartPointer<vtkPolyVertex> polyVertex = vtkSmartPointer<vtkPolyVertex>::New();
+    polyVertex->GetPointIds()->SetNumberOfIds(number);
+
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    long long n = 0;
+    double x, y, z;
+    for (size_t i = 0; i < number; ++i)
+    {
+        n = (long long)i;
+        x = triangles[i].centroid.x;
+        y = triangles[i].centroid.y;
+        z = triangles[i].centroid.z;
+
+        points->InsertPoint(n, x, y, z);
+        polyVertex->GetPointIds()->SetId(n, n);
+    }
+
+    vtkSmartPointer<vtkUnstructuredGrid> unstrGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    unstrGrid->Allocate(1, 1);
+    unstrGrid->SetPoints(points);
+    unstrGrid->InsertNextCell(polyVertex->GetCellType(), polyVertex->GetPointIds());
+
+    vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInputData(unstrGrid);
+
+    actor->SetMapper(mapper);
+}
+
 }

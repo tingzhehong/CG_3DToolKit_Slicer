@@ -44,4 +44,67 @@ VTK_MODULE_INIT(vtkRenderingFreeType)
 extern vtkSmartPointer<vtkActor> g_Actor;
 extern vtkSmartPointer<vtkPolyData> g_PolyData;
 
+struct CG_Point_3
+{
+    float x;
+    float y;
+    float z;
+
+    CG_Point_3()
+    {
+        x = 0;
+        y = 0;
+        z = 0;
+    }
+
+    CG_Point_3(double X, double Y, double Z)
+    {
+        x = X;
+        y = Y;
+        z = Z;
+    }
+};
+
+struct CG_Vector_3
+{
+    double x;
+    double y;
+    double z;
+
+    CG_Vector_3()
+    {
+        x = 0;
+        y = 0;
+        z = 0;
+    }
+
+    CG_Vector_3(double X, double Y, double Z)
+    {
+        x = X;
+        y = Y;
+        z = Z;
+    }
+};
+
+struct CG_Triangle
+{
+    CG_Point_3 vertx1;
+    CG_Point_3 vertx2;
+    CG_Point_3 vertx3;
+    CG_Point_3 centroid;
+
+    float r;
+    float g;
+    float b;
+    float d;
+
+    CG_Triangle()
+    {
+        r = 1.0;
+        g = 1.0;
+        b = 1.0;
+        d = 0.0;
+    }
+};
+
 #endif // CGVTKHEADER_H

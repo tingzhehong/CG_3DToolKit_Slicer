@@ -451,6 +451,8 @@ void MainWindow::dropEvent(QDropEvent *event)
     {
         if (Info.suffix().toLower() == "pcd")
             m_pCG3DImageView->LoadPCD(filename);
+        if (Info.suffix().toLower() == "pwd")
+            m_pCG3DImageView->LoadPWD(filename);
         if (Info.suffix().toLower() == "csv")
             m_pCG3DImageView->LoadCSV(filename);
         if (Info.suffix().toLower() == "txt")
@@ -654,7 +656,7 @@ void MainWindow::on_action_open_Image_triggered()
 
 void MainWindow::on_action_open_PointCloud_triggered()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp *.step");
+    QString FileName = QFileDialog::getOpenFileName(this, tr(u8"打开点云文件"), dirPath, "*.*;; *.pcd;; *.pwd;; *.ply;; *.csv;; *.txt;; *.obj;; *.stl;; *.stp *.step");
 
     if (FileName.isEmpty())
     {
@@ -671,6 +673,8 @@ void MainWindow::on_action_open_PointCloud_triggered()
 
         if (Info.suffix().toLower() == "pcd")
             m_pCG3DImageView->LoadPCD(filename);
+        if (Info.suffix().toLower() == "pwd")
+            m_pCG3DImageView->LoadPWD(filename);
         if (Info.suffix().toLower() == "csv")
             m_pCG3DImageView->LoadCSV(filename);
         if (Info.suffix().toLower() == "txt")
