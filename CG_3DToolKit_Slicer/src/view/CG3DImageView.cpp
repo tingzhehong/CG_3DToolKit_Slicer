@@ -125,6 +125,20 @@ void CG3DImageView::OnUpdatePoint(float x, float y, float z)
     m_CGVTKWidget->update();
 }
 
+void CG3DImageView::OnUpdateCoordinates(float x, float y, float z)
+{
+    QString strX = QString::asprintf("%.4f", x);
+    QString strY = QString::asprintf("%.4f", y);
+    QString strZ = QString::asprintf("%.4f", z);
+
+    QString msg;
+    msg.append("X: ").append(strX).append("  ");
+    msg.append("Y: ").append(strY).append("  ");
+    msg.append("Z: ").append(strZ).append("  ");
+
+    emit SignalPointCoordinateValue(msg);
+}
+
 void CG3DImageView::OnBoxWidgetPlaneChanged(vtkPlanes *planes)
 {
     CGImage3DGraphicsItemAdapter::getInstance()->SendPlanes(planes);
@@ -160,6 +174,7 @@ void CG3DImageView::InitUi()
 void CG3DImageView::InitConnections()
 {
     connect(m_CGPointPicker, &CGVTKUtils::CGPointPickObserver::SignalPoint, this, &CG3DImageView::OnUpdatePoint);
+    connect(m_CGPointCoordinates, &CGVTKUtils::CGPointCoordinatesObserver::SignalPoint, this, &CG3DImageView::OnUpdateCoordinates);
 }
 
 void CG3DImageView::ShowText2D()
@@ -267,6 +282,84 @@ void CG3DImageView::ChangeInteractorStyle(const int style)
     m_CGVTKWidget->update();
 }
 
+void CG3DImageView::GlobalZoom()
+{
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewTop()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 1, 0);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewFront()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(0, -1, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewLeft()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(-1, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewBack()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(0, 1, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewRight()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(1, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewBottom()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(0, 0, -1);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 1, 0);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewIso1()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(-1, -1, 1);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
+void CG3DImageView::SetViewIso2()
+{
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetFocalPoint(0, 0, 0);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetPosition(1, 1, 1);
+    m_CGVTKWidget->defaultRenderer()->GetActiveCamera()->SetViewUp(0, 0, 1);
+    m_CGVTKWidget->defaultRenderer()->ResetCamera();
+    m_CGVTKWidget->update();
+}
+
 void CG3DImageView::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_H)
@@ -283,6 +376,12 @@ void CG3DImageView::keyPressEvent(QKeyEvent *event)
         }
         m_CGVTKWidget->update();
     }
+}
+
+void CG3DImageView::SetPointSize(float size)
+{
+    m_Actor->GetProperty()->SetPointSize(size);
+    m_CGVTKWidget->update();
 }
 
 void CG3DImageView::LoadPCD(const std::string filename)
@@ -965,6 +1064,9 @@ void CG3DImageView::InitPointPick()
     m_CGPointPicker->SetPickEnable(false);
     m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::LeftButtonPressEvent, m_CGPointPicker);
 
+    m_CGPointCoordinates = new CGVTKUtils::CGPointCoordinatesObserver();
+    m_CGVTKWidget->GetInteractor()->AddObserver(vtkCommand::MouseMoveEvent, m_CGPointCoordinates);
+
     vtkSmartPointer<vtkSphereSource> Sphere_1 = vtkSmartPointer<vtkSphereSource>::New();
     Sphere_1->SetCenter(0, 0, 0);
     Sphere_1->SetRadius(0.1);
@@ -998,6 +1100,8 @@ void CG3DImageView::InitAreaPick()
     
     m_AreaPickerStyle->SetPoints(g_PolyData);
     //m_AreaPickerStyle->SetPoints(vtkPolyData::SafeDownCast(m_Actor->GetMapper()->GetInput()));
+
+    connect(m_AreaPickerStyle, &CGAreaPickerInteractorStyle::pointsNumber, this, [=](vtkIdType number){ emit SignalPointsNumber(number); });
 }
 
 void CG3DImageView::InitInteractorStyle()

@@ -18,10 +18,12 @@ QScriptValue ScriptSub(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptMul(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptDiv(QScriptContext *ctx, QScriptEngine *eng);
 
-//TODO:
+//Filter script function
 QScriptValue ScriptGaussianFilter(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptMeanFilter(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptMedianFilter(QScriptContext *ctx, QScriptEngine *eng);
 QScriptValue ScriptVoxelFilter(QScriptContext *ctx, QScriptEngine *eng);
+
+//TODO:
 
 #endif // CGSCRIPTFUNCTION_H

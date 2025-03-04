@@ -19,6 +19,7 @@ public:
     void InitUi();
     void CreateImageProperties();
     void CreatePointCloudProperties();
+    void SelectPointCloudProperties(const long long number);
 
 public:
     QTreeWidget *m_PropertiesTree;

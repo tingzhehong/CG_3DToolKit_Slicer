@@ -28,10 +28,20 @@ CGWebView::~CGWebView()
 void CGWebView::InitUi()
 {
 	m_pBrowser->setStyleSheet("background-color:rgb(99, 99, 99)");
-	
-    /*
+    QGridLayout *pMainLayout = new QGridLayout();
+    pMainLayout->addWidget(m_pBrowser);
+    setLayout(pMainLayout);
+}
+
+void CGWebView::InitConnections()
+{
+
+}
+
+void CGWebView::ShowView()
+{
     QProcess *process = new QProcess(this);
-    process->start("./Browser/CG_3DToolKit_Browser.exe");
+    process->start("C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe");
 
     if (!process->waitForStarted()) { qDebug() << u8"无法启动浏览器程序"; return; }
 
@@ -46,14 +56,4 @@ void CGWebView::InitUi()
     widget->adjustSize();
     widget->setMinimumSize(800, 600);
     widget->show();
-    */
-
-    QGridLayout *pMainLayout = new QGridLayout();
-    pMainLayout->addWidget(m_pBrowser);
-    setLayout(pMainLayout);
-}
-
-void CGWebView::InitConnections()
-{
-
 }

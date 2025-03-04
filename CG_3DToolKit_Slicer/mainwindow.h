@@ -71,6 +71,7 @@ private slots:
     void OnProjectTreeItemSelected(QTreeWidgetItem *item, int column);
     void OnDataTreeItemSelected(QTreeWidgetItem *item, int column);
     void OnGraphicsItemValue(const QString msg);
+    void OnPointCoordinateValue(const QString msg);
     void OnUsersLogin(const QString user);
 
     void on_action_new_triggered();
@@ -126,6 +127,9 @@ private slots:
     void on_action_trigger_triggered();
     void on_action_save_Flow_triggered();
     void on_action_open_Flow_triggered();
+
+    void on_action_Plus_triggered();
+    void on_action_Minus_triggered();
 
 private:
     enum QSSStyle

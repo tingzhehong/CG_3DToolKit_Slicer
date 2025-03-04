@@ -11,6 +11,7 @@ namespace CGVTKUtils
 class AbstractWidgetObserver : public QObject, public vtkCommand
 {
     Q_OBJECT
+    
 public:
     explicit AbstractWidgetObserver(QObject *parent = 0);
     virtual ~AbstractWidgetObserver();

@@ -73,3 +73,21 @@ void CGPropertiesForm1::CreatePointCloudProperties()
     m_PropertiesTree->addTopLevelItem(pPointCloudItem);
     m_PropertiesTree->expandAll();
 }
+
+void CGPropertiesForm1::SelectPointCloudProperties(const long long number)
+{
+    m_PropertiesTree->clear();
+
+    QTreeWidgetItem *pPointCloudItem = new QTreeWidgetItem(QStringList{tr(u8"点云属性")});
+
+    QStringList propertiesList;
+    QString strPointCloudSize = QString::number(number);
+    propertiesList.append(tr(u8"Point Cloud Size: ") + strPointCloudSize);
+
+    for (int i = 0; i < propertiesList.size(); ++i) {
+        QTreeWidgetItem *pItem = new QTreeWidgetItem(QStringList() << propertiesList.at(i));
+        pPointCloudItem->addChild(pItem);
+    }
+    m_PropertiesTree->addTopLevelItem(pPointCloudItem);
+    m_PropertiesTree->expandAll();
+}

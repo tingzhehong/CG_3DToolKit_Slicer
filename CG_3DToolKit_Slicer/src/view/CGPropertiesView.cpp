@@ -25,3 +25,8 @@ void CGPropertiesView::InitConnections()
 {
 
 }
+
+void CGPropertiesView::OnPointsNumber(const long long number)
+{
+    m_Form1->SelectPointCloudProperties(number);
+}

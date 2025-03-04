@@ -99,6 +99,8 @@ void MainWindow::InitConnections()
     connect(m_pCGNodeView, &CGNodeView::SignalAlgorithmPlugin, m_pCGDataTreeView, &CGDataTreeView::OnAlgorithmPluginAdd);
 
     connect(m_pCG2DImageView, &CG2DImageView::SignalGraphicsItemValue, this, &MainWindow::OnGraphicsItemValue);
+    connect(m_pCG3DImageView, &CG3DImageView::SignalPointCoordinateValue, this, &MainWindow::OnPointCoordinateValue);
+    connect(m_pCG3DImageView, &CG3DImageView::SignalPointsNumber, m_pCGPropertiesView, &CGPropertiesView::OnPointsNumber);
 }
 
 void MainWindow::InitPlugins()
@@ -577,6 +579,12 @@ void MainWindow::OnGraphicsItemValue(const QString msg)
     ui->statusbar->showMessage(msg);
 }
 
+void MainWindow::OnPointCoordinateValue(const QString msg)
+{
+    ui->statusbar->clearMessage();
+    ui->statusbar->showMessage(msg); 
+}
+
 void MainWindow::OnUsersLogin(const QString user)
 {
 
@@ -860,59 +868,78 @@ void MainWindow::on_action_console_triggered(bool checked)
 
 void MainWindow::on_action_SetViewTop_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewTop();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewFront_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKCamera->Elevation(-90);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewFront();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewLeft_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKCamera->Azimuth(-90);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewLeft();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewBack_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKCamera->Elevation(90);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewBack();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewRight_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKCamera->Azimuth(90);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewRight();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewBottom_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
     m_pCG3DImageView->m_CGVTKCamera->Azimuth(180);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewBottom();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewIso1_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
 
     double *pos = m_pCG3DImageView->GetCameraPosition();
@@ -938,11 +965,14 @@ void MainWindow::on_action_SetViewIso1_triggered()
     m_pCG3DImageView->SetCameraParameter(conclusion[0], conclusion[1], conclusion[2], 0, 0, 1);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewIso1();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
 void MainWindow::on_action_SetViewIso2_triggered()
 {
+    /*
     m_pCG3DImageView->ResetCameraParameter();
 
     double *pos = m_pCG3DImageView->GetCameraPosition();
@@ -968,6 +998,8 @@ void MainWindow::on_action_SetViewIso2_triggered()
     m_pCG3DImageView->SetCameraParameter(conclusion[0], conclusion[1], conclusion[2], 0, 0, 1);
     m_pCG3DImageView->m_CGVTKWidget->defaultRenderer()->ResetCamera();
     m_pCG3DImageView->m_CGVTKWidget->update();
+    */
+    m_pCG3DImageView->SetViewIso2();
     m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }
 
@@ -1123,4 +1155,20 @@ void MainWindow::on_action_Surface_triggered()
     std::thread([&] {m_pCG3DImageView->SetRepresentationToSurface();
                      m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
                     }).detach();
+}
+
+void MainWindow::on_action_Plus_triggered()
+{
+    m_pCG3DImageView->m_PointSize += 1;
+    m_pCG3DImageView->SetPointSize(m_pCG3DImageView->m_PointSize);
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
+}
+
+void MainWindow::on_action_Minus_triggered()
+{
+    m_pCG3DImageView->m_PointSize -= 1;
+    if (m_pCG3DImageView->m_PointSize <= 1)
+        m_pCG3DImageView->m_PointSize = 1;
+    m_pCG3DImageView->SetPointSize(m_pCG3DImageView->m_PointSize);
+    m_pStackedWidget->setCurrentWidget(m_pCG3DImageView);
 }

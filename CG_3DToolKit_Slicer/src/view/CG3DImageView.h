@@ -5,6 +5,7 @@
 #include <CGVTKUtils.h>
 #include <CGVTKWidget.h>
 #include <CGPointPickObserver.h>
+#include <CGPointCoordinatesObserver.h>
 #include <CGBoxWidgetObserver.h>
 #include <CGSphereWidgetObserver.h>
 #include <CGPlaneWidgetObserver.h>
@@ -36,11 +37,14 @@ public:
     ~CG3DImageView();
 
 signals:
+    void SignalPointCoordinateValue(const QString msg);
+    void SignalPointsNumber(const long long number);
 
 public slots:
     void OnUseTool();
     void OnDelTool();
     void OnUpdatePoint(float x, float y, float z);
+    void OnUpdateCoordinates(float x, float y, float z);
     void OnBoxWidgetPlaneChanged(vtkPlanes* planes);
     void OnSphereWidgetChange(double* sphere);
     void OnPlaneWidgetPlaneChanged(vtkPlane* plane);
@@ -91,6 +95,17 @@ public:
     void ShowPointPickInfo(const bool enable);
     void ChangeInteractorStyle(const int style);
 
+public:
+    void GlobalZoom();
+    void SetViewTop();
+    void SetViewFront();
+    void SetViewLeft();
+    void SetViewBack();
+    void SetViewRight();
+    void SetViewBottom();
+    void SetViewIso1();
+    void SetViewIso2();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
 
@@ -114,6 +129,9 @@ public:
     };
 
     PickType m_PickType;
+
+    float m_PointSize = 1;
+    void SetPointSize(float size);
 
     double* GetCameraFocalPoint();
     double* GetCameraPosition();
@@ -141,6 +159,7 @@ public:
 public:
     CGVTKWidget *m_CGVTKWidget = nullptr;
     CGVTKUtils::CGPointPickObserver *m_CGPointPicker = nullptr;
+    CGVTKUtils::CGPointCoordinatesObserver *m_CGPointCoordinates = nullptr;
     CGVTKUtils::CGBoxWidgetObserver *m_CGBoxWidgeter = nullptr;
     CGVTKUtils::CGSphereWidgetObserver *m_CGSphereWidgeter = nullptr;
     CGVTKUtils::CGPlaneWidgetObserver *m_CGPlaneWidgeter = nullptr;

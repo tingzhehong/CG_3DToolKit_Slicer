@@ -272,7 +272,7 @@ void SORFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const floa
     sor.filter(*filter_cloud);
 }
 
-void PassThroughFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const String Direction, const float LimitsDown, const float LimitsUp)
+void PassThroughFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const std::string Direction, const float LimitsDown, const float LimitsUp)
 {
     pcl::PassThrough<pcl::PointXYZRGB> pass;
     pass.setInputCloud(cloud);
@@ -304,6 +304,14 @@ void LoadPCDFile(const string filename, vtkActor *actor)
     double r, g, b;
     for (size_t i = 0; i < cloud->size(); ++i)
     {
+        if (fabs(cloud->points[i].r - 0) < std::numeric_limits<float>::epsilon() &&
+            fabs(cloud->points[i].g - 0) < std::numeric_limits<float>::epsilon() &&
+            fabs(cloud->points[i].b - 0) < std::numeric_limits<float>::epsilon()) {
+            cloud->points[i].r = 255;
+            cloud->points[i].g = 255;
+            cloud->points[i].b = 255;
+        }
+
         n = (long long)i;
         x = (double)cloud->points[i].x;
         y = (double)cloud->points[i].y;
@@ -687,6 +695,14 @@ void LoadPLYFile(const string filename, vtkActor *actor)
     double r, g, b;
     for (size_t i = 0; i < cloud->size(); ++i)
     {
+        if (fabs(cloud->points[i].r - 0) < std::numeric_limits<float>::epsilon() &&
+            fabs(cloud->points[i].g - 0) < std::numeric_limits<float>::epsilon() &&
+            fabs(cloud->points[i].b - 0) < std::numeric_limits<float>::epsilon()) {
+            cloud->points[i].r = 255;
+            cloud->points[i].g = 255;
+            cloud->points[i].b = 255;
+        }
+
         n = (long long)i;
         x = (double)cloud->points[i].x;
         y = (double)cloud->points[i].y;

@@ -2,8 +2,11 @@
 #include <BRepMesh_IncrementalMesh.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
 #include <STEPControl_Reader.hxx>
 #include <STEPControl_Writer.hxx>
+#include <Poly_Triangulation.hxx>
+#include <BRep_Tool.hxx>
 
 namespace CG
 {

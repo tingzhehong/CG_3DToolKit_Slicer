@@ -17,6 +17,9 @@ public:
     void InitForms();
     void InitConnections();
 
+public slots:
+    void OnPointsNumber(const long long number);
+
 public:
     CGPropertiesForm1 *m_Form1;
     CGPropertiesForm2 *m_Form2;

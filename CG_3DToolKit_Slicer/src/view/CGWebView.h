@@ -14,6 +14,7 @@ public:
 public:
     void InitUi() override;
     void InitConnections() override;
+    void ShowView();
 
 private:
     QWidget *m_pBrowser;

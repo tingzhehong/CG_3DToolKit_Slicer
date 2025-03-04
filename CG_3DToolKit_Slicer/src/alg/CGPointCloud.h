@@ -25,7 +25,7 @@ void FromDepthImage2PointCloud(cv::Mat &ImageDepth, float XPitch, float YPitch, 
 
 void DownSampleFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr sub_cloud, float leaf);
 void SORFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const float thres);
-void PassThroughFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const String Direction, const float LimitsDown, const float LimitsUp);
+void PassThroughFilter(PointCloudT::Ptr cloud, PointCloudT::Ptr filter_cloud, const std::string Direction, const float LimitsDown, const float LimitsUp);
 
 void LoadPCDFile(const string filename, vtkActor *actor);
 void LoadCSVFile(const string filename, vtkActor *actor);

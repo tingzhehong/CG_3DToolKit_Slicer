@@ -110,6 +110,7 @@ SOURCES += \
     src/vtk/CGMouseEventInteractorStyle.cpp \
     src/vtk/CGMoveActorInteractorStyle.cpp \
     src/vtk/CGPlaneWidgetObserver.cpp \
+    src/vtk/CGPointCoordinatesObserver.cpp \
     src/vtk/CGPointPickObserver.cpp \
     src/vtk/CGPointPickerInteractorStyle.cpp \
     src/vtk/CGSphereWidgetObserver.cpp \
@@ -221,6 +222,7 @@ HEADERS += \
     src/vtk/CGMouseEventInteractorStyle.h \
     src/vtk/CGMoveActorInteractorStyle.h \
     src/vtk/CGPlaneWidgetObserver.h \
+    src/vtk/CGPointCoordinatesObserver.h \
     src/vtk/CGPointPickObserver.h \
     src/vtk/CGPointPickerInteractorStyle.h \
     src/vtk/CGSphereWidgetObserver.h \

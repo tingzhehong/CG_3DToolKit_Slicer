@@ -1,6 +1,7 @@
 ﻿#ifndef CGAREAPICKERINTERACTORSTYLE_H
 #define CGAREAPICKERINTERACTORSTYLE_H
 
+#include <QObject>
 #include <CGVTKHeader.h>
 #include <vtkSmartPointer.h>
 #include <vtkPointPicker.h>
@@ -11,8 +12,10 @@
 #define VTKISRBP_ORIENT 0
 #define VTKISRBP_SELECT 1
 
-class CGAreaPickerInteractorStyle : public vtkInteractorStyleRubberBandPick
+class CGAreaPickerInteractorStyle : public QObject, public vtkInteractorStyleRubberBandPick
 {
+    Q_OBJECT
+
 public:
     static CGAreaPickerInteractorStyle* New();
     vtkTypeMacro(CGAreaPickerInteractorStyle, vtkInteractorStyleRubberBandPick)
@@ -53,10 +56,20 @@ public:
         this->CurrentRenderer->AddActor(SelectedActor);
         this->GetInteractor()->GetRenderWindow()->Render();
         this->HighlightProp(NULL);
+
+        emit pointsNumber(selected->GetNumberOfPoints());
+        emit cellsNumber(selected->GetNumberOfCells());
     }
 
     void SetPoints(vtkSmartPointer<vtkPolyData> points) { this->Points = points; }
     void SetCurrentMode(int mode = 0) { this->CurrentMode = mode; }
+    
+    vtkSmartPointer<vtkActor> GetSelectedActor() { return this->SelectedActor; }
+    vtkSmartPointer<vtkDataSetMapper> GetSelectedMapper() { return this->SelectedMapper; }
+
+signals:
+    void pointsNumber(const long long number);
+    void cellsNumber(const long long number);
 
 private:
     vtkSmartPointer<vtkPolyData> Points;

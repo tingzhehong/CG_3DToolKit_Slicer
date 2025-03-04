@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -187,6 +187,8 @@
    <addaction name="separator"/>
    <addaction name="action_ZoomIn"/>
    <addaction name="action_ZoomOut"/>
+   <addaction name="action_Plus"/>
+   <addaction name="action_Minus"/>
    <addaction name="separator"/>
    <addaction name="action_console"/>
    <addaction name="separator"/>
@@ -653,6 +655,30 @@
    </property>
    <property name="toolTip">
     <string>点云区域选择</string>
+   </property>
+  </action>
+  <action name="action_Plus">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/ccPlus.png</normaloff>:/res/icon/ccPlus.png</iconset>
+   </property>
+   <property name="text">
+    <string>点增大</string>
+   </property>
+   <property name="toolTip">
+    <string>点增大</string>
+   </property>
+  </action>
+  <action name="action_Minus">
+   <property name="icon">
+    <iconset resource="icon.qrc">
+     <normaloff>:/res/icon/ccMinus.png</normaloff>:/res/icon/ccMinus.png</iconset>
+   </property>
+   <property name="text">
+    <string>点减小</string>
+   </property>
+   <property name="toolTip">
+    <string>点减小</string>
    </property>
   </action>
  </widget>

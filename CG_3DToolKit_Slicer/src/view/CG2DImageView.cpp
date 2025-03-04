@@ -83,7 +83,7 @@ void CG2DImageView::OnCoordinate(const QPair<qreal, qreal> Coordinate)
         std::cout << e.what() << std::endl;
     }
 
-    SignalGraphicsItemValue(msg);
+    emit SignalGraphicsItemValue(msg);
 }
 
 void CG2DImageView::OnUseTool()

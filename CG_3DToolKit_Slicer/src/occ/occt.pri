@@ -1,4 +1,4 @@
-OCCTPATH = "D:/Program Files/OpenCASCADE-7.3.0-vc14-64/opencascade-7.3.0"
+OCCTPATH = "D:/Program Files/OpenCASCADE-7.5.0-vc14-64/opencascade-7.5.0"
 
 INCLUDEPATH += $$quote($${OCCTPATH}/inc)
 
