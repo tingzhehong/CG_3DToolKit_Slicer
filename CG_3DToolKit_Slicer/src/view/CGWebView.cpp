@@ -46,7 +46,7 @@ void CGWebView::ShowView()
     if (!process->waitForStarted()) { qDebug() << u8"无法启动浏览器程序"; return; }
 
     WId winid = process->processId(); Q_UNUSED(winid);
-    WId winId = (WId)FindWindow(L"Qt5152QWindowIcon", L"Browser");
+    WId winId = (WId)FindWindow(L"Qt5152QWindowIcon", L"msedge");
     QWindow *window = QWindow::fromWinId(winId);
     window->setFlags(window->flags() | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
 

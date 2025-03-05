@@ -132,6 +132,7 @@ void CG3DImageView::OnUpdateCoordinates(float x, float y, float z)
     QString strZ = QString::asprintf("%.4f", z);
 
     QString msg;
+    msg.append("  ");
     msg.append("X: ").append(strX).append("  ");
     msg.append("Y: ").append(strY).append("  ");
     msg.append("Z: ").append(strZ).append("  ");
