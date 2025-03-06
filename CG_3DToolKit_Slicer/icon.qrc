@@ -52,5 +52,9 @@
         <file>res/icon/ShapePolygon.png</file>
         <file>res/icon/ShapeRectangle.png</file>
         <file>res/icon/ShapeRotateRectangle.png</file>
+        <file>res/icon/backward.png</file>
+        <file>res/icon/forward.png</file>
+        <file>res/icon/recyle.png</file>
+        <file>res/icon/stop.png</file>
     </qresource>
 </RCC>

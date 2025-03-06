@@ -68,6 +68,7 @@ protected:
     void dropEvent(QDropEvent *event);
 
 private slots:
+    void OnProjectWidgetChanged(int index);
     void OnProjectTreeItemSelected(QTreeWidgetItem *item, int column);
     void OnDataTreeItemSelected(QTreeWidgetItem *item, int column);
     void OnGraphicsItemValue(const QString msg);

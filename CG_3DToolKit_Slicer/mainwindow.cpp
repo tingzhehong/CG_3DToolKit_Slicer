@@ -101,6 +101,8 @@ void MainWindow::InitConnections()
     connect(m_pCG2DImageView, &CG2DImageView::SignalGraphicsItemValue, this, &MainWindow::OnGraphicsItemValue);
     connect(m_pCG3DImageView, &CG3DImageView::SignalPointCoordinateValue, this, &MainWindow::OnPointCoordinateValue);
     connect(m_pCG3DImageView, &CG3DImageView::SignalPointsNumber, m_pCGPropertiesView, &CGPropertiesView::OnPointsNumber);
+
+    connect(m_pStackedWidget, &QStackedWidget::currentChanged, [=](int id){OnProjectWidgetChanged(id);});
 }
 
 void MainWindow::InitPlugins()
@@ -491,6 +493,28 @@ void MainWindow::dropEvent(QDropEvent *event)
         }
         m_pCGPropertiesView->m_Form1->CreatePointCloudProperties();
         m_pCGPropertiesView->setCurrentIndex(0);
+    }
+}
+
+void MainWindow::OnProjectWidgetChanged(int index)
+{
+    switch (index)
+    {
+    case CGProjectTreeView::Window2D:
+        m_pCGWebView->DestroyView();
+        break;
+    case CGProjectTreeView::Window3D:
+        m_pCGWebView->DestroyView();
+        break;
+    case CGProjectTreeView::WindowNodeEdit:
+        m_pCGWebView->DestroyView();
+        break;
+    case CGProjectTreeView::WindowProfile:
+        m_pCGWebView->DestroyView();
+        break;
+    case CGProjectTreeView::WindowWeb:
+        m_pCGWebView->ShowView();
+        break;
     }
 }
 

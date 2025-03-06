@@ -247,6 +247,7 @@ INCLUDEPATH += \
     ./src/com \
     ./src/dev \
     ./src/node \
+    ./src/mbk \
     ./src/plugin \
     ./src/script \
     ./src/tool \
@@ -270,6 +271,9 @@ include($$PWD\src\ocv\opencv.pri)
 
 # PCL
 include($$PWD\src\pcl\pcl.pri)
+
+# MiniBlink
+include($$PWD\src\mbk\miniblink.pri)
 
 # ICONS
 RC_ICONS = $$PWD\slicer.ico
