@@ -2,6 +2,7 @@
 #define CGWEBVIEW_H
 
 #include <CGBaseWidget.h>
+#include <QSharedPointer>
 #include "miniblink.h"
 
 class QLabel;
@@ -40,7 +41,7 @@ private:
     QString m_CurrentUrl;
 
 public:
-    miniblink *webView;
+    QSharedPointer<miniblink> webView;
 };
 
 #endif // CGWEBVIEW_H

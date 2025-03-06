@@ -52,12 +52,12 @@ void CGWebView::InitConnections()
             if (factor > 0.25) webView->setZoom(factor - 0.1);
     });
 
-    connect(webView, &miniblink::loadFinished, [&](){m_CurrentUrl = webView->getURL();m_url->setText(m_CurrentUrl);});
+    connect(webView.data(), &miniblink::loadFinished, [&](){m_CurrentUrl = webView->getURL();m_url->setText(m_CurrentUrl);});
 }
 
 void CGWebView::InitWebView()
 {
-    webView = new miniblink;
+    webView = QSharedPointer<miniblink>(new miniblink);
 
     m_url = new QLineEdit();
     m_url->setPlaceholderText("https://");
@@ -95,11 +95,11 @@ void CGWebView::InitWebView()
 
 void CGWebView::ShowView()
 {
-    webView = new miniblink;
+    webView = QSharedPointer<miniblink>(new miniblink);
     webView->load(m_CurrentUrl);
 
     m_url->setText(m_CurrentUrl);
-    m_pMainLayout->addWidget(webView);
+    m_pMainLayout->addWidget(webView.data());
 
     InitConnections();
 }
@@ -107,7 +107,7 @@ void CGWebView::ShowView()
 void CGWebView::DestroyView()
 {
     m_CurrentUrl = m_url->text();
-    m_pMainLayout->removeWidget(webView);
+    m_pMainLayout->removeWidget(webView.data());
 
     webView->destroy();
 }
