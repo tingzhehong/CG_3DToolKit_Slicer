@@ -51,6 +51,8 @@ void CGWebView::InitConnections()
             float factor = webView->getZoom();
             if (factor > 0.25) webView->setZoom(factor - 0.1);
     });
+
+    connect(webView, &miniblink::loadFinished, [&](){m_CurrentUrl = webView->getURL();m_url->setText(m_CurrentUrl);});
 }
 
 void CGWebView::InitWebView()
