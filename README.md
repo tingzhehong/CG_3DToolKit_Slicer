@@ -34,6 +34,8 @@ Interface Image
 ![image7](CG_3DToolKit_Slicer/src/doc/7.png)
 * CAD modleing
 ![image8](CG_3DToolKit_Slicer/src/doc/8.png)
+* Web browser
+![image8](CG_3DToolKit_Slicer/src/doc/9.png)
 
 Depend
 -------
