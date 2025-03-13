@@ -679,6 +679,25 @@ void LoadPLYFile(const string filename, vtkActor *actor)
     g_PointCloud = cloud;
     long long number = (long long)cloud->size();
 
+    vtkSmartPointer<vtkPLYReader> reader = vtkSmartPointer<vtkPLYReader>::New();
+    reader->SetFileName(filename.c_str());
+    reader->Update();
+
+    vtkSmartPointer<vtkPolyData> polydata = vtkSmartPointer<vtkPolyData>::New();
+    polydata = reader->GetOutput();
+    g_PolyData = polydata;
+
+    if (polydata->GetNumberOfCells() > 0)
+    {
+        vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        mapper->SetInputData(polydata);
+
+        actor->SetMapper(mapper);
+        actor->GetProperty()->SetRepresentationToSurface();
+
+        return;
+    }
+
     vtkSmartPointer<vtkLookupTable> lut =vtkSmartPointer< vtkLookupTable >::New();
     lut->SetNumberOfTableValues(number);
     lut->Build();
